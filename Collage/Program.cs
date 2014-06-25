@@ -12,8 +12,8 @@ namespace Collage
         [STAThread]
         static void Main()
         {
-            using (var game = new Game1())
-                game.Run();
+            using (var main = new Main())
+                main.Run();
         }
     }
 #endif

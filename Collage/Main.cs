@@ -11,12 +11,12 @@ using Microsoft.Xna.Framework.GamerServices;
 
 namespace Collage
 {
-    public class Game1 : Game
+    public class Main : Game
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        public Game1()
+        public Main()
             : base()
         {
             graphics = new GraphicsDeviceManager(this);
