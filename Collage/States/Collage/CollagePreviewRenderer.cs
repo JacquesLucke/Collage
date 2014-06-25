@@ -1,0 +1,36 @@
+﻿using Collage.Utils;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace Collage.States.Collage
+{
+    public class CollagePreviewRenderer
+    {
+        CollageObject collage;
+        DataAccess dataAccess;
+        Texture2D tex;
+
+        public CollagePreviewRenderer(DataAccess dataAccess)
+        {
+            this.dataAccess = dataAccess;
+            tex = new Texture2D(dataAccess.GraphicsDevice, 1, 1);
+            tex.SetData<Color>(new Color[] { Color.White });
+        }
+
+        public void SetCollage(CollageObject collage)
+        {
+            this.collage = collage;
+        }
+
+        public void Draw(Rectangle rectangle)
+        {
+            dataAccess.SpriteBatch.Begin();
+            dataAccess.SpriteBatch.Draw(tex, rectangle, Color.White);
+            dataAccess.SpriteBatch.End();
+        }
+    }
+}
