@@ -35,6 +35,8 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Collage\Collage.cs" />
+    <Compile Include="Collage\CollagePreviewRenderer.cs" />
     <Compile Include="DataAccess.cs" />
     <Compile Include="Input.cs" />
     <Compile Include="IState.cs" />
@@ -47,6 +49,8 @@
     <Compile Include="Undo\CommandCombination.cs" />
     <Compile Include="Undo\ICommand.cs" />
     <Compile Include="Undo\UndoManager.cs" />
+    <Compile Include="Utils\FloatRectangle.cs" />
+    <Compile Include="Utils\MoveableRectangle.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="OpenTK">
