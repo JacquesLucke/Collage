@@ -26,6 +26,8 @@ namespace Collage
         protected override void Initialize()
         {
             base.Initialize();
+            IsMouseVisible = true;
+            Window.AllowUserResizing = true;
         }
 
         protected override void LoadContent()
