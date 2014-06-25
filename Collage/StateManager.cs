@@ -18,13 +18,13 @@ namespace Collage
             currentState.Start();
         }
 
-        public void Update(GameTime time)
+        public void Update()
         {
-            currentState.Update(time);
+            currentState.Update();
         }
-        public void Draw(GameTime time)
+        public void Draw()
         {
-            currentState.Draw(time);
+            currentState.Draw();
         }
     }
 }

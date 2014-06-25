@@ -8,9 +8,8 @@ namespace Collage
 {
     public interface IState
     {
-        void SetData();
         void Start();
-        void Update(GameTime time);
-        void Draw(GameTime time);
+        void Update();
+        void Draw();
     }
 }

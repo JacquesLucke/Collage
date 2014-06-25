@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Storage;
 using Microsoft.Xna.Framework.GamerServices;
+using Collage.States;
 #endregion
 
 namespace Collage
@@ -15,6 +16,9 @@ namespace Collage
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        StateManager stateManager = new StateManager();
+        DataAccess dataAccess;
+        Input input = new Input();
 
         public Main()
             : base()
@@ -33,6 +37,10 @@ namespace Collage
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            dataAccess = new DataAccess(GraphicsDevice, spriteBatch, input, stateManager);
+
+            CollageEditState editState = new CollageEditState(dataAccess);
+            stateManager.SetCurrentState(editState);
         }
 
         protected override void UnloadContent()
@@ -42,12 +50,16 @@ namespace Collage
         protected override void Update(GameTime time)
         {
             base.Update(time);
+            input.Update();
+            dataAccess.Update(time);
+            stateManager.Update();
         }
 
         protected override void Draw(GameTime time)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             base.Draw(time);
+            stateManager.Draw();
         }
     }
 }
