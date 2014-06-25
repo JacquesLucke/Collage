@@ -15,6 +15,11 @@ namespace Collage.Undo
         public void ExecuteAndAddCommand(ICommand command)
         {
             command.Execute();
+            AddCommand(command);
+        }
+
+        public void AddCommand(ICommand command)
+        {
             // overwrite old commands
             if (currentIndex < commands.Count - 1)
             {

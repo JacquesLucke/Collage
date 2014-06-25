@@ -44,6 +44,7 @@
     <Compile Include="StateManager.cs" />
     <Compile Include="States\CollageEditState.cs" />
     <Compile Include="Undo\Command.cs" />
+    <Compile Include="Undo\CommandCombination.cs" />
     <Compile Include="Undo\ICommand.cs" />
     <Compile Include="Undo\UndoManager.cs" />
   </ItemGroup>

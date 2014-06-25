@@ -1,5 +1,6 @@
 ﻿using Collage.Undo;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
@@ -11,24 +12,29 @@ namespace Collage.States
     public class CollageEditState : IState
     {
         DataAccess dataAccess;
-        Color lastColor = Color.CornflowerBlue;
         Color drawColor = Color.CornflowerBlue;
+        Texture2D texture;
+        Rectangle drawPosition = new Rectangle(50, 50, 50, 50);
 
         public CollageEditState(DataAccess dataAccess) 
         {
             this.dataAccess = dataAccess;
+            texture = new Texture2D(dataAccess.GraphicsDevice, 1, 1);
+            texture.SetData<Color>(new Color[] { Color.White });
         }
 
         object SetColor(object color)
         {
+            Color old = drawColor;
             drawColor = (Color)color;
-            return lastColor;
+            return old;
         }
-        object UndoSetColor(object color)
+
+        object SetDrawPosition(object position)
         {
-            drawColor = (Color)color;
-            lastColor = drawColor;
-            return null;
+            Rectangle old = drawPosition;
+            drawPosition = (Rectangle)position;
+            return old;
         }
 
         public void Start()
@@ -41,10 +47,18 @@ namespace Collage.States
             Input input = dataAccess.Input;
             if(input.IsKeyReleased(Keys.Right))
             {
+                CommandCombination combi = new CommandCombination();
+
                 Color color = Color.FromNonPremultiplied(dataAccess.Random.Next(255), dataAccess.Random.Next(255), dataAccess.Random.Next(255), 255);
-                Command command = new Command(SetColor, UndoSetColor, color);
-                dataAccess.UndoManager.ExecuteAndAddCommand(command);
-                lastColor = color;
+                Command command = new Command(SetColor, SetColor, color);
+                combi.AddToCombination(command);
+
+                Rectangle rec = new Rectangle(dataAccess.Random.Next(300), dataAccess.Random.Next(300), dataAccess.Random.Next(300), dataAccess.Random.Next(300));
+                command = new Command(SetDrawPosition, SetDrawPosition, rec);
+                combi.AddToCombination(command);
+
+                dataAccess.UndoManager.ExecuteAndAddCommand(combi);
+
             }
             if (input.IsKeyReleased(Keys.Left))
             {
@@ -55,6 +69,9 @@ namespace Collage.States
         public void Draw()
         {
             dataAccess.GraphicsDevice.Clear(drawColor);
+            dataAccess.SpriteBatch.Begin();
+            dataAccess.SpriteBatch.Draw(texture, drawPosition, Color.White);
+            dataAccess.SpriteBatch.End();
         }
     }
 }
