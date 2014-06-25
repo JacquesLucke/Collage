@@ -39,15 +39,15 @@ namespace Collage
         {
         }
 
-        protected override void Update(GameTime gameTime)
+        protected override void Update(GameTime time)
         {
-            base.Update(gameTime);
+            base.Update(time);
         }
 
-        protected override void Draw(GameTime gameTime)
+        protected override void Draw(GameTime time)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            base.Draw(gameTime);
+            base.Draw(time);
         }
     }
 }
