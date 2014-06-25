@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Collage.States.Collage
+namespace Collage
 {
     public class CollageObject
     {

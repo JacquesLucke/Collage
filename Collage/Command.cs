@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Collage.Undo
+namespace Collage
 {
     public delegate object DoCommand(object doData);
     public delegate object UndoCommand(object undoData);
