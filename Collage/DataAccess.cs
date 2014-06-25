@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Collage.Undo;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -14,13 +15,18 @@ namespace Collage
         Input input;
         GameTime time;
         StateManager stateManager;
+        Random random;
+        UndoManager undoManager;
 
-        public DataAccess(GraphicsDevice graphicsDevice, SpriteBatch spriteBatch, Input input, StateManager stateManager)
+        public DataAccess(GraphicsDevice graphicsDevice, SpriteBatch spriteBatch, Input input, StateManager stateManager, UndoManager undoManager)
         {
             this.graphicsDevice = graphicsDevice;
             this.spriteBatch = spriteBatch;
             this.input = input;
             this.stateManager = stateManager;
+            this.undoManager = undoManager;
+
+            random = new Random();
         }
 
         public void Update(GameTime time)
@@ -29,6 +35,10 @@ namespace Collage
         }
 
         // Get important Objects
+        public Random Random
+        {
+            get { return random; }
+        }
         public GameTime GameTime
         {
             get { return time; }
@@ -44,6 +54,10 @@ namespace Collage
         public Input Input
         {
             get { return input; }
+        }
+        public UndoManager UndoManager
+        {
+            get { return undoManager; } 
         }
     }
 }

@@ -5,10 +5,10 @@ using System.Text;
 
 namespace Collage.Undo
 {
-    delegate object DoCommand(object doData);
-    delegate void UndoCommand(object undoData);
+    public delegate object DoCommand(object doData);
+    public delegate object UndoCommand(object undoData);
 
-    public class Command
+    public class Command : ICommand
     {
         DoCommand doCommand;
         UndoCommand undoCommand;

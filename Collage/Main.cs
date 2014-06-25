@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Storage;
 using Microsoft.Xna.Framework.GamerServices;
 using Collage.States;
+using Collage.Undo;
 #endregion
 
 namespace Collage
@@ -19,6 +20,7 @@ namespace Collage
         StateManager stateManager = new StateManager();
         DataAccess dataAccess;
         Input input = new Input();
+        UndoManager undoManager = new UndoManager();
 
         public Main()
             : base()
@@ -37,7 +39,7 @@ namespace Collage
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            dataAccess = new DataAccess(GraphicsDevice, spriteBatch, input, stateManager);
+            dataAccess = new DataAccess(GraphicsDevice, spriteBatch, input, stateManager, undoManager);
 
             CollageEditState editState = new CollageEditState(dataAccess);
             stateManager.SetCurrentState(editState);

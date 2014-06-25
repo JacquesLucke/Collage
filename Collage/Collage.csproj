@@ -43,6 +43,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StateManager.cs" />
     <Compile Include="States\CollageEditState.cs" />
+    <Compile Include="Undo\Command.cs" />
+    <Compile Include="Undo\ICommand.cs" />
+    <Compile Include="Undo\UndoManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="OpenTK">
