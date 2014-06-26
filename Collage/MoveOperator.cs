@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -29,9 +30,19 @@ namespace Collage
 
         public bool Update()
         {
-            if (dataAccess.Input.IsMiddleButtonDown) editData.DrawRectangle.Move(dataAccess.Input.MouseDifferenceVector);
+            if (dataAccess.Input.IsMiddleButtonDown)
+            {
+                Command command = new Command(ExecuteMove, ExecuteMove, dataAccess.Input.MouseDifferenceVector);
+                dataAccess.UndoManager.ExecuteAndAddCommand(command);
+            }
 
             return dataAccess.Input.IsMiddleButtonDown;
+        }
+
+        public object ExecuteMove(object distance)
+        {
+            editData.DrawRectangle.Move((Vector2)distance);
+            return -(Vector2)distance;
         }
     }
 }
