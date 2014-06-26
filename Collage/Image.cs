@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace Collage
     {
         Vector2 center = new Vector2(0.5f);
         ImageSource source;
-        float width = 0.1f;
+        float width = 0.2f;
 
         public Image(ImageSource source)
         {
@@ -37,9 +38,11 @@ namespace Collage
         {
             Vector2 realCenter = new Vector2(boundary.Left + center.X * boundary.Width, boundary.Top + center.Y * boundary.Height);
             float realWidth = boundary.Width * Width;
-            float realHeight = boundary.Height * Height;
+            float realHeight = boundary.Height * Height * ((float)boundary.Width / (float)boundary.Height);
             FloatRectangle realRectangle = new FloatRectangle(realCenter.X - realWidth / 2f, realCenter.Y - realHeight / 2f, realWidth, realHeight);
             return realRectangle.ToRectangle();
         }
+
+        public Texture2D Texture { get { return source.Texture; } }
     }
 }

@@ -55,5 +55,14 @@ namespace Collage
                 return (float)Width / (float)Height;
             }
         }
+
+        public Texture2D Texture
+        {
+            get
+            {
+                if (texture == null) return emptyTexture;
+                else return texture;
+            }
+        }
     }
 }

@@ -29,6 +29,13 @@ namespace Collage
         {
             dataAccess.SpriteBatch.Begin();
             dataAccess.SpriteBatch.Draw(tex, rectangle, collage.BackgroundColor);
+
+            foreach(Image image in collage.Images)
+            {
+                Rectangle imageRectangle = image.GetRectangleInBoundary(rectangle);
+                dataAccess.SpriteBatch.Draw(image.Texture, imageRectangle, Color.White);
+            }
+
             dataAccess.SpriteBatch.End();
         }
     }
