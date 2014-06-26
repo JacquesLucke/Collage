@@ -38,5 +38,14 @@ namespace Collage
                 currentIndex--;
             }
         }
+
+        public void Redo()
+        {
+            if (currentIndex + 1 < commands.Count)
+            {
+                currentIndex++;
+                commands[currentIndex].Execute();
+            }
+        }
     }
 }

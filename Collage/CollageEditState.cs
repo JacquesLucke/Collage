@@ -29,7 +29,9 @@ namespace Collage
             int height = (int)Math.Round(width / collage.AspectRatio);
             MoveableRectangle drawRectangle = new MoveableRectangle(new FloatRectangle(50, 50, width, height));
 
-            editData = new CollageEditData(collage, drawRectangle);
+            UndoManager undoManager = new UndoManager();
+
+            editData = new CollageEditData(collage, drawRectangle, undoManager);
 
             RegisterCollageOperators();
         }
@@ -42,6 +44,17 @@ namespace Collage
         public void Update()
         {
             Input input = dataAccess.Input;
+
+            // undo
+            if(activeOperator == null && input.IsStrg && input.IsKeyReleased(Keys.Z))
+            {
+                editData.UndoManager.Undo();
+            }
+            // redo
+            if (activeOperator == null && input.IsStrg && input.IsKeyReleased(Keys.Y))
+            {
+                editData.UndoManager.Redo();
+            }
 
             if(activeOperator != null)
             {

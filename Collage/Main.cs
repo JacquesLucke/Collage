@@ -18,7 +18,6 @@ namespace Collage
         StateManager stateManager = new StateManager();
         DataAccess dataAccess;
         Input input = new Input();
-        UndoManager undoManager = new UndoManager();
 
         public Main()
             : base()
@@ -37,7 +36,7 @@ namespace Collage
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            dataAccess = new DataAccess(GraphicsDevice, spriteBatch, input, stateManager, undoManager);
+            dataAccess = new DataAccess(GraphicsDevice, spriteBatch, input, stateManager);
 
             CollageEditState editState = new CollageEditState(dataAccess);
             stateManager.SetCurrentState(editState);

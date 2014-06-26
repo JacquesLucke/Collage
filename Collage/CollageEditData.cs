@@ -9,11 +9,13 @@ namespace Collage
     {
         CollageObject collage;
         MoveableRectangle drawRectangle;
+        UndoManager undoManager;
 
-        public CollageEditData(CollageObject collage, MoveableRectangle drawRectangle)
+        public CollageEditData(CollageObject collage, MoveableRectangle drawRectangle, UndoManager undoManager)
         {
             this.collage = collage;
             this.drawRectangle = drawRectangle;
+            this.undoManager = undoManager;
         }
 
         public CollageObject Collage
@@ -23,6 +25,10 @@ namespace Collage
         public MoveableRectangle DrawRectangle
         {
             get { return drawRectangle; }
+        }
+        public UndoManager UndoManager
+        {
+            get { return undoManager; }
         }
     }
 }

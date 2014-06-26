@@ -11,6 +11,8 @@ namespace Collage
         DataAccess dataAccess;
         CollageEditData editData;
 
+        CommandCombination commands;
+
         public MoveOperator() { }
 
         public void SetData(DataAccess dataAccess, CollageEditData editData)
@@ -25,6 +27,7 @@ namespace Collage
 
         public bool Start()
         {
+            commands = new CommandCombination();
             return true;
         }
 
@@ -33,8 +36,11 @@ namespace Collage
             if (dataAccess.Input.IsMiddleButtonDown)
             {
                 Command command = new Command(ExecuteMove, ExecuteMove, dataAccess.Input.MouseDifferenceVector);
-                dataAccess.UndoManager.ExecuteAndAddCommand(command);
+                command.Execute();
+
+                commands.AddToCombination(command);
             }
+            else editData.UndoManager.AddCommand(commands);
 
             return dataAccess.Input.IsMiddleButtonDown;
         }

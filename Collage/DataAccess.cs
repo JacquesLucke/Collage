@@ -15,15 +15,13 @@ namespace Collage
         GameTime time;
         StateManager stateManager;
         Random random;
-        UndoManager undoManager;
 
-        public DataAccess(GraphicsDevice graphicsDevice, SpriteBatch spriteBatch, Input input, StateManager stateManager, UndoManager undoManager)
+        public DataAccess(GraphicsDevice graphicsDevice, SpriteBatch spriteBatch, Input input, StateManager stateManager)
         {
             this.graphicsDevice = graphicsDevice;
             this.spriteBatch = spriteBatch;
             this.input = input;
             this.stateManager = stateManager;
-            this.undoManager = undoManager;
 
             random = new Random();
         }
@@ -53,10 +51,6 @@ namespace Collage
         public Input Input
         {
             get { return input; }
-        }
-        public UndoManager UndoManager
-        {
-            get { return undoManager; } 
         }
     }
 }
