@@ -50,7 +50,7 @@ namespace Collage
             this.undoData = undoData;
         }
 
-        public string ToString()
+        public override string ToString()
         {
             return name;
         }
