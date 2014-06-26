@@ -28,7 +28,7 @@ namespace Collage
         public void Draw(Rectangle rectangle)
         {
             dataAccess.SpriteBatch.Begin();
-            dataAccess.SpriteBatch.Draw(tex, rectangle, Color.White);
+            dataAccess.SpriteBatch.Draw(tex, rectangle, collage.BackgroundColor);
             dataAccess.SpriteBatch.End();
         }
     }

@@ -56,7 +56,7 @@ namespace Collage
 
         protected override void Draw(GameTime time)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Orange);
             base.Draw(time);
             stateManager.Draw();
         }
