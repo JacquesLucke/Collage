@@ -21,7 +21,7 @@ namespace Collage
         }
         public bool CanStart()
         {
-            return dataAccess.Input.IsKeyReleased(Keys.B);
+            return dataAccess.Keymap["change collage background color"].IsCombinationPressed(dataAccess.Input);
         }
 
         public bool Start()

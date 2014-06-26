@@ -15,13 +15,15 @@ namespace Collage
         GameTime time;
         StateManager stateManager;
         Random random;
+        Keymap keymap;
 
-        public DataAccess(GraphicsDevice graphicsDevice, SpriteBatch spriteBatch, Input input, StateManager stateManager)
+        public DataAccess(GraphicsDevice graphicsDevice, SpriteBatch spriteBatch, Input input, StateManager stateManager, Keymap keymap)
         {
             this.graphicsDevice = graphicsDevice;
             this.spriteBatch = spriteBatch;
             this.input = input;
             this.stateManager = stateManager;
+            this.keymap = keymap;
 
             random = new Random();
         }
@@ -51,6 +53,10 @@ namespace Collage
         public Input Input
         {
             get { return input; }
+        }
+        public Keymap Keymap
+        {
+            get { return keymap; }
         }
     }
 }

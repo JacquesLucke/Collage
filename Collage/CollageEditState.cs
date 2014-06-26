@@ -46,12 +46,12 @@ namespace Collage
             Input input = dataAccess.Input;
 
             // undo
-            if(activeOperator == null && input.IsStrg && input.IsKeyReleased(Keys.Z))
+            if(activeOperator == null && input.IsStrg && input.IsKeyPressed(Keys.Z))
             {
                 editData.UndoManager.Undo();
             }
             // redo
-            if (activeOperator == null && input.IsStrg && input.IsKeyReleased(Keys.Y))
+            if (activeOperator == null && input.IsStrg && input.IsKeyPressed(Keys.Y))
             {
                 editData.UndoManager.Redo();
             }

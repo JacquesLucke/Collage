@@ -36,7 +36,10 @@ namespace Collage
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            dataAccess = new DataAccess(GraphicsDevice, spriteBatch, input, stateManager);
+
+            Keymap keymap = new Keymap();
+            RegisterKeyCombinations(keymap);
+            dataAccess = new DataAccess(GraphicsDevice, spriteBatch, input, stateManager, keymap);
 
             CollageEditState editState = new CollageEditState(dataAccess);
             stateManager.SetCurrentState(editState);
@@ -59,6 +62,19 @@ namespace Collage
             GraphicsDevice.Clear(Color.Orange);
             base.Draw(time);
             stateManager.Draw();
+        }
+
+        public void RegisterKeyCombinations(Keymap keymap)
+        {
+            KeyCombination combination;
+
+            // Empty
+            combination = new KeyCombination(false, false, false);
+            keymap.Add("empty", combination);
+
+            // Change Background Color
+            combination = new KeyCombination(false, false, false, Keys.B);
+            keymap.Add("change collage background color", combination);
         }
     }
 }
