@@ -10,8 +10,7 @@ namespace Collage
     {
         DataAccess dataAccess;
         CollageEditData editData;
-
-        CommandCombination commands;
+        Vector2 totalMovement;
 
         public MoveOperator() { }
 
@@ -27,7 +26,7 @@ namespace Collage
 
         public bool Start()
         {
-            commands = new CommandCombination();
+            totalMovement = Vector2.Zero;
             return true;
         }
 
@@ -35,12 +34,15 @@ namespace Collage
         {
             if (dataAccess.Input.IsMiddleButtonDown)
             {
-                Command command = new Command(ExecuteMove, ExecuteMove, dataAccess.Input.MouseDifferenceVector);
-                command.Execute();
-
-                commands.AddToCombination(command);
+                editData.DrawRectangle.Move(dataAccess.Input.MouseDifferenceVector);
+                totalMovement += dataAccess.Input.MouseDifferenceVector;
             }
-            else editData.UndoManager.AddCommand(commands);
+            else
+            {
+                Command command = new Command(ExecuteMove, ExecuteMove, totalMovement);
+                command.SetUndoData(-totalMovement);
+                editData.UndoManager.AddCommand(command);
+            }
 
             return dataAccess.Input.IsMiddleButtonDown;
         }
