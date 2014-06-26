@@ -12,6 +12,5 @@ namespace Collage
 
         // false means that the operator finished
         bool Start();
-        bool Update();
     }
 }

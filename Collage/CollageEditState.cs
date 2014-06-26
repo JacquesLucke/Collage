@@ -15,7 +15,7 @@ namespace Collage
         CollageEditData editData;
 
         List<ICollageOperator> collageOperators;
-        ICollageOperator activeOperator;
+        IUpdateableCollageOperator activeOperator;
 
         public CollageEditState(DataAccess dataAccess) 
         {
@@ -53,9 +53,9 @@ namespace Collage
                 {
                     if(op.CanStart())
                     {
-                        if(op.Start())
+                        if(op.Start() && op is IUpdateableCollageOperator)
                         {
-                            activeOperator = op;
+                            activeOperator = (IUpdateableCollageOperator)op;
                             break;
                         }
                     }

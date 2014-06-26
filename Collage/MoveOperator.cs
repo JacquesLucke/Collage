@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Collage
 {
-    class MoveOperator : ICollageOperator
+    class MoveOperator : IUpdateableCollageOperator
     {
         DataAccess dataAccess;
         CollageEditData editData;

@@ -42,6 +42,7 @@
     <Compile Include="Input.cs" />
     <Compile Include="ICollageOperator.cs" />
     <Compile Include="IState.cs" />
+    <Compile Include="IUpdateableCollageOperator.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="MoveOperator.cs" />
     <Compile Include="Program.cs" />
