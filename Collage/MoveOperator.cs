@@ -28,6 +28,5 @@ namespace Collage
             editData.DrawRectangle.Move(dataAccess.Input.MouseDifferenceVector);
             return false;
         }
-
     }
 }
