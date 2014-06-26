@@ -56,10 +56,12 @@ namespace Collage
                 editData.UndoManager.Redo();
             }
 
+            // update or deactivate operators
             if(activeOperator != null)
             {
                 if (!activeOperator.Update()) activeOperator = null;
             }
+            // activate operators
             if(activeOperator == null)
             {
                 foreach(ICollageOperator op in collageOperators)
@@ -85,6 +87,7 @@ namespace Collage
         {
             collageOperators = new List<ICollageOperator>();
             collageOperators.Add(new MoveOperator());
+            collageOperators.Add(new ChangeBackgroundColorOperator());
 
             foreach(ICollageOperator op in collageOperators)
             {

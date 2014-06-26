@@ -35,6 +35,7 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="ChangeBackgroundColorOperator.cs" />
     <Compile Include="CollageEditData.cs" />
     <Compile Include="CollageObject.cs" />
     <Compile Include="CollagePreviewRenderer.cs" />
