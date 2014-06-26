@@ -59,6 +59,7 @@
     <Compile Include="UndoManager.cs" />
     <Compile Include="FloatRectangle.cs" />
     <Compile Include="MoveableRectangle.cs" />
+    <Compile Include="ZoomOperator.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="OpenTK">
