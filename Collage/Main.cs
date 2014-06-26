@@ -72,6 +72,14 @@ namespace Collage
             combination = new KeyCombination(false, false, false);
             keymap.Add("empty", combination);
 
+            // Undo
+            combination = new KeyCombination(true, false, false, Keys.Z);
+            keymap.Add("undo", combination);
+
+            // Redo
+            combination = new KeyCombination(true, false, false, Keys.Y);
+            keymap.Add("redo", combination);
+
             // Change Background Color
             combination = new KeyCombination(false, false, false, Keys.B);
             keymap.Add("change collage background color", combination);
