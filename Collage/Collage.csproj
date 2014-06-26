@@ -40,6 +40,7 @@
     <Compile Include="CollageObject.cs" />
     <Compile Include="CollagePreviewRenderer.cs" />
     <Compile Include="DataAccess.cs" />
+    <Compile Include="Image.cs" />
     <Compile Include="ImageSource.cs" />
     <Compile Include="Input.cs" />
     <Compile Include="ICollageOperator.cs" />
