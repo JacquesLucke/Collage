@@ -6,11 +6,10 @@ using System.Text;
 
 namespace Collage
 {
-    class MoveOperator : IUpdateableCollageOperator
+    class MoveOperator : ICollageOperator
     {
         DataAccess dataAccess;
         CollageEditData editData;
-        Vector2 totalMovement;
 
         public MoveOperator() { }
 
@@ -26,31 +25,9 @@ namespace Collage
 
         public bool Start()
         {
-            totalMovement = Vector2.Zero;
-            return true;
+            editData.DrawRectangle.Move(dataAccess.Input.MouseDifferenceVector);
+            return false;
         }
 
-        public bool Update()
-        {
-            if (dataAccess.Input.IsMiddleButtonDown)
-            {
-                editData.DrawRectangle.Move(dataAccess.Input.MouseDifferenceVector);
-                totalMovement += dataAccess.Input.MouseDifferenceVector;
-            }
-            else
-            {
-                Command command = new Command(ExecuteMove, ExecuteMove, totalMovement, "Move Preview");
-                command.SetUndoData(-totalMovement);
-                editData.UndoManager.AddCommand(command);
-            }
-
-            return dataAccess.Input.IsMiddleButtonDown;
-        }
-
-        public object ExecuteMove(object distance)
-        {
-            editData.DrawRectangle.Move((Vector2)distance);
-            return -(Vector2)distance;
-        }
     }
 }
