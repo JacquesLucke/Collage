@@ -39,7 +39,7 @@ namespace Collage
             }
             else
             {
-                Command command = new Command(ExecuteMove, ExecuteMove, totalMovement);
+                Command command = new Command(ExecuteMove, ExecuteMove, totalMovement, "Move Preview");
                 command.SetUndoData(-totalMovement);
                 editData.UndoManager.AddCommand(command);
             }
