@@ -35,12 +35,15 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="CollageEditData.cs" />
     <Compile Include="CollageObject.cs" />
     <Compile Include="CollagePreviewRenderer.cs" />
     <Compile Include="DataAccess.cs" />
     <Compile Include="Input.cs" />
+    <Compile Include="ICollageOperator.cs" />
     <Compile Include="IState.cs" />
     <Compile Include="Main.cs" />
+    <Compile Include="MoveOperator.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StateManager.cs" />

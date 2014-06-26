@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Collage
 {
-    public struct MoveableRectangle
+    public class MoveableRectangle
     {
         FloatRectangle current;
         FloatRectangle start;

@@ -11,20 +11,27 @@ namespace Collage
     public class CollageEditState : IState
     {
         DataAccess dataAccess;
-        CollageObject collage;
         CollagePreviewRenderer previewRenderer;
-        MoveableRectangle drawRectangle;
+        CollageEditData editData;
+
+        List<ICollageOperator> collageOperators;
+        ICollageOperator activeOperator;
 
         public CollageEditState(DataAccess dataAccess) 
         {
             this.dataAccess = dataAccess;
-            collage = new CollageObject();
+
+            CollageObject collage = new CollageObject();
             previewRenderer = new CollagePreviewRenderer(dataAccess);
             previewRenderer.SetCollage(collage);
 
             int width = dataAccess.GraphicsDevice.Viewport.Bounds.Width - 100;
             int height = (int)Math.Round(width / collage.AspectRatio);
-            drawRectangle = new MoveableRectangle(new FloatRectangle(50, 50, width, height));
+            MoveableRectangle drawRectangle = new MoveableRectangle(new FloatRectangle(50, 50, width, height));
+
+            editData = new CollageEditData(collage, drawRectangle);
+
+            RegisterCollageOperators();
         }
 
         public void Start()
@@ -36,16 +43,40 @@ namespace Collage
         {
             Input input = dataAccess.Input;
 
-            if(input.IsMiddleButtonDown)
+            if(activeOperator != null)
             {
-                drawRectangle.Move(input.MouseDifferenceVector);
+                if (!activeOperator.Update()) activeOperator = null;
             }
-            drawRectangle.Zoom(-input.ScrollWheelDifference / 10f, input.MousePositionVector);
+            if(activeOperator == null)
+            {
+                foreach(ICollageOperator op in collageOperators)
+                {
+                    if(op.CanStart())
+                    {
+                        if(op.Start())
+                        {
+                            activeOperator = op;
+                            break;
+                        }
+                    }
+                }
+            }
         }
 
         public void Draw()
         {
-            previewRenderer.Draw(drawRectangle.Rectangle);
+            previewRenderer.Draw(editData.DrawRectangle.Rectangle);
+        }
+
+        public void RegisterCollageOperators()
+        {
+            collageOperators = new List<ICollageOperator>();
+            collageOperators.Add(new MoveOperator());
+
+            foreach(ICollageOperator op in collageOperators)
+            {
+                op.SetData(dataAccess, editData);
+            }
         }
     }
 }
