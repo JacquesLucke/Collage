@@ -14,6 +14,7 @@ namespace Collage
         UndoCommand undoCommand;
 
         object doData, undoData;
+        bool receiveUndoData = true;
 
         public Command(DoCommand doCommand, UndoCommand undoCommand, object doData)
         {
@@ -24,11 +25,26 @@ namespace Collage
 
         public void Execute()
         {
-            undoData = doCommand(doData);
+            object data = doCommand(doData);
+            if (receiveUndoData) undoData = data;
         }
         public void Undo()
         {
             undoCommand(undoData);
+        }
+
+        public bool ReceiveUndoData
+        {
+            get { return receiveUndoData; }
+            set { receiveUndoData = value; }
+        }
+        public void SetDoData(object doData)
+        {
+            this.doData = doData;
+        }
+        public void SetUndoData(object undoData)
+        {
+            this.undoData = undoData;
         }
     }
 }
