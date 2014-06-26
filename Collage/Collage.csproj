@@ -35,7 +35,7 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Collage.cs" />
+    <Compile Include="CollageObject.cs" />
     <Compile Include="CollagePreviewRenderer.cs" />
     <Compile Include="DataAccess.cs" />
     <Compile Include="Input.cs" />
