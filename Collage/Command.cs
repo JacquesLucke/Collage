@@ -48,6 +48,7 @@ namespace Collage
         public void SetUndoData(object undoData)
         {
             this.undoData = undoData;
+            receiveUndoData = false;
         }
 
         public override string ToString()
