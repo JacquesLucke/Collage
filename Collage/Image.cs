@@ -13,6 +13,11 @@ namespace Collage
         ImageSource source;
         float width = 0.2f;
 
+        public Image(DataAccess dataAccess, string fileName)
+        {
+            this.source = new ImageSource(dataAccess, fileName);
+        }
+
         public Image(ImageSource source)
         {
             this.source = source;
