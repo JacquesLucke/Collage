@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -32,6 +33,7 @@ namespace Collage
                 for (int i = 0; i < fileNames.Length; i++)
                 {
                     Image image = new Image(dataAccess, fileNames[i]);
+                    image.Center = new Vector2((float)dataAccess.Random.NextDouble(), (float)dataAccess.Random.NextDouble());
 
                     Command command = new Command(ExecuteAddImage, ExecuteRemoveImage, image, "Add new image");
                     commands.ExecuteAndAddToCombination(command);

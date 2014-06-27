@@ -47,6 +47,11 @@ namespace Collage
             get { return width / source.AspectRatio; }
             set { width = value * source.AspectRatio; }
         }
+        public Vector2 Center
+        {
+            get { return center; }
+            set { center = value; }
+        }
         public ImageSource Source
         {
             get { return source; }
