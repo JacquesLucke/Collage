@@ -49,5 +49,11 @@ namespace Collage
         {
             return new Vector2(point.X, point.Y);
         }
+
+        // Convert Colors and Vectors
+        public static Vector4 ToVector(Color color)
+        {
+            return new Vector4(color.R / 255f, color.G / 255f, color.B / 255f, color.A / 255f);
+        }
     }
 }
