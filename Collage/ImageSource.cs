@@ -14,7 +14,7 @@ namespace Collage
         Texture2D texture, emptyTexture;
         int width = 100;
         int height = 60;
-        string fileName;
+        string fileName = "";
 
         public ImageSource(DataAccess dataAccess)
         {
@@ -80,6 +80,10 @@ namespace Collage
             {
                 return (float)Width / (float)Height;
             }
+        }
+        public string FileName
+        {
+            get { return fileName; }
         }
 
         public Texture2D Texture

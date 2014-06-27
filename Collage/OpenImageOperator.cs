@@ -32,7 +32,18 @@ namespace Collage
                 CommandCombination commands = new CommandCombination();
                 for (int i = 0; i < fileNames.Length; i++)
                 {
-                    Image image = new Image(dataAccess, fileNames[i]);
+                    ImageSource imageSource = null;
+                    foreach(Image img in editData.Collage.Images)
+                    {
+                        if (img.Source.FileName == fileNames[i])
+                        {
+                            imageSource = img.Source;
+                            break;
+                        }
+                    }
+                    Image image;
+                    if (imageSource == null) image = new Image(dataAccess, fileNames[i]);
+                    else image = new Image(imageSource);
                     image.Center = new Vector2((float)dataAccess.Random.NextDouble(), (float)dataAccess.Random.NextDouble());
 
                     Command command = new Command(ExecuteAddImage, ExecuteRemoveImage, image, "Add new image");
