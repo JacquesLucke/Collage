@@ -38,6 +38,5 @@ namespace Collage
             editData.Collage.BackgroundColor = (Color)color;
             return c;
         }
-       
     }
 }

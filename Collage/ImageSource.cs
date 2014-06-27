@@ -37,18 +37,25 @@ namespace Collage
         public ImageSource(DataAccess dataAccess, string fileName)
             :this(dataAccess)
         {
-            ImageLoader loader = new ImageLoader(dataAccess, fileName);
-            texture = loader.Load(100);
             this.fileName = fileName;
-
-            width = texture.Width;
-            height = texture.Height;
+            Load();
         }
 
         public void Unload()
         {
             texture.Dispose();
             texture = null;
+        }
+        public void Load()
+        {
+            if (texture == null)
+            {
+                ImageLoader loader = new ImageLoader(dataAccess, fileName);
+                texture = loader.Load(100);
+
+                width = texture.Width;
+                height = texture.Height;
+            }
         }
 
         public int Width

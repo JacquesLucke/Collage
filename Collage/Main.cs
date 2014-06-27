@@ -83,6 +83,10 @@ namespace Collage
             // Change Background Color
             combination = new KeyCombination(false, false, false, Keys.B);
             keymap.Add("change collage background color", combination);
+
+            // Open Image
+            combination = new KeyCombination(false, false, false, Keys.O);
+            keymap.Add("open image", combination);
         }
     }
 }

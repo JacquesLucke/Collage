@@ -52,6 +52,7 @@
     <Compile Include="Main.cs" />
     <Compile Include="MoveOperator.cs" />
     <Compile Include="OpenFileWindow.cs" />
+    <Compile Include="OpenImageOperator.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StateManager.cs" />

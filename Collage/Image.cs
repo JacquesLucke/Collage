@@ -32,6 +32,10 @@ namespace Collage
         {
             source.Unload();
         }
+        public void Reload()
+        {
+            source.Load();
+        }
 
         public float Width
         {
@@ -42,6 +46,10 @@ namespace Collage
         {
             get { return width / source.AspectRatio; }
             set { width = value * source.AspectRatio; }
+        }
+        public ImageSource Source
+        {
+            get { return source; }
         }
 
         public Rectangle GetRectangleInBoundary(Rectangle boundary)
