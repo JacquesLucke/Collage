@@ -40,6 +40,7 @@
     <Compile Include="CollageObject.cs" />
     <Compile Include="CollagePreviewRenderer.cs" />
     <Compile Include="DataAccess.cs" />
+    <Compile Include="DeleteImageOperator.cs" />
     <Compile Include="EmptyOperator.cs" />
     <Compile Include="FileTypes.cs" />
     <Compile Include="GrabOperator.cs" />
