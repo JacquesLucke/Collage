@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,6 +12,8 @@ namespace Collage
         MoveableRectangle drawRectangle;
         UndoManager undoManager;
         List<Image> selectedImages;
+
+        Image imageUnderMouse;
 
         public CollageEditData(CollageObject collage, MoveableRectangle drawRectangle, UndoManager undoManager)
         {
@@ -37,6 +40,24 @@ namespace Collage
         public List<Image> SelectedImages
         {
             get { return selectedImages; }
+        }
+
+        public void Update(Input input)
+        {
+            imageUnderMouse = null;
+            foreach (Image image in collage.Images)
+            {
+                Rectangle rec = image.GetRectangleInBoundary(drawRectangle.Rectangle);
+                if (rec.Contains(input.MousePositionVector))
+                {
+                    imageUnderMouse = image;
+                }
+            }
+        }
+
+        public Image ImageUnderMouse
+        {
+            get { return imageUnderMouse; }
         }
     }
 }

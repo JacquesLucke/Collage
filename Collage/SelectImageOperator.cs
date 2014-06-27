@@ -33,15 +33,7 @@ namespace Collage
             if (!dataAccess.Input.IsShift)
             {
                 // single selection
-                Image newSelectedImage = null;
-                foreach (Image image in editData.Collage.Images)
-                {
-                    Rectangle rec = image.GetRectangleInBoundary(drawRectangle);
-                    if (rec.Contains(dataAccess.Input.MousePositionVector))
-                    {
-                        newSelectedImage = image;
-                    }
-                }
+                Image newSelectedImage = editData.ImageUnderMouse;
                 if (newSelectedImage != null)
                 {
                     newSelection.Add(newSelectedImage);
@@ -56,16 +48,8 @@ namespace Collage
             {
                 // multiselect
                 newSelection.AddRange(editData.SelectedImages);
-                
-                Image newSelectedImage = null;
-                foreach (Image image in editData.Collage.Images)
-                {
-                    Rectangle rec = image.GetRectangleInBoundary(drawRectangle);
-                    if (rec.Contains(dataAccess.Input.MousePositionVector))
-                    {
-                        newSelectedImage = image;
-                    }
-                }
+
+                Image newSelectedImage = editData.ImageUnderMouse;
                 if(newSelectedImage != null)
                 {
                     if (editData.SelectedImages.Contains(newSelectedImage)) newSelection.Remove(newSelectedImage);

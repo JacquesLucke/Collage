@@ -43,6 +43,7 @@ namespace Collage
         public void Update()
         {
             Input input = dataAccess.Input;
+            editData.Update(input);
 
             // undo
             if(activeOperator == null && dataAccess.Keymap["undo"].IsCombinationPressed(dataAccess.Input))
