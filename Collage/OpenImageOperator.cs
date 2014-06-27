@@ -25,13 +25,18 @@ namespace Collage
         public bool Start()
         {
             OpenFileWindow of = new OpenFileWindow();
-            string fileName = of.OpenFile(FileTypes.Images);
-            if(fileName != null)
+            string[] fileNames = of.OpenFiles(FileTypes.Images);
+            if(fileNames != null)
             {
-                Image image = new Image(dataAccess, fileName);
+                CommandCombination commands = new CommandCombination();
+                for (int i = 0; i < fileNames.Length; i++)
+                {
+                    Image image = new Image(dataAccess, fileNames[i]);
 
-                Command command = new Command(ExecuteAddImage, ExecuteRemoveImage, image, "Add new image");
-                editData.UndoManager.ExecuteAndAddCommand(command);
+                    Command command = new Command(ExecuteAddImage, ExecuteRemoveImage, image, "Add new image");
+                    commands.ExecuteAndAddToCombination(command);
+                }
+                editData.UndoManager.AddCommand(commands);
             }
             return false;
         }
