@@ -12,6 +12,7 @@ namespace Collage
         Vector2 center = new Vector2(0.5f);
         ImageSource source;
         float width = 0.2f;
+        float rotation = 0f;
 
         public Image(DataAccess dataAccess, string fileName)
         {
@@ -46,6 +47,11 @@ namespace Collage
         {
             get { return width / source.AspectRatio; }
             set { width = value * source.AspectRatio; }
+        }
+        public float Rotation
+        {
+            get { return rotation; }
+            set { rotation = value; }
         }
         public Vector2 Center
         {

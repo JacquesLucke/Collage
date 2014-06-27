@@ -35,8 +35,14 @@ namespace Collage
             {
                 Color color = Color.White;
                 if (editData.SelectedImages.Contains(image)) color = Color.Red;
+                // specify rotation origin
+                Vector2 origin = new Vector2(image.Source.Width / 2f, image.Source.Height / 2f);
+                // calculate rectangle where the image will be drawn
                 Rectangle imageRectangle = image.GetRectangleInBoundary(drawRectangle);
-                dataAccess.SpriteBatch.Draw(image.Texture, imageRectangle, color);
+                imageRectangle.X += imageRectangle.Width / 2;
+                imageRectangle.Y += imageRectangle.Height / 2;
+
+                dataAccess.SpriteBatch.Draw(image.Texture, imageRectangle, null, color, image.Rotation, origin, SpriteEffects.None, 0);
             }
 
             dataAccess.SpriteBatch.End();
