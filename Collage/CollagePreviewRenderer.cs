@@ -35,17 +35,21 @@ namespace Collage
             {
                 Color color = Color.White;
                 if (editData.SelectedImages.Contains(image)) color = Color.Red;
-                // specify rotation origin
-                Vector2 origin = new Vector2(image.Source.Width / 2f, image.Source.Height / 2f);
                 // calculate rectangle where the image will be drawn
                 Rectangle imageRectangle = image.GetRectangleInBoundary(drawRectangle);
-                imageRectangle.X += imageRectangle.Width / 2;
-                imageRectangle.Y += imageRectangle.Height / 2;
 
-                dataAccess.SpriteBatch.Draw(image.Texture, imageRectangle, null, color, image.Rotation, origin, SpriteEffects.None, 0);
+                DrawImageSource(image.Source, imageRectangle, image.Rotation, color);
             }
 
             dataAccess.SpriteBatch.End();
+        }
+
+        public void DrawImageSource(ImageSource source, Rectangle rectangle, float rotation, Color color)
+        {
+            Vector2 origin = new Vector2(source.Width / 2f, source.Height / 2f);
+            rectangle.X += rectangle.Width / 2;
+            rectangle.Y += rectangle.Height / 2;
+            dataAccess.SpriteBatch.Draw(source.Texture, rectangle, null, color, rotation, origin, SpriteEffects.None, 0);
         }
     }
 }
