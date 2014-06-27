@@ -30,9 +30,9 @@ namespace Collage
             bool selectionChanged = false;
             Rectangle drawRectangle = editData.DrawRectangle.Rectangle;
 
-            // single selection
             if (!dataAccess.Input.IsShift)
             {
+                // single selection
                 Image newSelectedImage = null;
                 foreach (Image image in editData.Collage.Images)
                 {
@@ -50,6 +50,27 @@ namespace Collage
                 else
                 {
                     selectionChanged = editData.SelectedImages.Count != 0;
+                }
+            }
+            else
+            {
+                // multiselect
+                newSelection.AddRange(editData.SelectedImages);
+                
+                Image newSelectedImage = null;
+                foreach (Image image in editData.Collage.Images)
+                {
+                    Rectangle rec = image.GetRectangleInBoundary(drawRectangle);
+                    if (rec.Contains(dataAccess.Input.MousePositionVector))
+                    {
+                        newSelectedImage = image;
+                    }
+                }
+                if(newSelectedImage != null)
+                {
+                    if (editData.SelectedImages.Contains(newSelectedImage)) newSelection.Remove(newSelectedImage);
+                    else newSelection.Add(newSelectedImage);
+                    selectionChanged = true;
                 }
             }
 
