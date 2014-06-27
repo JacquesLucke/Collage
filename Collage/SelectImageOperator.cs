@@ -34,14 +34,17 @@ namespace Collage
             {
                 // single selection
                 Image newSelectedImage = editData.ImageUnderMouse;
-                if (newSelectedImage != null)
+                if (!editData.SelectedImages.Contains(newSelectedImage))
                 {
-                    newSelection.Add(newSelectedImage);
-                    selectionChanged = editData.SelectedImages.Count != 1 || !editData.SelectedImages.Contains(newSelectedImage);
-                }
-                else
-                {
-                    selectionChanged = editData.SelectedImages.Count != 0;
+                    if (newSelectedImage != null)
+                    {
+                        newSelection.Add(newSelectedImage);
+                        selectionChanged = editData.SelectedImages.Count != 1 || !editData.SelectedImages.Contains(newSelectedImage);
+                    }
+                    else
+                    {
+                        selectionChanged = editData.SelectedImages.Count != 0;
+                    }
                 }
             }
             else
