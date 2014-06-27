@@ -42,6 +42,7 @@
     <Compile Include="DataAccess.cs" />
     <Compile Include="FileTypes.cs" />
     <Compile Include="Image.cs" />
+    <Compile Include="ImageLoader.cs" />
     <Compile Include="ImageSource.cs" />
     <Compile Include="Input.cs" />
     <Compile Include="ICollageOperator.cs" />
@@ -65,6 +66,9 @@
     <Compile Include="ZoomOperator.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="atk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f, processorArchitecture=MSIL" />
+    <Reference Include="glib-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f, processorArchitecture=MSIL" />
+    <Reference Include="gtk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f, processorArchitecture=MSIL" />
     <Reference Include="OpenTK">
       <HintPath>$(MSBuildExtensionsPath)\..\MonoGame\v3.0\Assemblies\WindowsGL\OpenTK.dll</HintPath>
     </Reference>

@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -30,6 +31,12 @@ namespace Collage
             : this(dataAccess, width, height)
         {
             emptyTexture.SetData<Color>(new Color[] { color });
+        }
+
+        public ImageSource(DataAccess dataAccess, string fileName)
+        {
+            ImageLoader loader = new ImageLoader(dataAccess, fileName);
+            texture = loader.Load();
         }
 
         public int Width
