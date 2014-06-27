@@ -48,10 +48,7 @@ namespace Collage
             foreach (Image image in collage.Images)
             {
                 Rectangle rec = image.GetRectangleInBoundary(drawRectangle.Rectangle);
-                if (rec.Contains(input.MousePositionVector))
-                {
-                    imageUnderMouse = image;
-                }
+                if (Utils.IsVectorInRotatedRectangle(input.MousePositionVector, rec, image.Rotation)) imageUnderMouse = image;
             }
         }
 
