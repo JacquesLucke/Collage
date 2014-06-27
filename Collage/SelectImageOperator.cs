@@ -27,19 +27,37 @@ namespace Collage
         {
             List<Image> newSelection = new List<Image>();
 
+            bool selectionChanged = false;
             Rectangle drawRectangle = editData.DrawRectangle.Rectangle;
-            foreach(Image image in editData.Collage.Images)
+
+            // single selection
+            if (!dataAccess.Input.IsShift)
             {
-                Rectangle rec = image.GetRectangleInBoundary(drawRectangle);
-                if(rec.Contains(dataAccess.Input.MousePositionVector))
+                Image newSelectedImage = null;
+                foreach (Image image in editData.Collage.Images)
                 {
-                    newSelection.Clear();
-                    newSelection.Add(image);
+                    Rectangle rec = image.GetRectangleInBoundary(drawRectangle);
+                    if (rec.Contains(dataAccess.Input.MousePositionVector))
+                    {
+                        newSelectedImage = image;
+                    }
+                }
+                if (newSelectedImage != null)
+                {
+                    newSelection.Add(newSelectedImage);
+                    selectionChanged = editData.SelectedImages.Count != 1 || !editData.SelectedImages.Contains(newSelectedImage);
+                }
+                else
+                {
+                    selectionChanged = editData.SelectedImages.Count != 0;
                 }
             }
 
-            Command command = new Command(ExecuteSelection, ExecuteSelection, newSelection, "Select Image(s)");
-            editData.UndoManager.ExecuteAndAddCommand(command);
+            if (selectionChanged)
+            {
+                Command command = new Command(ExecuteSelection, ExecuteSelection, newSelection, "Select Image(s)");
+                editData.UndoManager.ExecuteAndAddCommand(command);
+            }
             return false;
         }
 
