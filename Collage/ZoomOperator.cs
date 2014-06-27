@@ -19,7 +19,7 @@ namespace Collage
         }
         public bool CanStart()
         {
-            return dataAccess.Input.ScrollWheelDifference != 0;
+            return dataAccess.Input.ScrollWheelDifference != 0 && dataAccess.Input.IsShift;
         }
 
         public bool Start()
