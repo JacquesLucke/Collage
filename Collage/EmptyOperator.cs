@@ -5,12 +5,12 @@ using System.Text;
 
 namespace Collage
 {
-    public class example : ICollageOperator
+    public class EmptyOperator : ICollageOperator
     {
         DataAccess dataAccess;
         CollageEditData editData;
 
-        public example() { }
+        public EmptyOperator() { }
 
         public void SetData(DataAccess dataAccess, CollageEditData editData)
         {
