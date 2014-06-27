@@ -23,6 +23,11 @@ namespace Collage
             this.center = center;
         }
 
+        public void Unload()
+        {
+            source.Unload();
+        }
+
         public float Width
         {
             get { return width; }

@@ -14,6 +14,7 @@ namespace Collage
         Texture2D texture, emptyTexture;
         int width = 100;
         int height = 60;
+        string fileName;
 
         public ImageSource(DataAccess dataAccess)
         {
@@ -34,9 +35,20 @@ namespace Collage
         }
 
         public ImageSource(DataAccess dataAccess, string fileName)
+            :this(dataAccess)
         {
             ImageLoader loader = new ImageLoader(dataAccess, fileName);
-            texture = loader.Load();
+            texture = loader.Load(100);
+            this.fileName = fileName;
+
+            width = texture.Width;
+            height = texture.Height;
+        }
+
+        public void Unload()
+        {
+            texture.Dispose();
+            texture = null;
         }
 
         public int Width
