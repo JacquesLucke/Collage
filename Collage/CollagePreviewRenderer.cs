@@ -9,7 +9,7 @@ namespace Collage
 {
     public class CollagePreviewRenderer
     {
-        CollageObject collage;
+        CollageEditData editData;
         DataAccess dataAccess;
         Texture2D tex;
 
@@ -20,20 +20,23 @@ namespace Collage
             tex.SetData<Color>(new Color[] { Color.White });
         }
 
-        public void SetCollage(CollageObject collage)
+        public void SetEditData(CollageEditData editData)
         {
-            this.collage = collage;
+            this.editData = editData;
         }
 
-        public void Draw(Rectangle rectangle)
+        public void Draw()
         {
+            Rectangle drawRectangle = editData.DrawRectangle.Rectangle;
             dataAccess.SpriteBatch.Begin();
-            dataAccess.SpriteBatch.Draw(tex, rectangle, collage.BackgroundColor);
+            dataAccess.SpriteBatch.Draw(tex, drawRectangle, editData.Collage.BackgroundColor);
 
-            foreach(Image image in collage.Images)
+            foreach(Image image in editData.Collage.Images)
             {
-                Rectangle imageRectangle = image.GetRectangleInBoundary(rectangle);
-                dataAccess.SpriteBatch.Draw(image.Texture, imageRectangle, Color.White);
+                Color color = Color.White;
+                if (editData.SelectedImages.Contains(image)) color = Color.Red;
+                Rectangle imageRectangle = image.GetRectangleInBoundary(drawRectangle);
+                dataAccess.SpriteBatch.Draw(image.Texture, imageRectangle, color);
             }
 
             dataAccess.SpriteBatch.End();

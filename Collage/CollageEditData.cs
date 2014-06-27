@@ -10,12 +10,15 @@ namespace Collage
         CollageObject collage;
         MoveableRectangle drawRectangle;
         UndoManager undoManager;
+        List<Image> selectedImages;
 
         public CollageEditData(CollageObject collage, MoveableRectangle drawRectangle, UndoManager undoManager)
         {
             this.collage = collage;
             this.drawRectangle = drawRectangle;
             this.undoManager = undoManager;
+
+            selectedImages = new List<Image>();
         }
 
         public CollageObject Collage
@@ -29,6 +32,11 @@ namespace Collage
         public UndoManager UndoManager
         {
             get { return undoManager; }
+        }
+
+        public List<Image> SelectedImages
+        {
+            get { return selectedImages; }
         }
     }
 }

@@ -23,14 +23,15 @@ namespace Collage
 
             // create CollageEditData. Inside you find all the information about the collage and how it is drawn
             CollageObject collage = new CollageObject();
-            previewRenderer = new CollagePreviewRenderer(dataAccess);
-            previewRenderer.SetCollage(collage);
             int width = dataAccess.GraphicsDevice.Viewport.Bounds.Width - 100;
             int height = (int)Math.Round(width / collage.AspectRatio);
             MoveableRectangle drawRectangle = new MoveableRectangle(new FloatRectangle(50, 50, width, height));
             UndoManager undoManager = new UndoManager();
 
             editData = new CollageEditData(collage, drawRectangle, undoManager);
+
+            previewRenderer = new CollagePreviewRenderer(dataAccess);
+            previewRenderer.SetEditData(editData);
 
             RegisterCollageOperators();
         }
@@ -78,7 +79,7 @@ namespace Collage
 
         public void Draw()
         {
-            previewRenderer.Draw(editData.DrawRectangle.Rectangle);
+            previewRenderer.Draw();
         }
 
         public void RegisterCollageOperators()
