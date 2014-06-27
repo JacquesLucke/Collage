@@ -40,6 +40,7 @@
     <Compile Include="CollageObject.cs" />
     <Compile Include="CollagePreviewRenderer.cs" />
     <Compile Include="DataAccess.cs" />
+    <Compile Include="EmptyOperator.cs" />
     <Compile Include="FileTypes.cs" />
     <Compile Include="Image.cs" />
     <Compile Include="ImageLoader.cs" />
@@ -55,6 +56,7 @@
     <Compile Include="OpenImageOperator.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SelectImageOperator.cs" />
     <Compile Include="StateManager.cs" />
     <Compile Include="CollageEditState.cs" />
     <Compile Include="Command.cs" />

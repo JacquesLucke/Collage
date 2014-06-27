@@ -89,6 +89,7 @@ namespace Collage
             collageOperators.Add(new ZoomOperator());
             collageOperators.Add(new ChangeBackgroundColorOperator());
             collageOperators.Add(new OpenImageOperator());
+            collageOperators.Add(new SelectImageOperator());
 
             foreach(ICollageOperator op in collageOperators)
             {
