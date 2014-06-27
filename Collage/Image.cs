@@ -59,11 +59,19 @@ namespace Collage
 
         public Rectangle GetRectangleInBoundary(Rectangle boundary)
         {
-            Vector2 realCenter = new Vector2(boundary.Left + center.X * boundary.Width, boundary.Top + center.Y * boundary.Height);
+            Vector2 realCenter = GetCenterInBoundary(boundary);
             float realWidth = boundary.Width * Width;
             float realHeight = boundary.Height * Height * ((float)boundary.Width / (float)boundary.Height);
             FloatRectangle realRectangle = new FloatRectangle(realCenter.X - realWidth / 2f, realCenter.Y - realHeight / 2f, realWidth, realHeight);
             return realRectangle.ToRectangle();
+        }
+        public Vector2 GetCenterInBoundary(Rectangle boundary)
+        {
+            return new Vector2(boundary.Left + center.X * boundary.Width, boundary.Top + center.Y * boundary.Height);
+        }
+        public void SetCenterInBoundary(Rectangle boundary, Vector2 center)
+        {
+            this.center = new Vector2((center.X - boundary.Left) / (float)boundary.Width, (center.Y - boundary.Top) / (float)boundary.Height);
         }
 
         public Texture2D Texture { get { return source.Texture; } }

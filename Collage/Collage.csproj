@@ -42,6 +42,7 @@
     <Compile Include="DataAccess.cs" />
     <Compile Include="EmptyOperator.cs" />
     <Compile Include="FileTypes.cs" />
+    <Compile Include="GrabOperator.cs" />
     <Compile Include="Image.cs" />
     <Compile Include="ImageLoader.cs" />
     <Compile Include="ImageSource.cs" />
