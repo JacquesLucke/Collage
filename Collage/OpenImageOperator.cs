@@ -30,7 +30,7 @@ namespace Collage
             string[] fileNames = of.OpenFiles(FileTypes.Images);
             if(fileNames != null)
             {
-                // make a list of all new images.
+                // make a list of all new images
                 List<Image> images = new List<Image>();
                 for (int i = 0; i < fileNames.Length; i++)
                 {

@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -59,7 +60,7 @@ namespace Collage
             return new Vector4(color.R / 255f, color.G / 255f, color.B / 255f, color.A / 255f);
         }
 
-        public static drawing.Bitmap Texture2Bitmap(Texture2D texture)
+        public static drawing.Bitmap ToBitmap(Texture2D texture)
         {
             drawing.Bitmap bitmap = new drawing.Bitmap(texture.Width, texture.Height, drawing.Imaging.PixelFormat.Format32bppArgb);
 
@@ -85,6 +86,32 @@ namespace Collage
             texture.Dispose();
 
             return bitmap;
+        }
+        public static Texture2D ToTexture(drawing.Bitmap bitmap, GraphicsDevice graphicsDevice)
+        {
+            Texture2D texture;
+            if (bitmap == null)
+            {
+                return null;
+            }
+            texture = new Texture2D(graphicsDevice, bitmap.Width, bitmap.Height);
+
+            // MemoryStream to store the bitmap data.
+            MemoryStream ms = new MemoryStream();
+            // Save image to MemoryStream
+            bitmap.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+
+            //Go to the beginning of the memory stream.
+            ms.Seek(0, SeekOrigin.Begin);
+
+            //Fill the texture.
+            texture = Texture2D.FromStream(graphicsDevice, ms);
+
+            ms.Close();
+            ms.Dispose();
+            ms = null;
+
+            return texture;
         }
     }
 }

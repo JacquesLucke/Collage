@@ -45,43 +45,16 @@ namespace Collage
 
             if (bitmap == null)
             {
-                texture = ConvertToTexture(smallBitmap); 
+                texture = Utils.ToTexture(smallBitmap, dataAccess.GraphicsDevice); 
                 smallBitmap.Dispose();
             }
             else
             {
-                texture = ConvertToTexture(bitmap);
+                texture = Utils.ToTexture(bitmap, dataAccess.GraphicsDevice);
                 bitmap.Dispose();
             }
 
             GC.Collect();
-            return texture;
-        }
-
-        public Texture2D ConvertToTexture(Bitmap bitmap)
-        {
-            Texture2D texture;
-            if (bitmap == null)
-            {
-                return null;
-            }
-            texture = new Texture2D(dataAccess.GraphicsDevice, bitmap.Width, bitmap.Height);
-
-            // MemoryStream to store the bitmap data.
-            MemoryStream ms = new MemoryStream();
-            // Save image to MemoryStream
-            bitmap.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
-
-            //Go to the beginning of the memory stream.
-            ms.Seek(0, SeekOrigin.Begin);
-
-            //Fill the texture.
-            texture = Texture2D.FromStream(dataAccess.GraphicsDevice, ms);
-
-            ms.Close();
-            ms.Dispose();
-            ms = null;
-
             return texture;
         }
     }
