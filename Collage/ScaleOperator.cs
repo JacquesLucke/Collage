@@ -45,7 +45,7 @@ namespace Collage
                 image.Width *= (dataAccess.Input.ScrollWheelDifference / 2000f) + 1;
             }
 
-            bool continueScale = (DateTime.Now - startTime).Milliseconds < 300;
+            bool continueScale = (DateTime.Now - startTime).Milliseconds < 300 && !dataAccess.Input.IsShift;
             if(!continueScale)
             {
                 float[] newWidth = new float[editData.SelectedImages.Count];
