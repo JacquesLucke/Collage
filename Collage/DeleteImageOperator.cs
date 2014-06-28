@@ -24,38 +24,57 @@ namespace Collage
 
         public bool Start()
         {
-            CommandCombination commands = new CommandCombination();
+            List<Image> images = new List<Image>();
             foreach(Image image in editData.SelectedImages)
             {
-                Command command = new Command(ExecuteRemoveImage, ExecuteAddImage, image, "Delete Image");
-                commands.ExecuteAndAddToCombination(command);
+                images.Add(image);
             }
-            editData.UndoManager.AddCommand(commands);
+            Command command = new Command(ExecuteRemoveImages, ExecuteAddImages, images, "Remove images");
+            editData.UndoManager.ExecuteAndAddCommand(command);
             return false;
         }
 
-        private object ExecuteRemoveImage(object image)
+        private object ExecuteRemoveImages(object images)
         {
-            editData.Collage.Images.Remove((Image)image);
-
-            // check if there are other images with the same source
-            bool unloadSource = true;
-            foreach (Image img in editData.Collage.Images)
+            List<Image> imageList = (List<Image>)images;
+            foreach (Image image in imageList)
             {
-                if (((Image)image).Source == img.Source)
+                // remove the image from the collage
+                editData.Collage.Images.Remove((Image)image);
+                // check if there are other images with the same source
+                bool unloadSource = true;
+                foreach (Image img in editData.Collage.Images)
                 {
-                    unloadSource = false;
-                    break;
+                    if (((Image)image).Source == img.Source)
+                    {
+                        unloadSource = false;
+                        break;
+                    }
                 }
+                // unload the texture to free memory
+                if (unloadSource) ((Image)image).Unload();
             }
-            if (unloadSource) ((Image)image).Unload();
-            return image;
+            // clear selection because all selected images were deleted
+            editData.SelectedImages.Clear();
+            return images;
         }
-        private object ExecuteAddImage(object image)
+        private object ExecuteAddImages(object images)
         {
-            ((Image)image).Reload();
-            editData.Collage.Images.Add((Image)image);
-            return null;
+            // get all needed sources and add the image to the collage
+            List<ImageSource> imageSources = new List<ImageSource>();
+            foreach (Image image in (List<Image>)images)
+            {
+                imageSources.Add(image.Source);
+                editData.Collage.Images.Add(image);
+            }
+            // reverse the list because the top images should be loaded at first for a better user experience
+            imageSources.Reverse();
+            AsyncImageSourcesLoader loader = new AsyncImageSourcesLoader(dataAccess, imageSources);
+            loader.LoadAll();
+            // set images as selection
+            editData.SelectedImages.Clear();
+            editData.SelectedImages.AddRange((List<Image>)images);
+            return images;
         }
     }
 }

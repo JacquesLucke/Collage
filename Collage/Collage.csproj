@@ -47,6 +47,7 @@
     <Compile Include="Image.cs" />
     <Compile Include="ImageLoader.cs" />
     <Compile Include="ImageSource.cs" />
+    <Compile Include="ImageSourceLoader.cs" />
     <Compile Include="Input.cs" />
     <Compile Include="ICollageOperator.cs" />
     <Compile Include="IState.cs" />

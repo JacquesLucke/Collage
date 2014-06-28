@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Drawing;
+using System.Threading;
 
 namespace Collage
 {
@@ -13,33 +14,47 @@ namespace Collage
         string fileName = "";
         DataAccess dataAccess;
 
-        public ImageLoader(DataAccess dataAccess, string fileName)
+        Texture2D texture;
+        int maxSize = 0;
+
+        public ImageLoader(DataAccess dataAccess, string fileName, int maxSize)
         {
             this.fileName = fileName;
             this.dataAccess = dataAccess;
+            this.maxSize = maxSize;
         }
 
         public Texture2D Load()
         {
-            FileStream fs = new FileStream(fileName, FileMode.Open);
-            Texture2D texture = Texture2D.FromStream(dataAccess.GraphicsDevice, fs);
-            fs.Close();
-            return texture;
-        }
-
-        public Texture2D Load(int maxSize)
-        {
             Bitmap bitmap = new Bitmap(fileName);
-            Size newSize;
+            Bitmap smallBitmap = null;
 
-            float aspectRatio = (float)bitmap.Width / (float)bitmap.Height;
-            if(aspectRatio > 1) newSize = new Size(maxSize, (int)Math.Round(maxSize / aspectRatio));
-            else newSize = new Size((int)Math.Round(maxSize * aspectRatio), maxSize);
+            if (maxSize != 0)
+            {
+                // make the image smaller to need less RAM
+                Size newSize;
 
-            Bitmap smallBitmap = new Bitmap(bitmap, newSize);
-            bitmap.Dispose();
+                float aspectRatio = (float)bitmap.Width / (float)bitmap.Height;
+                if (aspectRatio > 1) newSize = new Size(maxSize, (int)Math.Round(maxSize / aspectRatio));
+                else newSize = new Size((int)Math.Round(maxSize * aspectRatio), maxSize);
 
-            Texture2D texture = ConvertToTexture(smallBitmap);
+                smallBitmap = new Bitmap(bitmap, newSize);
+                bitmap.Dispose();
+                bitmap = null;
+            }
+
+            if (bitmap == null)
+            {
+                texture = ConvertToTexture(smallBitmap); 
+                smallBitmap.Dispose();
+            }
+            else
+            {
+                texture = ConvertToTexture(bitmap);
+                bitmap.Dispose();
+            }
+
+            GC.Collect();
             return texture;
         }
 
@@ -64,6 +79,7 @@ namespace Collage
             texture = Texture2D.FromStream(dataAccess.GraphicsDevice, ms);
 
             ms.Close();
+            ms.Dispose();
             ms = null;
 
             return texture;
