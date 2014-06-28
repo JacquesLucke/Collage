@@ -17,12 +17,17 @@ namespace Collage
         StateManager stateManager = new StateManager();
         DataAccess dataAccess;
         Input input = new Input();
+        GtkThread gtkThread;
 
         public Main()
             : base()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+
+            gtkThread = new GtkThread();
+            gtkThread.Start();
+
         }
 
         protected override void Initialize()
@@ -61,6 +66,19 @@ namespace Collage
             GraphicsDevice.Clear(Color.Orange);
             base.Draw(time);
             stateManager.Draw();
+        }
+
+        protected override void OnExiting(object sender, EventArgs args)
+        {
+            StopGtkThread();
+            base.OnExiting(sender, args);
+        }
+
+        public void StopGtkThread()
+        {
+            gtkThread.Stop();
+            // wait until the thread ends
+            while (gtkThread.IsInitialized);
         }
 
         public void RegisterKeyCombinations(Keymap keymap)
