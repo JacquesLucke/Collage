@@ -20,7 +20,7 @@ namespace Collage
         {
             this.dataAccess = dataAccess;
             emptyTexture = new Texture2D(dataAccess.GraphicsDevice, 1, 1);
-            emptyTexture.SetData<Color>(new Color[] { Color.White });
+            emptyTexture.SetData<Color>(new Color[] { Color.Tomato });
         }
         public ImageSource(DataAccess dataAccess, int width, int height)
             : this(dataAccess)
@@ -45,18 +45,18 @@ namespace Collage
         {
             texture.Dispose();
             texture = null;
+            GC.Collect();
         }
         public void Load()
         {
             if (texture == null)
             {
-                ImageLoader loader = new ImageLoader(dataAccess, fileName);
-                texture = loader.Load(100);
-
-                width = texture.Width;
-                height = texture.Height;
+                ImageLoader loader = new ImageLoader(dataAccess, fileName, 170);
+                loader.LoadAsync(LoadCallback);
             }
         }
+
+        public void LoadCallback(Texture2D tex) { texture = tex; }
 
         public int Width
         {

@@ -5,42 +5,67 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Drawing;
+using System.Threading;
 
 namespace Collage
 {
+    public delegate void ImageLoaded(Texture2D texture);
     public class ImageLoader
     {
         string fileName = "";
         DataAccess dataAccess;
 
-        public ImageLoader(DataAccess dataAccess, string fileName)
+        Texture2D texture;
+        int maxSize = 0;
+        ImageLoaded callBack;
+
+        private static object lockLoading = new object();
+
+        public ImageLoader(DataAccess dataAccess, string fileName, int maxSize)
         {
             this.fileName = fileName;
             this.dataAccess = dataAccess;
+            this.maxSize = maxSize;
         }
 
         public Texture2D Load()
         {
-            FileStream fs = new FileStream(fileName, FileMode.Open);
-            Texture2D texture = Texture2D.FromStream(dataAccess.GraphicsDevice, fs);
-            fs.Close();
+            LoadingThread();
             return texture;
         }
 
-        public Texture2D Load(int maxSize)
+        public void LoadingThread()
         {
-            Bitmap bitmap = new Bitmap(fileName);
-            Size newSize;
+            lock (lockLoading)
+            {
+                Bitmap bitmap = new Bitmap(fileName);
+                Bitmap smallBitmap = null;
 
-            float aspectRatio = (float)bitmap.Width / (float)bitmap.Height;
-            if(aspectRatio > 1) newSize = new Size(maxSize, (int)Math.Round(maxSize / aspectRatio));
-            else newSize = new Size((int)Math.Round(maxSize * aspectRatio), maxSize);
+                if (maxSize != 0)
+                {
+                    Size newSize;
 
-            Bitmap smallBitmap = new Bitmap(bitmap, newSize);
-            bitmap.Dispose();
+                    float aspectRatio = (float)bitmap.Width / (float)bitmap.Height;
+                    if (aspectRatio > 1) newSize = new Size(maxSize, (int)Math.Round(maxSize / aspectRatio));
+                    else newSize = new Size((int)Math.Round(maxSize * aspectRatio), maxSize);
 
-            Texture2D texture = ConvertToTexture(smallBitmap);
-            return texture;
+                    smallBitmap = new Bitmap(bitmap, newSize);
+                    bitmap.Dispose();
+                    bitmap = null;
+                }
+
+                if (bitmap == null) { texture = ConvertToTexture(smallBitmap); smallBitmap.Dispose(); }
+                else { texture = ConvertToTexture(bitmap); bitmap.Dispose(); }
+                callBack(texture);
+                GC.Collect();
+            }
+        }
+
+        public void LoadAsync(ImageLoaded callBack)
+        {
+            this.callBack = callBack;
+            Thread thread = new Thread(LoadingThread);
+            thread.Start();
         }
 
         public Texture2D ConvertToTexture(Bitmap bitmap)
@@ -64,6 +89,7 @@ namespace Collage
             texture = Texture2D.FromStream(dataAccess.GraphicsDevice, ms);
 
             ms.Close();
+            ms.Dispose();
             ms = null;
 
             return texture;
