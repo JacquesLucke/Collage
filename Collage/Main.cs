@@ -91,6 +91,10 @@ namespace Collage
             // Delete Image
             combination = new KeyCombination(false, false, false, Keys.X);
             keymap.Add("delete image", combination);
+
+            // Delete Image
+            combination = new KeyCombination(false, false, false, Keys.S);
+            keymap.Add("save collage", combination);
         }
     }
 }

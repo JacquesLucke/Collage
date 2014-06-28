@@ -60,6 +60,8 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RotateOperator.cs" />
+    <Compile Include="SaveCollageOperator.cs" />
+    <Compile Include="SaveFileWindow.cs" />
     <Compile Include="ScaleOperator.cs" />
     <Compile Include="SelectImageOperator.cs" />
     <Compile Include="StateManager.cs" />
