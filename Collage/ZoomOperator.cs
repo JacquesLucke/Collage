@@ -19,7 +19,7 @@ namespace Collage
         }
         public bool CanStart()
         {
-            return dataAccess.Input.ScrollWheelDifference != 0 && dataAccess.Input.IsShift;
+            return dataAccess.Input.ScrollWheelDifference != 0 && (dataAccess.Input.IsStrg || editData.SelectedImages.Count == 0);
         }
 
         public bool Start()

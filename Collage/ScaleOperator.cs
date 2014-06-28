@@ -22,7 +22,7 @@ namespace Collage
         }
         public bool CanStart()
         {
-            return dataAccess.Input.ScrollWheelDifference != 0 && !dataAccess.Input.IsShift && editData.SelectedImages.Count > 0;
+            return dataAccess.Input.ScrollWheelDifference != 0 && !dataAccess.Input.IsStrg && editData.SelectedImages.Count > 0;
         }
 
         public bool Start()
@@ -45,7 +45,9 @@ namespace Collage
                 image.Width *= (dataAccess.Input.ScrollWheelDifference / 2000f) + 1;
             }
 
-            bool continueScale = (DateTime.Now - startTime).Milliseconds < 300 && !dataAccess.Input.IsShift;
+            bool continueScale = (DateTime.Now - startTime).Milliseconds < 300                                                  // stop when the time is up
+                && !dataAccess.Input.IsStrg                                                                                     // stop when the user wants to zoom instead of scale
+                && (!dataAccess.Input.IsLeftButtonDown && editData.SelectedImages.Contains(editData.ImageUnderMouse));         // stop when the user clicks some where no image is
             if(!continueScale)
             {
                 float[] newWidth = new float[editData.SelectedImages.Count];
