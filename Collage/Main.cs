@@ -39,7 +39,9 @@ namespace Collage
 
             Keymap keymap = new Keymap();
             RegisterKeyCombinations(keymap);
-            dataAccess = new DataAccess(GraphicsDevice, spriteBatch, input, stateManager, keymap);
+
+            DragDropManager dragDropManager = new DragDropManager(Window);
+            dataAccess = new DataAccess(GraphicsDevice, spriteBatch, input, stateManager, keymap, dragDropManager);
 
             CollageEditState editState = new CollageEditState(dataAccess);
             stateManager.SetCurrentState(editState);
@@ -55,6 +57,8 @@ namespace Collage
             input.Update();
             dataAccess.Update(time);
             stateManager.Update();
+            // should be the last thing in the update method
+            dataAccess.DragDropManager.Reset();
         }
 
         protected override void Draw(GameTime time)

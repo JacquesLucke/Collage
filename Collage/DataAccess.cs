@@ -16,14 +16,16 @@ namespace Collage
         StateManager stateManager;
         Random random;
         Keymap keymap;
+        DragDropManager dragDropManager;
 
-        public DataAccess(GraphicsDevice graphicsDevice, SpriteBatch spriteBatch, Input input, StateManager stateManager, Keymap keymap)
+        public DataAccess(GraphicsDevice graphicsDevice, SpriteBatch spriteBatch, Input input, StateManager stateManager, Keymap keymap, DragDropManager dragDropManager)
         {
             this.graphicsDevice = graphicsDevice;
             this.spriteBatch = spriteBatch;
             this.input = input;
             this.stateManager = stateManager;
             this.keymap = keymap;
+            this.dragDropManager = dragDropManager;
 
             random = new Random();
         }
@@ -57,6 +59,10 @@ namespace Collage
         public Keymap Keymap
         {
             get { return keymap; }
+        }
+        public DragDropManager DragDropManager
+        {
+            get { return dragDropManager; }
         }
     }
 }
