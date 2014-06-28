@@ -46,7 +46,7 @@ namespace Collage
 
         public void DrawImageSource(ImageSource source, Rectangle rectangle, float rotation, Color color)
         {
-            Vector2 origin = new Vector2(source.Width / 2f, source.Height / 2f);
+            Vector2 origin = new Vector2(source.Texture.Width / 2f, source.Texture.Height / 2f);
             rectangle.X += rectangle.Width / 2;
             rectangle.Y += rectangle.Height / 2;
             dataAccess.SpriteBatch.Draw(source.Texture, rectangle, null, color, rotation, origin, SpriteEffects.None, 0);
