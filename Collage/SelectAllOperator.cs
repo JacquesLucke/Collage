@@ -35,7 +35,7 @@ namespace Collage
             oldSelection.AddRange(editData.SelectedImages);
 
             editData.SelectedImages.Clear();
-            editData.SelectedImages.AddRange(editData.Collage.Images);
+            if(oldSelection.Count != editData.Collage.Images.Count) editData.SelectedImages.AddRange(editData.Collage.Images); // deselect all when all are selected
 
             return oldSelection;
         }
