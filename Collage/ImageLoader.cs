@@ -9,7 +9,6 @@ using System.Threading;
 
 namespace Collage
 {
-    public delegate void ImageLoaded(Texture2D texture);
     public class ImageLoader
     {
         string fileName = "";
@@ -17,9 +16,6 @@ namespace Collage
 
         Texture2D texture;
         int maxSize = 0;
-        ImageLoaded callBack;
-
-        private static object lockLoading = new object();
 
         public ImageLoader(DataAccess dataAccess, string fileName, int maxSize)
         {
@@ -30,42 +26,36 @@ namespace Collage
 
         public Texture2D Load()
         {
-            LoadingThread();
-            return texture;
-        }
+            Bitmap bitmap = new Bitmap(fileName);
+            Bitmap smallBitmap = null;
 
-        public void LoadingThread()
-        {
-            lock (lockLoading)
+            if (maxSize != 0)
             {
-                Bitmap bitmap = new Bitmap(fileName);
-                Bitmap smallBitmap = null;
+                // make the image smaller to need less RAM
+                Size newSize;
 
-                if (maxSize != 0)
-                {
-                    Size newSize;
+                float aspectRatio = (float)bitmap.Width / (float)bitmap.Height;
+                if (aspectRatio > 1) newSize = new Size(maxSize, (int)Math.Round(maxSize / aspectRatio));
+                else newSize = new Size((int)Math.Round(maxSize * aspectRatio), maxSize);
 
-                    float aspectRatio = (float)bitmap.Width / (float)bitmap.Height;
-                    if (aspectRatio > 1) newSize = new Size(maxSize, (int)Math.Round(maxSize / aspectRatio));
-                    else newSize = new Size((int)Math.Round(maxSize * aspectRatio), maxSize);
-
-                    smallBitmap = new Bitmap(bitmap, newSize);
-                    bitmap.Dispose();
-                    bitmap = null;
-                }
-
-                if (bitmap == null) { texture = ConvertToTexture(smallBitmap); smallBitmap.Dispose(); }
-                else { texture = ConvertToTexture(bitmap); bitmap.Dispose(); }
-                callBack(texture);
-                GC.Collect();
+                smallBitmap = new Bitmap(bitmap, newSize);
+                bitmap.Dispose();
+                bitmap = null;
             }
-        }
 
-        public void LoadAsync(ImageLoaded callBack)
-        {
-            this.callBack = callBack;
-            Thread thread = new Thread(LoadingThread);
-            thread.Start();
+            if (bitmap == null)
+            {
+                texture = ConvertToTexture(smallBitmap); 
+                smallBitmap.Dispose();
+            }
+            else
+            {
+                texture = ConvertToTexture(bitmap);
+                bitmap.Dispose();
+            }
+
+            GC.Collect();
+            return texture;
         }
 
         public Texture2D ConvertToTexture(Bitmap bitmap)

@@ -38,25 +38,25 @@ namespace Collage
             :this(dataAccess)
         {
             this.fileName = fileName;
-            Load();
         }
 
         public void Unload()
         {
-            texture.Dispose();
-            texture = null;
-            GC.Collect();
+            if (texture != null)
+            {
+                texture.Dispose();
+                texture = null;
+                GC.Collect();
+            }
         }
         public void Load()
         {
             if (texture == null)
             {
                 ImageLoader loader = new ImageLoader(dataAccess, fileName, 170);
-                loader.LoadAsync(LoadCallback);
+                texture = loader.Load();
             }
         }
-
-        public void LoadCallback(Texture2D tex) { texture = tex; }
 
         public int Width
         {
