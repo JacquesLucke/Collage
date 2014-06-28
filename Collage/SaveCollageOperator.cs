@@ -32,32 +32,41 @@ namespace Collage
 
         public bool Start()
         {
-            // calculate final dimensions
-            int width = 8000;
-            int height = (int)Math.Round(width / editData.Collage.AspectRatio);
-            Rectangle dimensions = new Rectangle(0, 0, width, height);
-
-            Texture2D render = Render(dimensions, width, height);
-
             // open a dialog to let the user choose the output path
             SaveFileWindow sf = new SaveFileWindow();
             string fileName = sf.SaveFile(FileTypes.JPG, FileTypes.PNG);
-            if(fileName != null)
+            if (fileName != null)
             {
+                // calculate final dimensions
+                int width = 4000;
+                int height = (int)Math.Round(width / editData.Collage.AspectRatio);
+                Rectangle dimensions = new Rectangle(0, 0, width, height);
+
+                Texture2D render = Render(dimensions, width, height);
+
                 System.Drawing.Bitmap bitmap = Utils.ToBitmap(render);
                 bitmap.Save(fileName);
                 bitmap.Dispose();
+                render.Dispose();
+                GC.Collect();
             }
-            render.Dispose();
             return false;
         }
 
         public void DrawImageSource(ImageSource source, Rectangle rectangle, float rotation)
         {
-            Vector2 origin = new Vector2(source.Texture.Width / 2f, source.Texture.Height / 2f);
+            Texture2D texture = source.Texture;
+            if (source.FileName != "") texture = source.GetBigVersion(Math.Max(rectangle.Width, rectangle.Height));
+            Vector2 origin = new Vector2(texture.Width / 2f, texture.Height / 2f);
             rectangle.X += rectangle.Width / 2;
             rectangle.Y += rectangle.Height / 2;
-            dataAccess.SpriteBatch.Draw(source.Texture, rectangle, null, Color.White, rotation, origin, SpriteEffects.None, 0);
+            dataAccess.SpriteBatch.Draw(texture, rectangle, null, Color.White, rotation, origin, SpriteEffects.None, 0);
+            if (source.FileName != "")
+            {
+                texture.Dispose();
+                texture = null;
+                GC.Collect();
+            }
         }
 
         private Texture2D Render(Rectangle part, int totalWidth, int totalHeight)
@@ -69,7 +78,7 @@ namespace Collage
             Rectangle capureRec = new Rectangle(0, 0, part.Width, part.Height);
             Rectangle totalRec = new Rectangle(-part.X, -part.Y, totalWidth, totalHeight);
 
-            dataAccess.SpriteBatch.Begin();
+            dataAccess.SpriteBatch.Begin(SpriteSortMode.Immediate, BlendState.NonPremultiplied);
             // -----------------------------------------------------------------------------------------
 
             // draw background color

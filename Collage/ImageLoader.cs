@@ -29,7 +29,7 @@ namespace Collage
             Bitmap bitmap = new Bitmap(fileName);
             Bitmap smallBitmap = null;
 
-            if (maxSize != 0)
+            if (maxSize != 0 && Math.Max(bitmap.Width, bitmap.Height) > maxSize)
             {
                 // make the image smaller to need less RAM
                 Size newSize;

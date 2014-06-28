@@ -58,6 +58,12 @@ namespace Collage
             }
         }
 
+        public Texture2D GetBigVersion(int maxSize)
+        {
+            ImageLoader loader = new ImageLoader(dataAccess, fileName, maxSize);
+            return loader.Load();
+        }
+
         public int Width
         {
             get
