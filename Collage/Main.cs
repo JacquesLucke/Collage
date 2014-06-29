@@ -51,6 +51,10 @@ namespace Collage
         {
             base.Update(time);
             input.Update();
+            if (input.IsKeyPressed(Keys.Enter))
+            {
+                gtkThread.newOpen = "open";
+            }
             dataAccess.Update(time);
             stateManager.Update();
         }
