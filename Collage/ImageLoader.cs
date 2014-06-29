@@ -34,7 +34,7 @@ namespace Collage
                 if (aspectRatio > 1) newSize = new Size(maxSize, (int)Math.Round(maxSize / aspectRatio));
                 else newSize = new Size((int)Math.Round(maxSize * aspectRatio), maxSize);
 
-                smallBitmap = new Bitmap(bitmap, newSize);
+                smallBitmap = new Bitmap(bitmap.GetThumbnailImage(newSize.Width, newSize.Height, null, IntPtr.Zero));
                 bitmap.Dispose();
                 bitmap = null;
             }
