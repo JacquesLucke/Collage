@@ -38,9 +38,9 @@ namespace Collage
                 Color color = Utils.ToColor(colorDialog.ColorSelection.CurrentColor);
                 colorDialog.Destroy();
 
-            Command command = new Command(ExecuteColorChange, ExecuteColorChange, color, "Change Background Color");
+                Command command = new Command(ExecuteColorChange, ExecuteColorChange, color, "Change Background Color");
                 command.SetUndoData(startColor);
-            editData.UndoManager.ExecuteAndAddCommand(command);
+                editData.UndoManager.ExecuteAndAddCommand(command);
             }
             return !isColorChoosed;
         }
