@@ -56,7 +56,16 @@ namespace Collage
         {
             return new Vector4(color.R / 255f, color.G / 255f, color.B / 255f, color.A / 255f);
         }
+        public static Color ToColor(Gdk.Color color)
+        {
+            return Color.FromNonPremultiplied(color.Red / 256, color.Green / 256, color.Blue / 256, 255);
+        }
+        public static Gdk.Color ToColor(Color color)
+        {
+            return new Gdk.Color(color.R, color.G, color.B);
+        }
 
+        // Convert Textures and Bitmaps
         public static drawing.Bitmap ToBitmap(Texture2D texture)
         {
             drawing.Bitmap bitmap = new drawing.Bitmap(texture.Width, texture.Height, drawing.Imaging.PixelFormat.Format32bppArgb);
