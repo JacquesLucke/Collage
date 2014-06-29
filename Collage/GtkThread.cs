@@ -13,7 +13,8 @@ namespace Collage
 
         public bool IsInitialized { get; private set; }
         bool wantsToStop = false;
-        Window window;
+        public GtkWindow w;
+        public string newOpen = "";
 
         public GtkThread()
         {
@@ -36,14 +37,13 @@ namespace Collage
         {
             while (true)
             {
+                if (newOpen != "") { newOpen = ""; w.Open(); }
                 if (!wantsToStop)
                 {
                     if (!IsInitialized)
                     {
                         Gtk.Application.Init();
-                        GtkWindow window = new GtkWindow();
-                        ColorSelectionDialog w = new ColorSelectionDialog("hallo");
-                        w.ShowAll();
+                        w = new GtkWindow();
                         w.Show();
                         IsInitialized = true;
                     }
