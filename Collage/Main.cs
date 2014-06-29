@@ -12,6 +12,7 @@ namespace Collage
         DataAccess dataAccess;
         Input input = new Input();
         GtkThread gtkThread;
+        GtkWindow w;
 
         public Main()
             : base()
@@ -53,10 +54,19 @@ namespace Collage
             input.Update();
             if (input.IsKeyPressed(Keys.Enter))
             {
-                gtkThread.newOpen = "open";
+                gtkThread.method = OpenNewWindow;
+            }
+            if (input.IsKeyPressed(Keys.W))
+            {
+                w.Resize(100, 100);
             }
             dataAccess.Update(time);
             stateManager.Update();
+        }
+        public void OpenNewWindow()
+        {
+            w = new GtkWindow();
+            w.Show();
         }
 
         protected override void Draw(GameTime time)
