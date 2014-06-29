@@ -54,7 +54,8 @@ namespace Collage
             input.Update();
             if (input.IsKeyPressed(Keys.Enter))
             {
-                gtkThread.method = OpenNewWindow;
+                gtkThread.Invoke(OpenNewWindow);
+                gtkThread.Invoke(OpenNewWindow);
             }
             if (input.IsKeyPressed(Keys.W))
             {

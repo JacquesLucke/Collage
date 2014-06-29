@@ -14,15 +14,12 @@ namespace Collage
 
         public bool IsInitialized { get; private set; }
         bool wantsToStop = false;
-        public GtkWindow w;
-        public string newOpen = "";
 
-        public Invoke method = null;
+        List<Invoke> invokeMethods = new List<Invoke>();
 
         public GtkThread()
         {
             IsInitialized = false;
-            //this.window = window;
         }
 
         public void Start()
@@ -36,18 +33,23 @@ namespace Collage
             wantsToStop = true;
         }
 
+        public void Invoke(Invoke method)
+        {
+            invokeMethods.Add(method);
+        }
+
         public void RunLoop()
         {
             while (true)
             {
-                if (method != null) { method(); method = null; }
+                foreach(Invoke method in invokeMethods)
+                    method();
+                invokeMethods.Clear();
                 if (!wantsToStop)
                 {
                     if (!IsInitialized)
                     {
                         Gtk.Application.Init();
-                        w = new GtkWindow();
-                        w.Show();
                         IsInitialized = true;
                     }
 
