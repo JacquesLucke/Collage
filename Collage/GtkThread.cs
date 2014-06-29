@@ -7,6 +7,7 @@ using Gtk;
 
 namespace Collage
 {
+    public delegate void Invoke();
     public class GtkThread
     {
         private Thread thread;
@@ -15,6 +16,8 @@ namespace Collage
         bool wantsToStop = false;
         public GtkWindow w;
         public string newOpen = "";
+
+        public Invoke method = null;
 
         public GtkThread()
         {
@@ -37,7 +40,7 @@ namespace Collage
         {
             while (true)
             {
-                if (newOpen != "") { newOpen = ""; w.Open(); }
+                if (method != null) { method(); method = null; }
                 if (!wantsToStop)
                 {
                     if (!IsInitialized)
