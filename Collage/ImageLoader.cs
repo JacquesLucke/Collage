@@ -61,7 +61,6 @@ namespace Collage
             {
                 return null;
             }
-            texture = new Texture2D(dataAccess.GraphicsDevice, bitmap.Width, bitmap.Height);
 
             // MemoryStream to store the bitmap data.
             MemoryStream ms = new MemoryStream();
