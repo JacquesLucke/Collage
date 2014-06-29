@@ -44,7 +44,7 @@ namespace Collage
 
             Keymap keymap = new Keymap();
             RegisterKeyCombinations(keymap);
-            dataAccess = new DataAccess(GraphicsDevice, spriteBatch, input, stateManager, keymap);
+            dataAccess = new DataAccess(GraphicsDevice, spriteBatch, input, stateManager, keymap, gtkThread);
 
             CollageEditState editState = new CollageEditState(dataAccess);
             stateManager.SetCurrentState(editState);
