@@ -36,7 +36,7 @@ namespace Collage
             invokeMethods.Add(method);
         }
 
-        public void RunLoop()
+        private void RunLoop()
         {
             while (true)
             {
