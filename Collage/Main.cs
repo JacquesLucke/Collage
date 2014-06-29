@@ -52,22 +52,8 @@ namespace Collage
         {
             base.Update(time);
             input.Update();
-            if (input.IsKeyPressed(Keys.Enter))
-            {
-                gtkThread.Invoke(OpenNewWindow);
-                gtkThread.Invoke(OpenNewWindow);
-            }
-            if (input.IsKeyPressed(Keys.W))
-            {
-                w.Resize(100, 100);
-            }
             dataAccess.Update(time);
             stateManager.Update();
-        }
-        public void OpenNewWindow()
-        {
-            w = new GtkWindow();
-            w.Show();
         }
 
         protected override void Draw(GameTime time)
@@ -79,15 +65,11 @@ namespace Collage
 
         protected override void OnExiting(object sender, EventArgs args)
         {
-            StopGtkThread();
-            base.OnExiting(sender, args);
-        }
-
-        public void StopGtkThread()
-        {
+            // stop the Gtk thread and wait until it ends
             gtkThread.Stop();
-            // wait until the thread ends
             while (gtkThread.IsInitialized);
+
+            base.OnExiting(sender, args);
         }
 
         public void RegisterKeyCombinations(Keymap keymap)
