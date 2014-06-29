@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 
 namespace Collage
 {
@@ -12,7 +13,6 @@ namespace Collage
         DataAccess dataAccess;
         Input input = new Input();
         GtkThread gtkThread;
-        GtkWindow w;
 
         public Main()
             : base()
@@ -22,7 +22,6 @@ namespace Collage
 
             gtkThread = new GtkThread();
             gtkThread.Start();
-
         }
 
         protected override void Initialize()

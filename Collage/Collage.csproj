@@ -46,7 +46,6 @@
     <Compile Include="FileTypes.cs" />
     <Compile Include="GrabOperator.cs" />
     <Compile Include="GtkThread.cs" />
-    <Compile Include="GtkWindow.cs" />
     <Compile Include="Image.cs" />
     <Compile Include="ImageLoader.cs" />
     <Compile Include="ImageSource.cs" />
