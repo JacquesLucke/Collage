@@ -10,8 +10,7 @@ namespace Collage
     public delegate void Invoke();
     public class GtkThread
     {
-        private Thread thread;
-
+        Thread thread;
         public bool IsInitialized { get; private set; }
         bool wantsToStop = false;
 
@@ -27,14 +26,13 @@ namespace Collage
             thread = new Thread(new ThreadStart(RunLoop));
             thread.Start();
         }
-
         public void Stop()
         {
             wantsToStop = true;
         }
-
         public void Invoke(Invoke method)
         {
+            // add the method to the list -> the gtk thread call every method inside
             invokeMethods.Add(method);
         }
 
@@ -42,13 +40,16 @@ namespace Collage
         {
             while (true)
             {
+                // call the new methods and clear the list
                 foreach(Invoke method in invokeMethods)
                     method();
                 invokeMethods.Clear();
+
                 if (!wantsToStop)
                 {
                     if (!IsInitialized)
                     {
+                        // initialize Gtk
                         Gtk.Application.Init();
                         IsInitialized = true;
                     }
@@ -57,6 +58,7 @@ namespace Collage
                 }
                 else
                 {
+                    // stop the Gtk thread
                     if (IsInitialized)
                     {
                         Gtk.Application.Quit();
