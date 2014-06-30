@@ -34,5 +34,41 @@
             }
         }
     }
+#else
+    using Gtk;
+    public class SaveFileWindow
+    {
+        DataAccess dataAccess;
+        FileChooserDialog fcd;
+
+        public SaveFileWindow(DataAccess dataAccess)
+        {
+            this.dataAccess = dataAccess;
+        }
+
+        public void OpenDialog(params FileTypes[] fileTypes)
+        {
+            fcd = new FileChooserDialog("Choose Path", null, FileChooserAction.Save, ButtonsType.Ok);
+            fcd.AddButton("Save", ResponseType.Ok);
+            FileFilter filter = new FileFilter();
+            filter.AddPattern("*.jpg");
+            filter.AddPattern("*.png");
+            fcd.AddFilter(filter);
+            fcd.Run();
+        }
+        public void Destroy()
+        {
+            fcd.Destroy();
+        }
+
+        public string SelectedPath
+        {
+            get
+            {
+                if (fcd != null) return fcd.Filename;
+                return null;
+            }
+        }
+    }
 #endif
 }
