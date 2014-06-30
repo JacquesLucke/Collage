@@ -25,6 +25,7 @@ namespace Collage
         public void Start()
         {
             thread = new Thread(new ThreadStart(RunLoop));
+            thread.SetApartmentState(ApartmentState.STA);
             thread.Start();
         }
         public void Stop()

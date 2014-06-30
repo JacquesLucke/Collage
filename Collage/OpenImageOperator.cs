@@ -3,10 +3,11 @@ using System.Collections.Generic;
 
 namespace Collage
 {
-    public class OpenImageOperator : ICollageOperator
+    public class OpenImageOperator : IUpdateableCollageOperator
     {
         DataAccess dataAccess;
         CollageEditData editData;
+        OpenFileWindow ofw;
 
         public OpenImageOperator() { }
 
@@ -22,39 +23,54 @@ namespace Collage
 
         public bool Start()
         {
-            // open a dialog to choose the files
-            OpenFileWindow of = new OpenFileWindow();
-            string[] fileNames = of.OpenFiles(FileTypes.Images);
-            if(fileNames != null)
+            dataAccess.GtkThread.Invoke(OpenFileBrowser);
+            return true;
+        }
+
+        public void OpenFileBrowser()
+        {
+            ofw = new OpenFileWindow(dataAccess);
+            ofw.OpenDialog(true, FileTypes.Images);
+        }
+
+        public bool Update()
+        {
+            bool areFilesChoosed = !dataAccess.GtkThread.IsBlockedByDialog;
+
+            if (areFilesChoosed)
             {
-                // make a list of all new images.
-                List<Image> images = new List<Image>();
-                for (int i = 0; i < fileNames.Length; i++)
+                string[] fileNames = ofw.SelectedFiles;
+                if (fileNames != null)
                 {
-                    // check if the image needs a new Source or if another one can be reused
-                    ImageSource imageSource = null;
-                    foreach(Image img in editData.Collage.Images)
+                    // make a list of all new images.
+                    List<Image> images = new List<Image>();
+                    for (int i = 0; i < fileNames.Length; i++)
                     {
-                        if (img.Source.FileName == fileNames[i])
+                        // check if the image needs a new Source or if another one can be reused
+                        ImageSource imageSource = null;
+                        foreach (Image img in editData.Collage.Images)
                         {
-                            imageSource = img.Source;
-                            break;
+                            if (img.Source.FileName == fileNames[i])
+                            {
+                                imageSource = img.Source;
+                                break;
+                            }
                         }
+                        Image image;
+                        if (imageSource == null) image = new Image(dataAccess, fileNames[i]);
+                        else image = new Image(imageSource);
+
+                        // set a random position
+                        image.Center = new Vector2((float)dataAccess.Random.NextDouble(), (float)dataAccess.Random.NextDouble());
+
+                        images.Add(image);
                     }
-                    Image image;
-                    if (imageSource == null) image = new Image(dataAccess, fileNames[i]);
-                    else image = new Image(imageSource);
-
-                    // set a random position
-                    image.Center = new Vector2((float)dataAccess.Random.NextDouble(), (float)dataAccess.Random.NextDouble());
-
-                    images.Add(image);
+                    // make a command that can load all images at once
+                    Command command = new Command(ExecuteAddImages, ExecuteRemoveImages, images, "Add new images");
+                    editData.UndoManager.ExecuteAndAddCommand(command);
                 }
-                // make a command that can load all images at once
-                Command command = new Command(ExecuteAddImages, ExecuteRemoveImages, images, "Add new images");
-                editData.UndoManager.ExecuteAndAddCommand(command);
             }
-            return false;
+            return !areFilesChoosed;
         }
 
         private object ExecuteAddImages(object images)

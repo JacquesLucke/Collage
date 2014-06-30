@@ -1,32 +1,44 @@
 ﻿#if WINDOWS
+using System;
 using System.Windows.Forms; 
-#endif
 
 namespace Collage
 {
     public class OpenFileWindow
     {
-        public OpenFileWindow() { }
+        DataAccess dataAccess;
+        OpenFileDialog ofd;
+        DialogResult result = DialogResult.No;
 
-        public string OpenFile(params FileTypes[] fileTypes)
+        public OpenFileWindow(DataAccess dataAccess) 
         {
-#if WINDOWS
-            OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Multiselect = false;
-            ofd.Filter = Utils.FileTypesToFilter(fileTypes);
-            if (ofd.ShowDialog() == DialogResult.OK) return ofd.FileName;
-#endif
-            else return null;
+            this.dataAccess = dataAccess;
         }
-        public string[] OpenFiles(params FileTypes[] fileTypes)
+
+        public void OpenDialog(bool multipleFiles, params FileTypes[] fileTypes)
         {
-#if WINDOWS
-            OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Multiselect = true;
+            ofd = new OpenFileDialog();
+            ofd.Multiselect = multipleFiles;
             ofd.Filter = Utils.FileTypesToFilter(fileTypes);
-            if (ofd.ShowDialog() == DialogResult.OK) return ofd.FileNames;
-#endif
-            else return null;
+            result = ofd.ShowDialog();
+        }
+
+        public string SelectedFile
+        {
+            get
+            {
+                if (result == DialogResult.OK) return ofd.FileName;
+                return null;
+            }
+        }
+        public string[] SelectedFiles
+        {
+            get
+            {
+                if (result == DialogResult.OK) return ofd.FileNames;
+                return null;
+            }
         }
     }
 }
+#endif
