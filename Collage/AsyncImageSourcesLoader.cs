@@ -49,7 +49,6 @@ namespace Collage
             window.Resize(400, 30);
             progressBar = new ProgressBar();
             progressBar.Fraction = 0;
-            progressBar.BarStyle = ProgressBarStyle.Continuous;
             window.Add(progressBar);
 
             window.ShowAll();
