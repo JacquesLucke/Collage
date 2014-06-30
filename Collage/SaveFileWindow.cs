@@ -1,17 +1,38 @@
-﻿using System.Windows.Forms;
-
-namespace Collage
+﻿namespace Collage
 {
+#if WINDOWS && WithWindowsDialogs // this SaveFileDialog uses Windows Forms
+    using System.Windows.Forms;
     public class SaveFileWindow
     {
-        public SaveFileWindow() { }
+        DataAccess dataAccess;
+        SaveFileDialog sfd;
+        DialogResult result = DialogResult.No;
 
-        public string SaveFile(params FileTypes[] fileTypes)
+        public SaveFileWindow(DataAccess dataAccess)
         {
-            SaveFileDialog sfd = new SaveFileDialog();
+            this.dataAccess = dataAccess;
+        }
+
+        public void OpenDialog(params FileTypes[] fileTypes)
+        {
+            sfd = new SaveFileDialog();
             sfd.Filter = Utils.FileTypesToFilter(fileTypes);
-            if (sfd.ShowDialog() == DialogResult.OK) return sfd.FileName;
-            else return null;
+            result = sfd.ShowDialog();
+        }
+        public void Destroy()
+        {
+            sfd.Dispose();
+            sfd = null;
+        }
+
+        public string SelectedPath
+        {
+            get
+            {
+                if (result == DialogResult.OK) return sfd.FileName;
+                return null;
+            }
         }
     }
+#endif
 }

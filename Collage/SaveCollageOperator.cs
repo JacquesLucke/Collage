@@ -4,10 +4,11 @@ using System;
 
 namespace Collage
 {
-    class SaveCollageOperator : ICollageOperator
+    class SaveCollageOperator : IUpdateableCollageOperator
     {
         DataAccess dataAccess;
         CollageEditData editData;
+        SaveFileWindow sfw;
         Texture2D tex;
 
         public SaveCollageOperator() { }
@@ -27,25 +28,40 @@ namespace Collage
 
         public bool Start()
         {
-            // open a dialog to let the user choose the output path
-            SaveFileWindow sf = new SaveFileWindow();
-            string fileName = sf.SaveFile(FileTypes.JPG, FileTypes.PNG);
-            if (fileName != null)
+            dataAccess.GtkThread.Invoke(OpenFileBrowser);
+            return true;
+        }
+        public void OpenFileBrowser()
+        {
+            sfw = new SaveFileWindow(dataAccess);
+            sfw.OpenDialog(FileTypes.Images);
+        }
+
+        public bool Update()
+        {
+            bool isPathChoosed = !dataAccess.GtkThread.IsBlockedByDialog;
+
+            if (isPathChoosed)
             {
-                // calculate final dimensions
-                int width = 4000;
-                int height = (int)Math.Round(width / editData.Collage.AspectRatio);
-                Rectangle dimensions = new Rectangle(0, 0, width, height);
+                string fileName = sfw.SelectedPath;
+                sfw.Destroy();
+                if (fileName != null)
+                {
+                    // calculate final dimensions
+                    int width = 4000;
+                    int height = (int)Math.Round(width / editData.Collage.AspectRatio);
+                    Rectangle dimensions = new Rectangle(0, 0, width, height);
 
-                Texture2D render = Render(dimensions, width, height);
+                    Texture2D render = Render(dimensions, width, height);
 
-                System.Drawing.Bitmap bitmap = Utils.ToBitmap(render);
-                bitmap.Save(fileName);
-                bitmap.Dispose();
-                render.Dispose();
-                GC.Collect();
+                    System.Drawing.Bitmap bitmap = Utils.ToBitmap(render);
+                    bitmap.Save(fileName);
+                    bitmap.Dispose();
+                    render.Dispose();
+                    GC.Collect();
+                }
             }
-            return false;
+            return !isPathChoosed;
         }
 
         public void DrawImageSource(ImageSource source, Rectangle rectangle, float rotation)

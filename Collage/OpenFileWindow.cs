@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Collage
+﻿namespace Collage
 {
 #if WINDOWS && WithWindowsDialogs // this OpenFileDialog uses Windows Forms
     using System.Windows.Forms; 
@@ -22,7 +20,6 @@ namespace Collage
             ofd.Filter = Utils.FileTypesToFilter(fileTypes);
             result = ofd.ShowDialog();
         }
-
         public void Destroy()
         {
             ofd.Dispose();
