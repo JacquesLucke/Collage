@@ -1,6 +1,6 @@
-﻿#if WINDOWS
-using System;
+﻿using System;
 using System.Windows.Forms; 
+using Gtk;
 
 namespace Collage
 {
@@ -9,6 +9,8 @@ namespace Collage
         DataAccess dataAccess;
         OpenFileDialog ofd;
         DialogResult result = DialogResult.No;
+        FileChooserDialog fcd;
+
 
         public OpenFileWindow(DataAccess dataAccess) 
         {
@@ -41,4 +43,3 @@ namespace Collage
         }
     }
 }
-#endif

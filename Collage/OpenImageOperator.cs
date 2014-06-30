@@ -26,7 +26,6 @@ namespace Collage
             dataAccess.GtkThread.Invoke(OpenFileBrowser);
             return true;
         }
-
         public void OpenFileBrowser()
         {
             ofw = new OpenFileWindow(dataAccess);
