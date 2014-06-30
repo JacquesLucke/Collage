@@ -11,8 +11,7 @@ namespace Collage
     {
         List<ImageSource> imageSources = new List<ImageSource>();
         DataAccess dataAccess;
-        Window window;
-        ProgressBar progressBar;
+        ProgressBarWindow progressBar;
 
         public AsyncImageSourcesLoader(DataAccess dataAccess, List<ImageSource> sourcesToLoad)
         {
@@ -30,28 +29,19 @@ namespace Collage
         private void LoadingThread()
         {
             while (progressBar == null) ;
-            int counter = 0;
+            progressBar.TotalSteps = imageSources.Count;
             foreach(ImageSource source in imageSources)
             {
-                counter++;
                 source.Load();
-                progressBar.Fraction = (double)counter / (double)imageSources.Count;
-                progressBar.Text = "Load images: " + counter + " of " + imageSources.Count;
+                progressBar.StepUp();
             }
-            window.Destroy();
+            progressBar.Destroy();
         }
 
         private void StartProgressBar()
         {
-            window = new Window(WindowType.Toplevel);
-            window.Move(10, 10);
-            window.KeepAbove = true;
-            window.Resize(400, 30);
-            progressBar = new ProgressBar();
-            progressBar.Fraction = 0;
-            window.Add(progressBar);
-
-            window.ShowAll();
+            progressBar = new ProgressBarWindow(dataAccess);
+            progressBar.Start();
         }
     }
 }

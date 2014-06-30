@@ -59,6 +59,7 @@
     <Compile Include="OpenFileWindow.cs" />
     <Compile Include="OpenImageOperator.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="ProgressBarWindow.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RotateOperator.cs" />
     <Compile Include="SaveCollageOperator.cs" />
