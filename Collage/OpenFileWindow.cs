@@ -1,6 +1,4 @@
-﻿#define WITHWINDOWSDIALOG
-
-using System;
+﻿using System;
 using System.Windows.Forms; 
 using Gtk;
 
@@ -21,7 +19,7 @@ namespace Collage
 
         public void OpenDialog(bool multipleFiles, params FileTypes[] fileTypes)
         {
-#if WITHWINDOWSDIALOG
+#if WithWindowsDialogs
             ofd = new OpenFileDialog();
             ofd.Multiselect = multipleFiles;
             ofd.Filter = Utils.FileTypesToFilter(fileTypes);
@@ -40,14 +38,14 @@ namespace Collage
 
         public void Destroy()
         {
-#if WITHWINDOWSDIALOG == false
+#if WithWindowsDialogs == false
             fcd.Destroy();
 #endif
         }
 
         public string SelectedFile
         {
-#if WITHWINDOWSDIALOG
+#if WithWindowsDialogs
             get
             {
                 if (result == DialogResult.OK) return ofd.FileName;
@@ -63,7 +61,7 @@ namespace Collage
         }
         public string[] SelectedFiles
         {
-#if WITHWINDOWSDIALOG
+#if WithWindowsDialogs
             get
             {
                 if (result == DialogResult.OK) return ofd.FileNames;
