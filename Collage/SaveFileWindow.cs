@@ -16,7 +16,7 @@
         public void OpenDialog(params FileTypes[] fileTypes)
         {
             sfd = new SaveFileDialog();
-            sfd.Filter = Utils.FileTypesToFilter(fileTypes);
+            sfd.Filter = Utils.FileTypesToWinFormFilter(fileTypes);
             result = sfd.ShowDialog();
         }
         public void Destroy()
@@ -51,9 +51,7 @@
             fcd = new FileChooserDialog("Choose Path", null, FileChooserAction.Save, ButtonsType.Ok);
             fcd.AddButton("Save", ResponseType.Ok);
             FileFilter filter = new FileFilter();
-            filter.AddPattern("*.jpg");
-            filter.AddPattern("*.png");
-            fcd.AddFilter(filter);
+            fcd.AddFilter(Utils.FileTypesToGtkFilter(fileTypes));
             fcd.Run();
         }
         public void Destroy()

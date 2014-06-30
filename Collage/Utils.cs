@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Gtk;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
@@ -9,7 +10,8 @@ namespace Collage
 {
     public abstract class Utils
     {
-        public static string FileTypesToFilter(params FileTypes[] types)
+        // convert file types tp filter
+        public static string FileTypesToWinFormFilter(params FileTypes[] types)
         {
             string filter = "";
             for(int i = 0; i< types.Length; i++)
@@ -30,7 +32,38 @@ namespace Collage
             }
             return filter;
         }
+        public static FileFilter FileTypesToGtkFilter(params FileTypes[] types)
+        {
+            FileFilter filter = new FileFilter();
+            for (int i = 0; i < types.Length; i++)
+            {
+                FileTypes type = types[i];
+                switch (type)
+                {
+                    case FileTypes.Images:
+                        filter.AddPattern("*.jpg");
+                        filter.AddPattern("*.png");
+                        filter.AddPattern("*.bmp");
+                        filter.Name += "Images ";
+                        break;
+                    case FileTypes.JPG:
+                        filter.AddPattern("*.jpg");
+                        filter.Name += "Jpg ";
+                        break;
+                    case FileTypes.PNG:
+                        filter.AddPattern("*.png");
+                        filter.Name += "Png ";
+                        break;
+                    case FileTypes.BMP:
+                        filter.AddPattern("*.bmp");
+                        filter.Name += "Bmp ";
+                        break;
+                }
+            }
+            return filter;
+        }
 
+        // Calculations and Tests on Points and Rectangles
         public static Vector2 RotateAroundOrigin(Vector2 position, Vector2 origin, float rotation)
         {
             return Vector2.Transform((position - origin), Matrix.CreateRotationZ(-rotation)) + origin;

@@ -17,7 +17,7 @@
         {
             ofd = new OpenFileDialog();
             ofd.Multiselect = multipleFiles;
-            ofd.Filter = Utils.FileTypesToFilter(fileTypes);
+            ofd.Filter = Utils.FileTypesToWinFormFilter(fileTypes);
             result = ofd.ShowDialog();
         }
         public void Destroy()
@@ -59,10 +59,7 @@
         {
             fcd = new FileChooserDialog("Choose Files", null, FileChooserAction.Open, ButtonsType.Ok);
             fcd.AddButton("Open", ResponseType.Ok);
-            FileFilter filter = new FileFilter();
-            filter.AddPattern("*.jpg");
-            filter.AddPattern("*.png");
-            fcd.AddFilter(filter);
+            fcd.AddFilter(Utils.FileTypesToGtkFilter(fileTypes));
             fcd.SelectMultiple = true;
             fcd.Run();
         }
