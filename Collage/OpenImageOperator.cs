@@ -39,6 +39,7 @@ namespace Collage
             if (areFilesChoosed)
             {
                 string[] fileNames = ofw.SelectedFiles;
+                ofw.Destroy();
                 if (fileNames != null)
                 {
                     // make a list of all new images.
