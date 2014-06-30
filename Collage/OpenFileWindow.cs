@@ -1,16 +1,57 @@
 ﻿using System;
-using System.Windows.Forms; 
-using Gtk;
 
 namespace Collage
 {
+#if WINDOWS && WithWindowsDialogs // this OpenFileDialog uses Windows Forms
+    using System.Windows.Forms; 
     public class OpenFileWindow
     {
         DataAccess dataAccess;
         OpenFileDialog ofd;
         DialogResult result = DialogResult.No;
-        FileChooserDialog fcd;
 
+        public OpenFileWindow(DataAccess dataAccess)
+        {
+            this.dataAccess = dataAccess;
+        }
+
+        public void OpenDialog(bool multipleFiles, params FileTypes[] fileTypes)
+        {
+            ofd = new OpenFileDialog();
+            ofd.Multiselect = multipleFiles;
+            ofd.Filter = Utils.FileTypesToFilter(fileTypes);
+            result = ofd.ShowDialog();
+        }
+
+        public void Destroy()
+        {
+            ofd.Dispose();
+            ofd = null;
+        }
+
+        public string SelectedFile
+        {
+            get
+            {
+                if (result == DialogResult.OK) return ofd.FileName;
+                return null;
+            }
+        }
+        public string[] SelectedFiles
+        {
+            get
+            {
+                if (result == DialogResult.OK) return ofd.FileNames;
+                return null;
+            }
+        }
+    }
+#else // here is the OpenFileDialog that uses GTK#
+    using Gtk;
+    public class OpenFileWindow
+    {
+        DataAccess dataAccess;
+        FileChooserDialog fcd;
 
         public OpenFileWindow(DataAccess dataAccess) 
         {
@@ -19,12 +60,6 @@ namespace Collage
 
         public void OpenDialog(bool multipleFiles, params FileTypes[] fileTypes)
         {
-#if WithWindowsDialogs
-            ofd = new OpenFileDialog();
-            ofd.Multiselect = multipleFiles;
-            ofd.Filter = Utils.FileTypesToFilter(fileTypes);
-            result = ofd.ShowDialog();
-#else
             fcd = new FileChooserDialog("Choose Files", null, FileChooserAction.Open, ButtonsType.Ok);
             fcd.AddButton("Open", ResponseType.Ok);
             FileFilter filter = new FileFilter();
@@ -33,47 +68,29 @@ namespace Collage
             fcd.AddFilter(filter);
             fcd.SelectMultiple = true;
             fcd.Run();
-#endif
         }
 
         public void Destroy()
         {
-#if WithWindowsDialogs == false
             fcd.Destroy();
-#endif
         }
 
         public string SelectedFile
         {
-#if WithWindowsDialogs
-            get
-            {
-                if (result == DialogResult.OK) return ofd.FileName;
-                return null;
-            }
-#else
             get
             {
                 if (fcd != null) return fcd.Filename;
                 return null;
             }
-#endif
         }
         public string[] SelectedFiles
         {
-#if WithWindowsDialogs
-            get
-            {
-                if (result == DialogResult.OK) return ofd.FileNames;
-                return null;
-            }
-#else
             get
             {
                 if (fcd != null) return fcd.Filenames;
                 return null;
             }
-#endif
         }
     }
+#endif
 }
