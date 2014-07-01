@@ -47,12 +47,20 @@ namespace Collage
         {
         }
 
+        public void OpenWindow()
+        {
+            GetDimensionsDialog d = new GetDimensionsDialog();
+            d.Start();
+        }
+
         protected override void Update(GameTime time)
         {
             base.Update(time);
             input.Update();
             dataAccess.Update(time);
             stateManager.Update();
+
+            if (input.IsKeyPressed(Keys.Q)) guiThread.Invoke(OpenWindow);
         }
 
         protected override void Draw(GameTime time)
