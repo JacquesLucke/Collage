@@ -50,6 +50,8 @@ namespace Collage
         public void OpenWindow()
         {
             GetDimensionsDialog d = new GetDimensionsDialog();
+            d.InputWidth = 1000;
+            d.InputHeight = 300;
             d.Start();
         }
 

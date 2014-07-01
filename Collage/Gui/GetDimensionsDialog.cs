@@ -9,7 +9,9 @@ namespace Collage
         Button okButton, cancelButton;
         Label widthLabel, heightLabel;
         Entry widthInputEntry, heightInputEntry;
+        ResponseType response;
 
+        int width = 1000, height = 1000;
         int min, max;
 
         public GetDimensionsDialog() 
@@ -35,6 +37,7 @@ namespace Collage
 
             widthInputEntry = new Entry();
             widthInputEntry.SetSizeRequest(100, 25);
+            widthInputEntry.Text = "" + width;
             widthInputEntry.TextInserted += OnlyNumber;
             fix.Put(widthInputEntry, 80, 20);
 
@@ -45,6 +48,7 @@ namespace Collage
 
             heightInputEntry = new Entry();
             heightInputEntry.SetSizeRequest(100, 25);
+            heightInputEntry.Text = "" + height;
             heightInputEntry.TextInserted += OnlyNumber;
             fix.Put(heightInputEntry, 80, 70);
 
@@ -52,21 +56,65 @@ namespace Collage
             okButton = new Button();
             okButton.Label = "OK";
             okButton.SetSizeRequest(80, 30);
+            okButton.Clicked += okButton_Clicked;
             fix.Put(okButton, 10, 110);
 
             cancelButton = new Button();
             cancelButton.Label = "Cancel";
             cancelButton.SetSizeRequest(80, 30);
+            cancelButton.Clicked += cancelButton_Clicked;
             fix.Put(cancelButton, 110, 110);
 
             window.Add(fix);
             window.ShowAll();
         }
 
+        void okButton_Clicked(object sender, EventArgs e)
+        {
+            response = ResponseType.Ok;
+            Destroy();
+        }
+        void cancelButton_Clicked(object sender, EventArgs e)
+        {
+            response = ResponseType.Cancel;
+            Destroy();
+        }
+
         public void Destroy()
         {
-            okButton.Destroy();
-            window.Destroy();
+            if(window != null) window.Destroy();
+        }
+
+        public int InputWidth
+        {
+            get 
+            {
+                if (widthInputEntry != null) width = Convert.ToInt32(widthInputEntry.Text);
+                return width;
+            }
+            set
+            { 
+                width = value;
+                if (widthInputEntry != null) widthInputEntry.Text = "" + value; 
+            }
+        }
+        public int InputHeight
+        {
+            get
+            {
+                if (heightInputEntry != null) height = Convert.ToInt32(heightInputEntry.Text);
+                return height;
+            }
+            set
+            {
+                height = value;
+                if (heightInputEntry != null) heightInputEntry.Text = "" + value;
+            }
+        }
+
+        public ResponseType Response
+        {
+            get { return response; }
         }
 
         private void OnlyNumber(object o, TextInsertedArgs args)
