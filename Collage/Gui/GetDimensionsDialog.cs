@@ -11,13 +11,18 @@ namespace Collage
         Entry widthInputEntry, heightInputEntry;
         ResponseType response;
 
-        int width = 1000, height = 1000;
+        int width, height;
         int min, max;
 
         public GetDimensionsDialog() 
         {
             min = 1;
             max = 6000;
+
+            width = 1000;
+            height = 1000;
+
+            response = ResponseType.Cancel;
         }
 
         public void Start()
