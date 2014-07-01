@@ -56,11 +56,14 @@ namespace Collage
         public void StepUp()
         {
             currentStep++;
-            // change the progress fraction
-            progressBar.Fraction = (double)currentStep / (double)totalSteps;
-            // update the text
-            if (name != "") progressBar.Text = name + " : " + currentStep + " of " + totalSteps;
-            else progressBar.Text = currentStep + " of " + totalSteps;
+            if (progressBar != null)
+            {
+                // change the progress fraction
+                progressBar.Fraction = (double)currentStep / (double)totalSteps;
+                // update the text
+                if (name != "") progressBar.Text = name + " : " + currentStep + " of " + totalSteps;
+                else progressBar.Text = currentStep + " of " + totalSteps;
+            }
         }
 
         public string Name
