@@ -8,7 +8,7 @@ using Gtk;
 namespace Collage
 {
     public delegate void Invoke();
-    public class GtkThread
+    public class GuiThread
     {
         Thread thread;
         public bool IsInitialized { get; private set; }
@@ -17,7 +17,7 @@ namespace Collage
         List<Invoke> invokeMethods = new List<Invoke>();
         bool isBlockedByDialog = false;
 
-        public GtkThread()
+        public GuiThread()
         {
             IsInitialized = false;
         }

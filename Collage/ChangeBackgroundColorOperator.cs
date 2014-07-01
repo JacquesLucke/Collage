@@ -24,12 +24,12 @@ namespace Collage
         public bool Start()
         {
             startColor = editData.Collage.BackgroundColor;
-            dataAccess.GtkThread.Invoke(OpenColorDialog);
+            dataAccess.GuiThread.Invoke(OpenColorDialog);
             return true;
         }
         public bool Update()
         {
-            bool isColorChoosed = !dataAccess.GtkThread.IsBlockedByDialog;
+            bool isColorChoosed = !dataAccess.GuiThread.IsBlockedByDialog;
             // update displayed color
             if(colorDialog != null) editData.Collage.BackgroundColor = Utils.ToColor(colorDialog.ColorSelection.CurrentColor);
 

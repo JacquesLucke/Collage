@@ -29,7 +29,7 @@ namespace Collage
 
         public bool Start()
         {
-            dataAccess.GtkThread.Invoke(OpenFileBrowser);
+            dataAccess.GuiThread.Invoke(OpenFileBrowser);
             return true;
         }
         public void OpenFileBrowser()
@@ -46,7 +46,7 @@ namespace Collage
 
         public bool Update()
         {
-            bool isPathChoosed = !dataAccess.GtkThread.IsBlockedByDialog;
+            bool isPathChoosed = !dataAccess.GuiThread.IsBlockedByDialog;
 
             if (isPathChoosed)
             {
@@ -89,7 +89,7 @@ namespace Collage
 
         private Texture2D Render(Rectangle part, int totalWidth, int totalHeight)
         {
-            dataAccess.GtkThread.Invoke(StartProgressBar);
+            dataAccess.GuiThread.Invoke(StartProgressBar);
             while (progressBar == null) ;
             progressBar.TotalSteps = editData.Collage.Images.Count;
 

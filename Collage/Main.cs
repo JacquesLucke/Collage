@@ -12,7 +12,7 @@ namespace Collage
         StateManager stateManager = new StateManager();
         DataAccess dataAccess;
         Input input = new Input();
-        GtkThread gtkThread;
+        GuiThread guiThread;
 
         public Main()
             : base()
@@ -20,8 +20,8 @@ namespace Collage
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
 
-            gtkThread = new GtkThread();
-            gtkThread.Start();
+            guiThread = new GuiThread();
+            guiThread.Start();
         }
 
         protected override void Initialize()
@@ -37,7 +37,7 @@ namespace Collage
 
             Keymap keymap = new Keymap();
             RegisterKeyCombinations(keymap);
-            dataAccess = new DataAccess(GraphicsDevice, spriteBatch, input, stateManager, keymap, gtkThread);
+            dataAccess = new DataAccess(GraphicsDevice, spriteBatch, input, stateManager, keymap, guiThread);
 
             CollageEditState editState = new CollageEditState(dataAccess);
             stateManager.SetCurrentState(editState);
@@ -65,8 +65,8 @@ namespace Collage
         protected override void OnExiting(object sender, EventArgs args)
         {
             // stop the Gtk thread and wait until it ends
-            gtkThread.Stop();
-            while (gtkThread.IsInitialized);
+            guiThread.Stop();
+            while (guiThread.IsInitialized);
 
             base.OnExiting(sender, args);
         }

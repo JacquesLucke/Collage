@@ -23,7 +23,7 @@ namespace Collage
         {
             Thread thread = new Thread(LoadingThread);
             thread.Start();
-            dataAccess.GtkThread.Invoke(StartProgressBar);
+            dataAccess.GuiThread.Invoke(StartProgressBar);
         }
 
         private void LoadingThread()

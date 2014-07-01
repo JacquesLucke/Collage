@@ -23,7 +23,7 @@ namespace Collage
 
         public bool Start()
         {
-            dataAccess.GtkThread.Invoke(OpenFileBrowser);
+            dataAccess.GuiThread.Invoke(OpenFileBrowser);
             return true;
         }
         public void OpenFileBrowser()
@@ -34,7 +34,7 @@ namespace Collage
 
         public bool Update()
         {
-            bool areFilesChoosed = !dataAccess.GtkThread.IsBlockedByDialog;
+            bool areFilesChoosed = !dataAccess.GuiThread.IsBlockedByDialog;
 
             if (areFilesChoosed)
             {

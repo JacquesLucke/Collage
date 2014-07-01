@@ -11,19 +11,19 @@ namespace Collage
         Input input;
         StateManager stateManager;
         Keymap keymap;
-        GtkThread gtkThread;
+        GuiThread guiThread;
 
         Random random;
         GameTime time;
 
-        public DataAccess(GraphicsDevice graphicsDevice, SpriteBatch spriteBatch, Input input, StateManager stateManager, Keymap keymap, GtkThread gtkThread)
+        public DataAccess(GraphicsDevice graphicsDevice, SpriteBatch spriteBatch, Input input, StateManager stateManager, Keymap keymap, GuiThread guiThread)
         {
             this.graphicsDevice = graphicsDevice;
             this.spriteBatch = spriteBatch;
             this.input = input;
             this.stateManager = stateManager;
             this.keymap = keymap;
-            this.gtkThread = gtkThread;
+            this.guiThread = guiThread;
 
             random = new Random();
         }
@@ -58,9 +58,9 @@ namespace Collage
         {
             get { return keymap; }
         }
-        public GtkThread GtkThread
+        public GuiThread GuiThread
         {
-            get { return gtkThread; }
+            get { return guiThread; }
         }
     }
 }
