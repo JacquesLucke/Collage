@@ -73,6 +73,11 @@ namespace Collage
             window.Add(fix);
             window.ShowAll();
         }
+        public void SetInputRange(int min, int max)
+        {
+            this.min = min;
+            this.max = max;
+        }
 
         void okButton_Clicked(object sender, EventArgs e)
         {
