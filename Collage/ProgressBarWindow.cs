@@ -27,6 +27,7 @@ namespace Collage
             window.Move(10, 10);
             window.KeepAbove = true;
             window.Resize(400, 30);
+            window.AcceptFocus = false;
 
             progressBar = new ProgressBar();
             progressBar.Fraction = 0;
