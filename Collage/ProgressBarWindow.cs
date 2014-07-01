@@ -13,6 +13,7 @@ namespace Collage
         ProgressBar progressBar;
         int totalSteps;
         int currentStep;
+        string name = "";
 
         public ProgressBarWindow(DataAccess dataAccess)
         {
@@ -55,10 +56,18 @@ namespace Collage
         public void StepUp()
         {
             currentStep++;
+            // change the progress fraction
             progressBar.Fraction = (double)currentStep / (double)totalSteps;
-            progressBar.Text = currentStep + " of " + totalSteps;
+            // update the text
+            if (name != "") progressBar.Text = name + " : " + currentStep + " of " + totalSteps;
+            else progressBar.Text = currentStep + " of " + totalSteps;
         }
 
+        public string Name
+        {
+            get { return name; }
+            set { name = value; }
+        }
         public float Fraction
         {
             get { return (float)progressBar.Fraction; }
