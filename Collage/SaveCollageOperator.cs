@@ -10,6 +10,7 @@ namespace Collage
         CollageEditData editData;
         SaveFileWindow sfw;
         Texture2D tex;
+        ProgressBarWindow progressBar;
 
         public SaveCollageOperator() { }
 
@@ -35,6 +36,12 @@ namespace Collage
         {
             sfw = new SaveFileWindow(dataAccess);
             sfw.OpenDialog(FileTypes.Images);
+        }
+        public void StartProgressBar()
+        {
+            progressBar = new ProgressBarWindow(dataAccess);
+            progressBar.Start();
+            progressBar.Name = "Save Collage";
         }
 
         public bool Update()
@@ -82,6 +89,10 @@ namespace Collage
 
         private Texture2D Render(Rectangle part, int totalWidth, int totalHeight)
         {
+            dataAccess.GtkThread.Invoke(StartProgressBar);
+            while (progressBar == null) ;
+            progressBar.TotalSteps = editData.Collage.Images.Count;
+
             // create and set RenderTarget
             RenderTarget2D rt = new RenderTarget2D(dataAccess.GraphicsDevice, part.Width, part.Height);
             dataAccess.GraphicsDevice.SetRenderTarget(rt);
@@ -101,6 +112,7 @@ namespace Collage
                 // calculate rectangle where the image will be drawn
                 Rectangle imageRectangle = image.GetRectangleInBoundary(totalRec);
                 DrawImageSource(image.Source, imageRectangle, image.Rotation);
+                progressBar.StepUp();
             }
 
             // -----------------------------------------------------------------------------------------
@@ -108,6 +120,7 @@ namespace Collage
 
             // reset RenderTarget
             dataAccess.GraphicsDevice.SetRenderTarget(null);
+            progressBar.Destroy();
 
             return rt;
         }
