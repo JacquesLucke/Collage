@@ -28,7 +28,7 @@ namespace Collage
         }
         public void OpenFileBrowser()
         {
-            ofw = new OpenFileWindow(dataAccess);
+            ofw = new OpenFileWindow();
             ofw.OpenDialog(true, FileTypes.Images);
         }
 

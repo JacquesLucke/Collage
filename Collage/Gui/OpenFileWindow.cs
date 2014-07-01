@@ -4,14 +4,10 @@
     using System.Windows.Forms; 
     public class OpenFileWindow
     {
-        DataAccess dataAccess;
         OpenFileDialog ofd;
         DialogResult result = DialogResult.No;
 
-        public OpenFileWindow(DataAccess dataAccess)
-        {
-            this.dataAccess = dataAccess;
-        }
+        public OpenFileWindow() { }
 
         public void OpenDialog(bool multipleFiles, params FileTypes[] fileTypes)
         {
@@ -47,13 +43,9 @@
     using Gtk;
     public class OpenFileWindow
     {
-        DataAccess dataAccess;
         FileChooserDialog fcd;
 
-        public OpenFileWindow(DataAccess dataAccess) 
-        {
-            this.dataAccess = dataAccess;
-        }
+        public OpenFileWindow() { }
 
         public void OpenDialog(bool multipleFiles, params FileTypes[] fileTypes)
         {

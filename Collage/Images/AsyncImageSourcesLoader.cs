@@ -40,7 +40,7 @@ namespace Collage
 
         private void StartProgressBar()
         {
-            progressBar = new ProgressBarWindow(dataAccess);
+            progressBar = new ProgressBarWindow();
             progressBar.Start();
             progressBar.Name = "Load Images";
         }

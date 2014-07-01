@@ -8,17 +8,13 @@ namespace Collage
 {
     public class ProgressBarWindow
     {
-        DataAccess dataAccess;
         Window window;
         ProgressBar progressBar;
         int totalSteps;
         int currentStep;
         string name = "";
 
-        public ProgressBarWindow(DataAccess dataAccess)
-        {
-            this.dataAccess = dataAccess;
-        }
+        public ProgressBarWindow() { }
 
         public void Start()
         {

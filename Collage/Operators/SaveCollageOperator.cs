@@ -39,7 +39,7 @@ namespace Collage
         }
         public void StartProgressBar()
         {
-            progressBar = new ProgressBarWindow(dataAccess);
+            progressBar = new ProgressBarWindow();
             progressBar.Start();
             progressBar.Name = "Save Collage";
         }

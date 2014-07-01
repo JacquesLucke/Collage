@@ -4,14 +4,10 @@
     using System.Windows.Forms;
     public class SaveFileWindow
     {
-        DataAccess dataAccess;
         SaveFileDialog sfd;
         DialogResult result = DialogResult.No;
 
-        public SaveFileWindow(DataAccess dataAccess)
-        {
-            this.dataAccess = dataAccess;
-        }
+        public SaveFileWindow(DataAccess dataAccess) { }
 
         public void OpenDialog(params FileTypes[] fileTypes)
         {
@@ -41,10 +37,7 @@
         DataAccess dataAccess;
         FileChooserDialog fcd;
 
-        public SaveFileWindow(DataAccess dataAccess)
-        {
-            this.dataAccess = dataAccess;
-        }
+        public SaveFileWindow() { }
 
         public void OpenDialog(params FileTypes[] fileTypes)
         {
