@@ -13,6 +13,7 @@ namespace Collage
         Thread thread;
         public bool IsInitialized { get; private set; }
         bool wantsToStop = false;
+        bool waitsToInvoke = false;
 
         List<Invoke> invokeMethods = new List<Invoke>();
         bool isBlockedByDialog = false;
@@ -36,10 +37,12 @@ namespace Collage
         {
             // add the method to the list -> the gtk thread call every method inside
             isBlockedByDialog = true;
+            waitsToInvoke = true;
             invokeMethods.Add(method);
         }
 
         public bool IsBlockedByDialog { get { return isBlockedByDialog; } }
+        public bool WaitsToInvoke { get { return waitsToInvoke; } }
 
         private void RunLoop()
         {
@@ -53,6 +56,7 @@ namespace Collage
                     isBlockedByDialog = false;
                 }
                 invokeMethods.Clear();
+                waitsToInvoke = false;
 
                 if (!wantsToStop)
                 {

@@ -11,6 +11,10 @@ namespace Collage
         SaveFileWindow sfw;
         Texture2D tex;
         ProgressBarWindow progressBar;
+        GetDimensionsDialog dimensionsDialog;
+        int step = 1;
+        int width, height;
+        string fileName;
 
         public SaveCollageOperator() { }
 
@@ -29,13 +33,20 @@ namespace Collage
 
         public bool Start()
         {
-            dataAccess.GuiThread.Invoke(OpenFileBrowser);
+            step = 1;
+            fileName = null;
             return true;
         }
         public void OpenFileBrowser()
         {
             sfw = new SaveFileWindow(dataAccess);
             sfw.OpenDialog(FileTypes.Images);
+        }
+        public void OpenDimensionsDialog()
+        {
+            dimensionsDialog = new GetDimensionsDialog();
+            dimensionsDialog.SetInputRange(500, 6000);
+            dimensionsDialog.Start();
         }
         public void StartProgressBar()
         {
@@ -46,29 +57,50 @@ namespace Collage
 
         public bool Update()
         {
-            bool isPathChoosed = !dataAccess.GuiThread.IsBlockedByDialog;
-
-            if (isPathChoosed)
+            if(step == 1)
             {
-                string fileName = sfw.SelectedPath;
-                sfw.Destroy();
-                if (fileName != null)
+                if (dimensionsDialog == null && !dataAccess.GuiThread.WaitsToInvoke) dataAccess.GuiThread.Invoke(OpenDimensionsDialog);
+
+                if (!dataAccess.GuiThread.WaitsToInvoke)
                 {
-                    // calculate final dimensions
-                    int width = 4000;
-                    int height = (int)Math.Round(width / editData.Collage.AspectRatio);
-                    Rectangle dimensions = new Rectangle(0, 0, width, height);
-
-                    Texture2D render = Render(dimensions, width, height);
-
-                    System.Drawing.Bitmap bitmap = Utils.ToBitmap(render);
-                    bitmap.Save(fileName);
-                    bitmap.Dispose();
-                    render.Dispose();
-                    GC.Collect();
+                    if (dimensionsDialog.Response == Gtk.ResponseType.Cancel) return false;
+                    if (dimensionsDialog.Response == Gtk.ResponseType.Ok)
+                    {
+                        width = dimensionsDialog.InputWidth;
+                        height = dimensionsDialog.InputHeight;
+                        dimensionsDialog.Destroy();
+                        dimensionsDialog = null;
+                        step = 2;
+                    }
                 }
             }
-            return !isPathChoosed;
+            if(step == 2)
+            {
+                if(sfw == null && !dataAccess.GuiThread.WaitsToInvoke) dataAccess.GuiThread.Invoke(OpenFileBrowser);
+
+                if(!dataAccess.GuiThread.IsBlockedByDialog)
+                {
+                    fileName = sfw.SelectedPath;
+                    sfw.Destroy();
+                    sfw = null;
+                    if (fileName == null) return false;
+                    step = 3;
+                }
+            }
+            if (step == 3)
+            {
+                Rectangle dimensions = new Rectangle(0, 0, width, height);
+
+                Texture2D render = Render(dimensions, width, height);
+
+                System.Drawing.Bitmap bitmap = Utils.ToBitmap(render);
+                bitmap.Save(fileName);
+                bitmap.Dispose();
+                render.Dispose();
+                GC.Collect();
+                step = 4;
+            }
+            return step < 4;
         }
 
         public void DrawImageSource(ImageSource source, Rectangle rectangle, float rotation)
