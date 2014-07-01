@@ -22,7 +22,7 @@ namespace Collage
             width = 1000;
             height = 1000;
 
-            response = ResponseType.Cancel;
+            response = ResponseType.None;
         }
 
         public void Start()
@@ -32,6 +32,7 @@ namespace Collage
             window.KeepAbove = true;
             window.Resize(200, 150);
             window.Title = "Dimensions";
+            window.Deletable = false;
 
             Fixed fix = new Fixed();
 
@@ -42,7 +43,6 @@ namespace Collage
 
             widthInputEntry = new Entry();
             widthInputEntry.SetSizeRequest(100, 25);
-            widthInputEntry.Text = "" + width;
             widthInputEntry.TextInserted += OnlyNumber;
             fix.Put(widthInputEntry, 80, 20);
 
@@ -53,7 +53,6 @@ namespace Collage
 
             heightInputEntry = new Entry();
             heightInputEntry.SetSizeRequest(100, 25);
-            heightInputEntry.Text = "" + height;
             heightInputEntry.TextInserted += OnlyNumber;
             fix.Put(heightInputEntry, 80, 70);
 
@@ -72,6 +71,9 @@ namespace Collage
 
             window.Add(fix);
             window.ShowAll();
+
+            widthInputEntry.Text = "" + width;
+            heightInputEntry.Text = "" + height;
         }
         public void SetInputRange(int min, int max)
         {
@@ -82,12 +84,10 @@ namespace Collage
         void okButton_Clicked(object sender, EventArgs e)
         {
             response = ResponseType.Ok;
-            Destroy();
         }
         void cancelButton_Clicked(object sender, EventArgs e)
         {
             response = ResponseType.Cancel;
-            Destroy();
         }
 
         public void Destroy()
@@ -99,7 +99,7 @@ namespace Collage
         {
             get 
             {
-                if (widthInputEntry != null) width = Convert.ToInt32(widthInputEntry.Text);
+                if (window != null) width = Convert.ToInt32("0" + widthInputEntry.Text);
                 return width;
             }
             set
@@ -112,7 +112,7 @@ namespace Collage
         {
             get
             {
-                if (heightInputEntry != null) height = Convert.ToInt32(heightInputEntry.Text);
+                if (window != null) height = Convert.ToInt32("0" + heightInputEntry.Text);
                 return height;
             }
             set
