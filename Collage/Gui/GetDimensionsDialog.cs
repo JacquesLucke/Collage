@@ -13,7 +13,13 @@ namespace Collage
         Label widthLabel, heightLabel;
         Entry widthInputEntry, heightInputEntry;
 
-        public GetDimensionsDialog() { }
+        int min, max;
+
+        public GetDimensionsDialog() 
+        {
+            min = 1;
+            max = 6000;
+        }
 
         public void Start()
         {
@@ -32,7 +38,7 @@ namespace Collage
 
             widthInputEntry = new Entry();
             widthInputEntry.SetSizeRequest(100, 25);
-            widthLabel.Text = "Width";
+            widthInputEntry.TextInserted += OnlyNumber;
             fix.Put(widthInputEntry, 80, 20);
 
             // height
@@ -42,6 +48,7 @@ namespace Collage
 
             heightInputEntry = new Entry();
             heightInputEntry.SetSizeRequest(100, 25);
+            heightInputEntry.TextInserted += OnlyNumber;
             fix.Put(heightInputEntry, 80, 70);
 
             // Buttons
@@ -63,6 +70,21 @@ namespace Collage
         {
             okButton.Destroy();
             window.Destroy();
+        }
+
+        private void OnlyNumber(object o, TextInsertedArgs args)
+        {
+            try
+            {
+                int number = Convert.ToInt32(((Entry)o).Text);
+                if (number < min) number = min;
+                if (number > max) number = max;
+                ((Entry)o).Text = "" + number;
+            }
+            catch 
+            {
+                ((Entry)o).DeleteText(args.Position - args.Text.Length, args.Position);
+            }
         }
     }
 }
