@@ -10,9 +10,13 @@ namespace Collage
         Label widthLabel, heightLabel;
         Entry widthInputEntry, heightInputEntry;
         ResponseType response;
+        bool keepAspectRatio = true;
+        float aspectRatio;
 
         int width, height;
         int min, max;
+
+        int preventStackOverflow = 0;
 
         public DimensionsDialog() 
         {
@@ -21,6 +25,7 @@ namespace Collage
 
             width = 1000;
             height = 1000;
+            aspectRatio = 1;
 
             response = ResponseType.None;
         }
@@ -45,6 +50,7 @@ namespace Collage
             widthInputEntry.SetSizeRequest(100, 25);
             widthInputEntry.TextInserted += OnlyNumber;
             widthInputEntry.TextInserted += ChangeWidth;
+            widthInputEntry.TextDeleted += ChangeWidth;
             fix.Put(widthInputEntry, 80, 20);
 
             // height
@@ -56,6 +62,7 @@ namespace Collage
             heightInputEntry.SetSizeRequest(100, 25);
             heightInputEntry.TextInserted += OnlyNumber;
             heightInputEntry.TextInserted += ChangeHeight;
+            heightInputEntry.TextDeleted += ChangeHeight;
             fix.Put(heightInputEntry, 80, 70);
 
             // Buttons
@@ -77,10 +84,17 @@ namespace Collage
             widthInputEntry.Text = "" + width;
             heightInputEntry.Text = "" + height;
         }
+
         public void SetInputRange(int min, int max)
         {
             this.min = min;
             this.max = max;
+        }
+        public void SetData(int width, float aspectRatio)
+        {
+            this.width = width;
+            this.height = (int)Math.Round(3000 / aspectRatio);
+            this.aspectRatio = aspectRatio;
         }
 
         void okButton_Clicked(object sender, EventArgs e)
@@ -99,11 +113,8 @@ namespace Collage
 
         public int InputWidth
         {
-            get 
-            {
-                return width;
-            }
-            set
+            get { return width; }
+            set 
             { 
                 width = value;
                 if (widthInputEntry != null) widthInputEntry.Text = "" + value; 
@@ -111,10 +122,7 @@ namespace Collage
         }
         public int InputHeight
         {
-            get
-            {
-                return height;
-            }
+            get { return height; }
             set
             {
                 height = value;
@@ -132,23 +140,36 @@ namespace Collage
             try
             {
                 int number = Convert.ToInt32(((Entry)o).Text);
-                if (number < min) number = min;
-                if (number > max) number = max;
-                ((Entry)o).Text = "" + number;
+                if (number > max)
+                {
+                    number = max;
+                    ((Entry)o).Text = "" + number;
+                }
             }
-            catch 
+            catch
             {
                 ((Entry)o).DeleteText(args.Position - args.Text.Length, args.Position);
             }
         }
-
-        private void ChangeWidth(object o, TextInsertedArgs args)
+        private void ChangeWidth(object o, object args)
         {
-            width = Convert.ToInt32("0" + widthInputEntry.Text);
+            if (preventStackOverflow == 0)
+            {
+                preventStackOverflow = 1;
+                width = Convert.ToInt32("0" + widthInputEntry.Text);
+                if (keepAspectRatio) InputHeight = (int)Math.Round(width / aspectRatio);
+                preventStackOverflow = 0;
+            }
         }
-        private void ChangeHeight(object o, TextInsertedArgs args)
+        private void ChangeHeight(object o, object args)
         {
-            height = Convert.ToInt32("0" + heightInputEntry.Text);
+            if (preventStackOverflow == 0)
+            {
+                preventStackOverflow = 1;
+                height = Convert.ToInt32("0" + heightInputEntry.Text);
+                if (keepAspectRatio) InputWidth = (int)Math.Round(height * aspectRatio);
+                preventStackOverflow = 0;
+            }
         }
     }
 }

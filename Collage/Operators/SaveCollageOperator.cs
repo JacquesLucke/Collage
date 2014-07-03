@@ -46,6 +46,7 @@ namespace Collage
         {
             dimensionsDialog = new DimensionsDialog();
             dimensionsDialog.SetInputRange(500, 6000);
+            dimensionsDialog.SetData(3000, editData.Collage.AspectRatio);
             dimensionsDialog.Start();
         }
         public void StartProgressBar()
@@ -63,7 +64,7 @@ namespace Collage
 
                 if (!dataAccess.GuiThread.WaitsToInvoke)
                 {
-                    if (dimensionsDialog.Response == Gtk.ResponseType.Cancel) return false;
+                    if (dimensionsDialog.Response == Gtk.ResponseType.Cancel) { dimensionsDialog.Destroy(); return false; }
                     if (dimensionsDialog.Response == Gtk.ResponseType.Ok)
                     {
                         width = dimensionsDialog.InputWidth;
