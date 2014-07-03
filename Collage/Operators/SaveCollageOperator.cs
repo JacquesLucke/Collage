@@ -39,7 +39,7 @@ namespace Collage
         }
         public void OpenFileBrowser()
         {
-            sfw = new SaveFileWindow(dataAccess);
+            sfw = new SaveFileWindow();
             sfw.OpenDialog(FileTypes.Images);
         }
         public void OpenDimensionsDialog()

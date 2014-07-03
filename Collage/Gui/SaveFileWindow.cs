@@ -1,13 +1,13 @@
 ﻿namespace Collage
 {
-#if WINDOWS && WithWindowsDialogs // this SaveFileDialog uses Windows Forms
+#if WINDOWS && WithWindowsFileBrowser // this SaveFileDialog uses Windows Forms
     using System.Windows.Forms;
     public class SaveFileWindow
     {
         SaveFileDialog sfd;
         DialogResult result = DialogResult.No;
 
-        public SaveFileWindow(DataAccess dataAccess) { }
+        public SaveFileWindow() { }
 
         public void OpenDialog(params FileTypes[] fileTypes)
         {

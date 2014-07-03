@@ -1,6 +1,6 @@
 ﻿namespace Collage
 {
-#if WINDOWS && WithWindowsDialogs // this OpenFileDialog uses Windows Forms
+#if WINDOWS && WithWindowsFileBrowser // this OpenFileDialog uses Windows Forms
     using System.Windows.Forms; 
     public class OpenFileWindow
     {
