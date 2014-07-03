@@ -44,6 +44,7 @@ namespace Collage
             widthInputEntry = new Entry();
             widthInputEntry.SetSizeRequest(100, 25);
             widthInputEntry.TextInserted += OnlyNumber;
+            widthInputEntry.TextInserted += ChangeWidth;
             fix.Put(widthInputEntry, 80, 20);
 
             // height
@@ -54,6 +55,7 @@ namespace Collage
             heightInputEntry = new Entry();
             heightInputEntry.SetSizeRequest(100, 25);
             heightInputEntry.TextInserted += OnlyNumber;
+            heightInputEntry.TextInserted += ChangeHeight;
             fix.Put(heightInputEntry, 80, 70);
 
             // Buttons
@@ -99,7 +101,6 @@ namespace Collage
         {
             get 
             {
-                if (window != null) width = Convert.ToInt32("0" + widthInputEntry.Text);
                 return width;
             }
             set
@@ -112,7 +113,6 @@ namespace Collage
         {
             get
             {
-                if (window != null) height = Convert.ToInt32("0" + heightInputEntry.Text);
                 return height;
             }
             set
@@ -140,6 +140,15 @@ namespace Collage
             {
                 ((Entry)o).DeleteText(args.Position - args.Text.Length, args.Position);
             }
+        }
+
+        private void ChangeWidth(object o, TextInsertedArgs args)
+        {
+            width = Convert.ToInt32("0" + widthInputEntry.Text);
+        }
+        private void ChangeHeight(object o, TextInsertedArgs args)
+        {
+            height = Convert.ToInt32("0" + heightInputEntry.Text);
         }
     }
 }
