@@ -140,11 +140,6 @@ namespace Collage
             try
             {
                 int number = Convert.ToInt32(((Entry)o).Text);
-                if (number > max)
-                {
-                    number = max;
-                    ((Entry)o).Text = "" + number;
-                }
             }
             catch
             {
