@@ -97,13 +97,21 @@ namespace Collage
             // render the image and size
             if (step == 3)
             {
+                // setup progress bar
+                dataAccess.GuiThread.Invoke(StartProgressBar);
+                while (progressBar == null) ;
+                progressBar.TotalSteps = editData.Collage.Images.Count + 1;
+
                 Rectangle dimensions = new Rectangle(0, 0, width, height);
                 Texture2D render = Render(dimensions, width, height);
                 System.Drawing.Bitmap bitmap = Utils.ToBitmap(render);
+                progressBar.StepUp("Save");
                 bitmap.Save(fileName);
                 bitmap.Dispose();
                 render.Dispose();
                 GC.Collect();
+
+                progressBar.Destroy();
                 step = 4;
             }
             return step < 4;
@@ -127,10 +135,6 @@ namespace Collage
 
         private Texture2D Render(Rectangle part, int totalWidth, int totalHeight)
         {
-            dataAccess.GuiThread.Invoke(StartProgressBar);
-            while (progressBar == null) ;
-            progressBar.TotalSteps = editData.Collage.Images.Count;
-
             // create and set RenderTarget
             RenderTarget2D rt = new RenderTarget2D(dataAccess.GraphicsDevice, part.Width, part.Height);
             dataAccess.GraphicsDevice.SetRenderTarget(rt);
@@ -158,7 +162,6 @@ namespace Collage
 
             // reset RenderTarget
             dataAccess.GraphicsDevice.SetRenderTarget(null);
-            progressBar.Destroy();
 
             return rt;
         }
