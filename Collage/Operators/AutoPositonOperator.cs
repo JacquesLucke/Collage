@@ -12,6 +12,8 @@ namespace Collage
         CollageEditData editData;
 
         Vector2[] startPositions;
+        float[] startRotations;
+        float[] startWidths;
         List<Image> startOrder;
 
         public AutoPositonOperator() { }
@@ -32,10 +34,14 @@ namespace Collage
 
             // save state before
             startPositions = new Vector2[amount];
+            startRotations = new float[amount];
+            startWidths = new float[amount];
             startOrder = new List<Image>(editData.Collage.Images);
             for (int i = 0; i < amount; i++)
             {
                 startPositions[i] = editData.Collage.Images[i].Center;
+                startRotations[i] = editData.Collage.Images[i].Rotation;
+                startWidths[i] = editData.Collage.Images[i].Width;
             }
 
             int lines = (int)Math.Min(Math.Max(1, Math.Floor(Math.Sqrt(amount / editData.Collage.AspectRatio))), amount);
