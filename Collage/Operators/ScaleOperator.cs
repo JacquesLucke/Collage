@@ -40,6 +40,7 @@ namespace Collage
             foreach(Image image in editData.SelectedImages)
             {
                 image.Width *= (dataAccess.Input.ScrollWheelDifference / 2000f) + 1;
+                image.Width = Math.Max(image.Width, 0.01f);
             }
 
             bool continueScale = (DateTime.Now - startTime).Milliseconds < 300                                                  // stop when the time is up
