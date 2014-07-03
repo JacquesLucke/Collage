@@ -99,7 +99,7 @@ namespace Collage
             {
                 // setup progress bar
                 dataAccess.GuiThread.Invoke(StartProgressBar);
-                while (progressBar == null) ;
+                while (progressBar == null) ; // wait until the bar is setup
                 progressBar.TotalSteps = editData.Collage.Images.Count + 1;
 
                 Rectangle dimensions = new Rectangle(0, 0, width, height);
