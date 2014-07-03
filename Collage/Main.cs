@@ -106,6 +106,10 @@ namespace Collage
             // Save Collage
             combination = new KeyCombination(false, false, false, Keys.S);
             keymap.Add("save collage", combination);
+
+            // Auto Position
+            combination = new KeyCombination(false, false, false, Keys.Q);
+            keymap.Add("auto position", combination);
         }
     }
 }
