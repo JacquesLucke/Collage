@@ -97,6 +97,18 @@ namespace Collage
         {
             return new Gdk.Color(color.R, color.G, color.B);
         }
+        public static Color MultiplyColors(params Color[] colors)
+        {
+            Color output = Color.White;
+            for(int i= 0; i< colors.Length;i++)
+            {
+                output.R = (byte)Math.Round(output.R * colors[i].R / 255f);
+                output.G = (byte)Math.Round(output.G * colors[i].G / 255f);
+                output.B = (byte)Math.Round(output.B * colors[i].B / 255f);
+                output.A = (byte)Math.Round(output.A * colors[i].A / 255f);
+            }
+            return output;
+        }
 
         // Convert Textures and Bitmaps
         public static drawing.Bitmap ToBitmap(Texture2D texture)
