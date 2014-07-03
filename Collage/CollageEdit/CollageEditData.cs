@@ -42,10 +42,14 @@ namespace Collage
         public void Update(Input input)
         {
             imageUnderMouse = null;
-            foreach (Image image in collage.Images)
+            for (int i = collage.Images.Count - 1; i >= 0; i--)
             {
-                Rectangle rec = image.GetRectangleInBoundary(drawRectangle.Rectangle);
-                if (Utils.IsVectorInRotatedRectangle(input.MousePositionVector, rec, image.Rotation)) imageUnderMouse = image;
+                Rectangle rec = collage.Images[i].GetRectangleInBoundary(drawRectangle.Rectangle);
+                if (Utils.IsVectorInRotatedRectangle(input.MousePositionVector, rec, collage.Images[i].Rotation))
+                {
+                    imageUnderMouse = collage.Images[i];
+                    break;
+                }
             }
         }
 
