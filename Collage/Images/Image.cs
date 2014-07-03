@@ -5,24 +5,31 @@ namespace Collage
 {
     public class Image
     {
-        Vector2 center = new Vector2(0.5f);
         ImageSource source;
-        float width = 0.2f;
-        float rotation = 0f;
+        ImageData data;
 
         public Image(DataAccess dataAccess, string fileName)
         {
             this.source = new ImageSource(dataAccess, fileName);
+            SetDefaultData();
         }
-
         public Image(ImageSource source)
         {
             this.source = source;
+            SetDefaultData();
         }
         public Image(ImageSource source, Vector2 center)
             : this(source)
         {
-            this.center = center;
+            data.Center = center;
+        }
+
+        public void SetDefaultData()
+        {
+            data = new ImageData();
+            data.Center = new Vector2(0.5f);
+            data.Width = 0.2f;
+            data.Rotation = 0f;
         }
 
         public void Unload()
@@ -36,23 +43,23 @@ namespace Collage
 
         public float Width
         {
-            get { return width; }
-            set { width = value; }
+            get { return data.Width; }
+            set { data.Width = value; }
         }
         public float Height
         {
-            get { return width / source.AspectRatio; }
-            set { width = value * source.AspectRatio; }
+            get { return data.Width / source.AspectRatio; }
+            set { data.Width = value * source.AspectRatio; }
         }
         public float Rotation
         {
-            get { return rotation; }
-            set { rotation = value; }
+            get { return data.Rotation; }
+            set { data.Rotation = value; }
         }
         public Vector2 Center
         {
-            get { return center; }
-            set { center = value; }
+            get { return data.Center; }
+            set { data.Center = value; }
         }
         public ImageSource Source
         {
@@ -69,11 +76,11 @@ namespace Collage
         }
         public Vector2 GetCenterInBoundary(Rectangle boundary)
         {
-            return new Vector2(boundary.Left + center.X * boundary.Width, boundary.Top + center.Y * boundary.Height);
+            return new Vector2(boundary.Left + data.Center.X * boundary.Width, boundary.Top + data.Center.Y * boundary.Height);
         }
         public void SetCenterInBoundary(Rectangle boundary, Vector2 center)
         {
-            this.center = new Vector2((center.X - boundary.Left) / (float)boundary.Width, (center.Y - boundary.Top) / (float)boundary.Height);
+            this.data.Center = new Vector2((center.X - boundary.Left) / (float)boundary.Width, (center.Y - boundary.Top) / (float)boundary.Height);
         }
 
         public Texture2D Texture { get { return source.Texture; } }
