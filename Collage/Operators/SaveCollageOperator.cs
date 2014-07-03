@@ -64,7 +64,11 @@ namespace Collage
 
                 if (!dataAccess.GuiThread.WaitsToInvoke)
                 {
-                    if (dimensionsDialog.Response == Gtk.ResponseType.Cancel) { dimensionsDialog.Destroy(); return false; }
+                    if (dimensionsDialog.Response == Gtk.ResponseType.Cancel) { 
+                        dimensionsDialog.Destroy(); 
+                        dimensionsDialog = null; 
+                        return false; 
+                    }
                     if (dimensionsDialog.Response == Gtk.ResponseType.Ok)
                     {
                         width = dimensionsDialog.InputWidth;
