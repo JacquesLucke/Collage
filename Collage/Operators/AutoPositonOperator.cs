@@ -11,10 +11,15 @@ namespace Collage
         DataAccess dataAccess;
         CollageEditData editData;
 
-        Vector2[] startPositions;
+        List<Image> startOrder;
+        Vector2[] startCenters;
         float[] startRotations;
         float[] startWidths;
-        List<Image> startOrder;
+
+        List<Image> afterOrder;
+        Vector2[] afterCenters;
+        float[] afterRotations;
+        float[] afterWidths;
 
         public AutoPositonOperator() { }
 
@@ -33,13 +38,13 @@ namespace Collage
             int amount = editData.Collage.Images.Count;
 
             // save state before
-            startPositions = new Vector2[amount];
+            startCenters = new Vector2[amount];
             startRotations = new float[amount];
             startWidths = new float[amount];
             startOrder = new List<Image>(editData.Collage.Images);
             for (int i = 0; i < amount; i++)
             {
-                startPositions[i] = editData.Collage.Images[i].Center;
+                startCenters[i] = editData.Collage.Images[i].Center;
                 startRotations[i] = editData.Collage.Images[i].Rotation;
                 startWidths[i] = editData.Collage.Images[i].Width;
             }
@@ -63,7 +68,7 @@ namespace Collage
                     }
                 }
 
-                for(int j = 0; j < imagesPerLine[i]; j++)
+                for (int j = 0; j < imagesPerLine[i]; j++)
                 {
                     Image image = imagesBefore.First();
                     imagesBefore.Remove(image);
@@ -89,15 +94,53 @@ namespace Collage
                 }
             }
 
-            for (int i = 0; i < amount;i++)
+            for (int i = 0; i < amount; i++)
             {
                 int index = dataAccess.Random.Next(imageBuffer.Count);
                 editData.Collage.Images.Add(imageBuffer[index]);
                 imageBuffer.Remove(imageBuffer[index]);
             }
 
+            // save state after
+            afterCenters = new Vector2[amount];
+            afterRotations = new float[amount];
+            afterWidths = new float[amount];
+            afterOrder = new List<Image>(editData.Collage.Images);
+            for (int i = 0; i < amount; i++)
+            {
+                afterCenters[i] = editData.Collage.Images[i].Center;
+                afterRotations[i] = editData.Collage.Images[i].Rotation;
+                afterWidths[i] = editData.Collage.Images[i].Width;
+            }
 
-                return false;
+            List<object> newData = new List<object>() {afterOrder, afterCenters, afterRotations, afterWidths};
+            List<object> startData = new List<object>() { startOrder, startCenters, startRotations, startWidths };
+
+            Command command = new Command(ExecuteAutoPosition, ExecuteAutoPosition, newData, "Auto Position");
+            command.SetUndoData(startData);
+            editData.UndoManager.AddCommand(command);
+
+            return false;
+        }
+
+        public object ExecuteAutoPosition(object rawData)
+        {
+            List<object> data = (List<object>)rawData;
+            List<Image> newOrder = (List<Image>)data[0];
+            Vector2[] newCenters = (Vector2[])data[1];
+            float[] newRotations = (float[])data[2];
+            float[] newWidths = (float[])data[3];
+
+            editData.Collage.Images.Clear();
+            editData.Collage.Images.AddRange(newOrder);
+            for(int i = 0; i< editData.Collage.Images.Count; i++)
+            {
+                editData.Collage.Images[i].Center = newCenters[i];
+                editData.Collage.Images[i].Rotation = newRotations[i];
+                editData.Collage.Images[i].Width = newWidths[i];
+            }
+
+            return null;
         }
     }
 }
