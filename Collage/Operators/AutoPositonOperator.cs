@@ -67,21 +67,19 @@ namespace Collage
                     Vector2 newCenter = new Vector2();
                     newCenter.X = 1 / (float)imagesPerLine[i] * (j + 1) - 1 / (float)imagesPerLine[i] / 2;
                     newCenter.Y = (1 / (float)(lines + 1) * i + 1 / (float)(lines + 1) - 0.5f) * MathHelper.Clamp(200 / (float)amount, 1.02f, 1.15f) + 0.5f;
+                    // randomize positon
                     newCenter.X += (float)(dataAccess.Random.NextDouble() * 2 - 1) / imagesPerLine[i] / 2f;
                     newCenter.Y += (float)(dataAccess.Random.NextDouble() * 2 - 1) / lines / 2f;
 
                     image.Center = newCenter;
 
                     // scale
-                    float newWidth = 0.1f;
-                    newWidth = 1 / (float)imagesPerLine[i] * 1.7f;
+                    float newWidth = newWidth = 1 / (float)imagesPerLine[i] * 1.7f;
                     newWidth += (float)(dataAccess.Random.NextDouble() * 2 - 1) * newWidth / 2;
                     image.Width = newWidth;
 
                     // rotation
-                    float newRotation = 0;
-                    newRotation = (float)(dataAccess.Random.NextDouble() * 2 - 1) / 10;
-                    image.Rotation = newRotation;
+                    image.Rotation = (float)(dataAccess.Random.NextDouble() * 2 - 1) / 10;
                 }
             }
 
