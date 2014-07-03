@@ -35,6 +35,7 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Gui\ColorChooserDialog.cs" />
     <Compile Include="Gui\DimensionsDialog.cs" />
     <Compile Include="Images\AsyncImageSourcesLoader.cs" />
     <Compile Include="Images\ImageData.cs" />
