@@ -30,7 +30,8 @@ namespace Collage
             foreach(Image image in editData.Collage.Images)
             {
                 Color color = Color.White;
-                if (editData.SelectedImages.Contains(image)) color = Color.Red;
+                if (editData.SelectedImages.Contains(image)) color = Utils.MultiplyColors(color, Color.Red);
+                if (editData.ImageUnderMouse == image) color = Utils.MultiplyColors(color, Color.FromNonPremultiplied(220, 220, 220, 255));
                 // calculate rectangle where the image will be drawn
                 Rectangle imageRectangle = image.GetRectangleInBoundary(drawRectangle);
 
