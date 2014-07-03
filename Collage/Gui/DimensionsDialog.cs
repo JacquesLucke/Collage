@@ -99,6 +99,17 @@ namespace Collage
 
         void okButton_Clicked(object sender, EventArgs e)
         {
+            if(width > max || height > max)
+            {
+                Window messageWindow = new Window("Info");
+                messageWindow.SetSizeRequest(250, 100);
+                messageWindow.SetPosition(WindowPosition.Mouse);
+
+                MessageDialog messageDialog = new MessageDialog(messageWindow, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Close, "Width and height have to be below 6000");
+                messageDialog.Run();
+                messageDialog.Destroy();
+                return;
+            }
             response = ResponseType.Ok;
         }
         void cancelButton_Clicked(object sender, EventArgs e)
