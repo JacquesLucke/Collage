@@ -58,6 +58,7 @@ namespace Collage
 
         public bool Update()
         {
+            // adjust the size
             if(step == 1)
             {
                 if (dimensionsDialog == null && !dataAccess.GuiThread.WaitsToInvoke) dataAccess.GuiThread.Invoke(OpenDimensionsDialog);
@@ -79,6 +80,7 @@ namespace Collage
                     }
                 }
             }
+            // select a path where to save
             if(step == 2)
             {
                 if(sfw == null && !dataAccess.GuiThread.WaitsToInvoke) dataAccess.GuiThread.Invoke(OpenFileBrowser);
@@ -92,12 +94,11 @@ namespace Collage
                     step = 3;
                 }
             }
+            // render the image and size
             if (step == 3)
             {
                 Rectangle dimensions = new Rectangle(0, 0, width, height);
-
                 Texture2D render = Render(dimensions, width, height);
-
                 System.Drawing.Bitmap bitmap = Utils.ToBitmap(render);
                 bitmap.Save(fileName);
                 bitmap.Dispose();
