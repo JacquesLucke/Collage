@@ -6,7 +6,7 @@ namespace Collage
     {
         DataAccess dataAccess;
         CollageEditData editData;
-        Gtk.ColorSelectionDialog colorDialog;
+        ColorChooserDialog colorChooser;
         Color startColor;
 
         public ChangeBackgroundColorOperator() { }
@@ -24,32 +24,39 @@ namespace Collage
         public bool Start()
         {
             startColor = editData.Collage.BackgroundColor;
-            dataAccess.GuiThread.Invoke(OpenColorDialog);
             return true;
         }
         public bool Update()
         {
-            bool isColorChoosed = !dataAccess.GuiThread.IsBlockedByDialog;
-            // update displayed color
-            if(colorDialog != null) editData.Collage.BackgroundColor = Utils.ToColor(colorDialog.ColorSelection.CurrentColor);
-
-            if(isColorChoosed)
+            if (colorChooser == null && !dataAccess.GuiThread.WaitsToInvoke) dataAccess.GuiThread.Invoke(OpenColorDialog);
+            if (colorChooser != null)
             {
-                Color color = Utils.ToColor(colorDialog.ColorSelection.CurrentColor);
-                colorDialog.Destroy();
+                editData.Collage.BackgroundColor = colorChooser.SelectedColor;
+                if (colorChooser.Response != Gtk.ResponseType.None && colorChooser.Response != Gtk.ResponseType.Ok)
+                {
+                    editData.Collage.BackgroundColor = startColor;
+                    colorChooser.Destroy();
+                    colorChooser = null;
+                    return false;
+                }
+                if (colorChooser.Response == Gtk.ResponseType.Ok)
+                {
+                    Command command = new Command(ExecuteColorChange, ExecuteColorChange, colorChooser.SelectedColor, "Change Background Color");
+                    command.SetUndoData(startColor);
+                    editData.UndoManager.AddCommand(command);
 
-                Command command = new Command(ExecuteColorChange, ExecuteColorChange, color, "Change Background Color");
-                command.SetUndoData(startColor);
-                editData.UndoManager.ExecuteAndAddCommand(command);
+                    colorChooser.Destroy();
+                    colorChooser = null;
+                    return false;
+                }
             }
-            return !isColorChoosed;
+            return true;
         }
 
         public void OpenColorDialog()
         {
-            colorDialog = new Gtk.ColorSelectionDialog("Choose color");
-            colorDialog.ColorSelection.CurrentColor = Utils.ToColor(editData.Collage.BackgroundColor);
-            colorDialog.Run();
+            colorChooser = new ColorChooserDialog();
+            colorChooser.OpenDialog(editData.Collage.BackgroundColor);
         }
 
         public object ExecuteColorChange(object color)

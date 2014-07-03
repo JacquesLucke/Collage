@@ -24,6 +24,10 @@ namespace Collage
             dialog.Response += DialogResponse;
             dialog.Run();
         }
+        public void Destroy()
+        {
+            dialog.Destroy();
+        }
 
         private void DialogResponse(object o, ResponseArgs args)
         {
