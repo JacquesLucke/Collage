@@ -35,7 +35,7 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Gui\GetDimensionsDialog.cs" />
+    <Compile Include="Gui\DimensionsDialog.cs" />
     <Compile Include="Images\AsyncImageSourcesLoader.cs" />
     <Compile Include="Operators\ChangeBackgroundColorOperator.cs" />
     <Compile Include="CollageEdit\CollageEditData.cs" />
