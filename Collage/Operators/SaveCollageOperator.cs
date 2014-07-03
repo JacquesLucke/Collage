@@ -11,7 +11,7 @@ namespace Collage
         SaveFileWindow sfw;
         Texture2D tex;
         ProgressBarWindow progressBar;
-        GetDimensionsDialog dimensionsDialog;
+        DimensionsDialog dimensionsDialog;
         int step = 1;
         int width, height;
         string fileName;
@@ -44,7 +44,7 @@ namespace Collage
         }
         public void OpenDimensionsDialog()
         {
-            dimensionsDialog = new GetDimensionsDialog();
+            dimensionsDialog = new DimensionsDialog();
             dimensionsDialog.SetInputRange(500, 6000);
             dimensionsDialog.Start();
         }

@@ -3,7 +3,7 @@ using System;
 
 namespace Collage
 {
-    public class GetDimensionsDialog
+    public class DimensionsDialog
     {
         Window window;
         Button okButton, cancelButton;
@@ -14,7 +14,7 @@ namespace Collage
         int width, height;
         int min, max;
 
-        public GetDimensionsDialog() 
+        public DimensionsDialog() 
         {
             min = 1;
             max = 6000;
