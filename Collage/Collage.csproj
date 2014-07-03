@@ -37,6 +37,7 @@
   <ItemGroup>
     <Compile Include="Gui\DimensionsDialog.cs" />
     <Compile Include="Images\AsyncImageSourcesLoader.cs" />
+    <Compile Include="Operators\AutoPositonOperator.cs" />
     <Compile Include="Operators\ChangeBackgroundColorOperator.cs" />
     <Compile Include="CollageEdit\CollageEditData.cs" />
     <Compile Include="CollageEdit\CollageObject.cs" />
