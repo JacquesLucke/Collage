@@ -11,16 +11,6 @@ namespace Collage
         DataAccess dataAccess;
         CollageEditData editData;
 
-        List<Image> startOrder;
-        Vector2[] startCenters;
-        float[] startRotations;
-        float[] startWidths;
-
-        List<Image> afterOrder;
-        Vector2[] afterCenters;
-        float[] afterRotations;
-        float[] afterWidths;
-
         public AutoPositonOperator() { }
 
         public void SetData(DataAccess dataAccess, CollageEditData editData)
@@ -35,109 +25,101 @@ namespace Collage
 
         public bool Start()
         {
-            int amount = editData.Collage.Images.Count;
+            List<object> currentData = GetCurrentData();
+            List<object> calculationData = CalculateAutoPosition();
 
-            // save state before
-            startCenters = new Vector2[amount];
-            startRotations = new float[amount];
-            startWidths = new float[amount];
-            startOrder = new List<Image>(editData.Collage.Images);
-            for (int i = 0; i < amount; i++)
-            {
-                startCenters[i] = editData.Collage.Images[i].Center;
-                startRotations[i] = editData.Collage.Images[i].Rotation;
-                startWidths[i] = editData.Collage.Images[i].Width;
-            }
+            Command command = new Command(ExecuteAutoPosition, ExecuteAutoPosition, calculationData, "Auto Position");
+            command.SetUndoData(currentData);
+            editData.UndoManager.ExecuteAndAddCommand(command);
+
+            return false;
+        }
+
+        public List<object> GetCurrentData()
+        {
+            List<Image> order = new List<Image>(editData.Collage.Images);
+            List<ImageData> imageDataList = new List<ImageData>(order.Count);
+            for(int i = 0; i < order.Count; i++) imageDataList.Add(order[i].Data);
+
+            return new List<object>() { order, imageDataList };
+        }
+        public List<object> CalculateAutoPosition()
+        {
+            int amount = editData.Collage.Images.Count;
+            List<Image> order = new List<Image>();
+            List<ImageData> imageDataList = new List<ImageData>();
 
             int lines = (int)Math.Min(Math.Max(1, Math.Floor(Math.Sqrt(amount / editData.Collage.AspectRatio))), amount);
-            int[] imagesPerLine = new int[lines];
             int needToAddAmount = amount % Math.Max(1, lines);
-            List<Image> imagesBefore = new List<Image>(editData.Collage.Images);
-            List<Image> imageBuffer = new List<Image>();
-            editData.Collage.Images.Clear();
 
             for (int i = 0; i < lines; i++)
             {
-                imagesPerLine[i] = amount / lines;
+                // calculates how many images will go in this line
+                int imagesInLine = amount / lines;
                 if (needToAddAmount > 0)
                 {
                     if (dataAccess.Random.NextDouble() < 1 / (float)lines || needToAddAmount == lines - i)
                     {
-                        imagesPerLine[i]++;
+                        imagesInLine++;
                         needToAddAmount--;
                     }
                 }
 
-                for (int j = 0; j < imagesPerLine[i]; j++)
+                // calculates an ImageData object for every Image in this line
+                for (int j = 0; j < imagesInLine; j++)
                 {
-                    Image image = imagesBefore.First();
-                    imagesBefore.Remove(image);
-                    imageBuffer.Add(image);
+                    ImageData data = new ImageData();
 
                     // position
                     Vector2 newCenter = new Vector2();
-                    newCenter.X = 1 / (float)imagesPerLine[i] * (j + 1) - 1 / (float)imagesPerLine[i] / 2;
-                    newCenter.Y = (1 / (float)(lines + 1) * i + 1 / (float)(lines + 1) - 0.5f) * MathHelper.Clamp(200 / (float)amount, 1.02f, 1.15f) + 0.5f;
-                    // randomize positon
-                    newCenter.X += (float)(dataAccess.Random.NextDouble() * 2 - 1) / imagesPerLine[i] / 2f;
-                    newCenter.Y += (float)(dataAccess.Random.NextDouble() * 2 - 1) / lines / 2f;
-
-                    image.Center = newCenter;
-
-                    // scale
-                    float newWidth = newWidth = 1 / (float)imagesPerLine[i] * 1.7f;
-                    newWidth += (float)(dataAccess.Random.NextDouble() * 2 - 1) * newWidth / 2;
-                    image.Width = newWidth;
+                    newCenter.X = 1 / (float)imagesInLine * (j + 0.5f);
+                    newCenter.Y = (1 / (float)(lines + 1) * (i + 1) - 0.5f) * MathHelper.Clamp(200 / (float)amount, 1.02f, 1.15f) + 0.5f;
+                    newCenter.X += (float)(dataAccess.Random.NextDouble() * 2 - 1) / imagesInLine / 2f;  // randomize X direction
+                    newCenter.Y += (float)(dataAccess.Random.NextDouble() * 2 - 1) / lines / 2f;         // randomize Y direction
+                    data.Center = newCenter;
 
                     // rotation
-                    image.Rotation = (float)(dataAccess.Random.NextDouble() * 2 - 1) / 10;
+                    data.Rotation = (float)(dataAccess.Random.NextDouble() * 2 - 1) / 10;   // random amount of rotation
+
+                    // scale
+                    float newWidth = newWidth = 1 / (float)imagesInLine * 1.7f;
+                    newWidth += (float)(dataAccess.Random.NextDouble() * 2 - 1) * newWidth / 2; // randomize scale
+                    data.Width = newWidth;
+
+                    imageDataList.Add(data);
                 }
             }
 
+            // change order
+            List<Image> orderBuffer = new List<Image>(editData.Collage.Images);
+            List<ImageData> dataBuffer = new List<ImageData>(imageDataList);
+            imageDataList.Clear();
             for (int i = 0; i < amount; i++)
             {
-                int index = dataAccess.Random.Next(imageBuffer.Count);
-                editData.Collage.Images.Add(imageBuffer[index]);
-                imageBuffer.Remove(imageBuffer[index]);
+                int index = dataAccess.Random.Next(orderBuffer.Count);
+                // order
+                order.Add(orderBuffer[index]);
+                orderBuffer.Remove(orderBuffer[index]);
+                // image data
+                imageDataList.Add(dataBuffer[index]);
+                dataBuffer.Remove(dataBuffer[index]);
             }
 
-            // save state after
-            afterCenters = new Vector2[amount];
-            afterRotations = new float[amount];
-            afterWidths = new float[amount];
-            afterOrder = new List<Image>(editData.Collage.Images);
-            for (int i = 0; i < amount; i++)
-            {
-                afterCenters[i] = editData.Collage.Images[i].Center;
-                afterRotations[i] = editData.Collage.Images[i].Rotation;
-                afterWidths[i] = editData.Collage.Images[i].Width;
-            }
-
-            List<object> newData = new List<object>() {afterOrder, afterCenters, afterRotations, afterWidths};
-            List<object> startData = new List<object>() { startOrder, startCenters, startRotations, startWidths };
-
-            Command command = new Command(ExecuteAutoPosition, ExecuteAutoPosition, newData, "Auto Position");
-            command.SetUndoData(startData);
-            editData.UndoManager.AddCommand(command);
-
-            return false;
+            List<object> calculationData = new List<object>() { order, imageDataList };
+            return calculationData;
         }
 
         public object ExecuteAutoPosition(object rawData)
         {
             List<object> data = (List<object>)rawData;
             List<Image> newOrder = (List<Image>)data[0];
-            Vector2[] newCenters = (Vector2[])data[1];
-            float[] newRotations = (float[])data[2];
-            float[] newWidths = (float[])data[3];
+            List<ImageData> newDataList = (List<ImageData>)data[1];
 
             editData.Collage.Images.Clear();
             editData.Collage.Images.AddRange(newOrder);
             for(int i = 0; i< editData.Collage.Images.Count; i++)
             {
-                editData.Collage.Images[i].Center = newCenters[i];
-                editData.Collage.Images[i].Rotation = newRotations[i];
-                editData.Collage.Images[i].Width = newWidths[i];
+                editData.Collage.Images[i].Data = newDataList[i];
             }
 
             return null;
