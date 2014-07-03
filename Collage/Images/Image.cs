@@ -65,6 +65,11 @@ namespace Collage
         {
             get { return source; }
         }
+        public ImageData Data
+        {
+            get { return data; }
+            set { data = value; }
+        }
 
         public Rectangle GetRectangleInBoundary(Rectangle boundary)
         {
