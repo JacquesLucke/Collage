@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Collage
+﻿namespace Collage
 {
     public class ChangeAspectRatioOperator : IUpdateableCollageOperator
     {
@@ -43,7 +38,6 @@ namespace Collage
                 editData.UndoManager.AddCommand(command);
                 return false;
             }
-            return false;
         }
 
         public object ExecuteAspectRatioChange(object newAspectRatio)
