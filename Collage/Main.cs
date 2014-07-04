@@ -126,6 +126,10 @@ namespace Collage
             // Set Forward
             combination = new KeyCombination(false, false, false, Keys.Right);
             keymap.Add("set forward", combination);
+
+            // Set Backward
+            combination = new KeyCombination(false, false, false, Keys.Left);
+            keymap.Add("set backward", combination);
         }
     }
 }

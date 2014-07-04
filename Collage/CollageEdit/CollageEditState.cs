@@ -97,6 +97,7 @@ namespace Collage
             collageOperators.Add(new SetToFrontOperator());
             collageOperators.Add(new SetAsBackgroundOperator());
             collageOperators.Add(new SetForwardOperator());
+            collageOperators.Add(new SetBackwardOperator());
 
             foreach(ICollageOperator op in collageOperators)
             {
