@@ -63,17 +63,6 @@ namespace Collage
             return filter;
         }
 
-        // Calculations and Tests on Points and Rectangles
-        public static Vector2 RotateAroundOrigin(Vector2 position, Vector2 origin, float rotation)
-        {
-            return Vector2.Transform((position - origin), Matrix.CreateRotationZ(-rotation)) + origin;
-        }
-        public static bool IsVectorInRotatedRectangle(Vector2 vector, Rectangle rectangle, float rotation)
-        {
-            Vector2 rotatedVector = RotateAroundOrigin(vector, ToVector(rectangle.Center), rotation);
-            return rectangle.Contains(rotatedVector);
-        }
-
         // convert Vectors and Points
         public static Point ToPoint(Vector2 vector)
         {
@@ -163,6 +152,59 @@ namespace Collage
             ms = null;
 
             return texture;
+        }
+
+        // Calculations and Tests on Points and Rectangles
+        public static Vector2 RotateAroundOrigin(Vector2 position, Vector2 origin, float rotation)
+        {
+            return Vector2.Transform((position - origin), Matrix.CreateRotationZ(-rotation)) + origin;
+        }
+        public static bool IsVectorInRotatedRectangle(Vector2 vector, Rectangle rectangle, float rotation)
+        {
+            Vector2 rotatedVector = RotateAroundOrigin(vector, ToVector(rectangle.Center), rotation);
+            return rectangle.Contains(rotatedVector);
+        }
+        public static Rectangle GetBoundingBox(Rectangle rectangle, float rotation)
+        {
+            Vector2 topLeft = RotateAroundOrigin(new Vector2(rectangle.Left, rectangle.Top), ToVector(rectangle.Center), rotation);
+            Vector2 topRight = RotateAroundOrigin(new Vector2(rectangle.Right, rectangle.Top), ToVector(rectangle.Center), rotation);
+            Vector2 bottomLeft = RotateAroundOrigin(new Vector2(rectangle.Left, rectangle.Bottom), ToVector(rectangle.Center), rotation);
+            Vector2 bottomRight = RotateAroundOrigin(new Vector2(rectangle.Right, rectangle.Bottom), ToVector(rectangle.Center), rotation);
+
+            int left = (int)Math.Min(Math.Min(topLeft.X, topRight.X), Math.Min(bottomLeft.X, bottomRight.X));
+            int right = (int)Math.Max(Math.Max(topLeft.X, topRight.X), Math.Max(bottomLeft.X, bottomRight.X));
+            int top = (int)Math.Min(Math.Min(topLeft.Y, topRight.Y), Math.Min(bottomLeft.Y, bottomRight.Y));
+            int bottom = (int)Math.Max(Math.Max(topLeft.Y, topRight.Y), Math.Max(bottomLeft.Y, bottomRight.Y));
+
+            Rectangle boundingBox = new Rectangle();
+            boundingBox.X = left;
+            boundingBox.Y = top;
+            boundingBox.Width = right - left;
+            boundingBox.Height = bottom - top;
+
+            return boundingBox;
+        }
+        public static bool DiagonalCollisionTest(Rectangle rectangle1, Rectangle rectangle2)
+        {
+            float distance = Vector2.Distance(ToVector(rectangle1.Center), ToVector(rectangle2.Center));
+            float diagonal1 = (float)Math.Sqrt(rectangle1.Width * rectangle1.Width + rectangle1.Height * rectangle1.Height);
+            float diagonal2 = (float)Math.Sqrt(rectangle2.Width * rectangle2.Width + rectangle2.Height * rectangle2.Height);
+            return distance <= (diagonal1 + diagonal2) / 2;
+        }
+        public static bool BoundingBoxCollisionTest(Rectangle rectangle1, Rectangle rectangle2, float rotation1, float rotation2)
+        {
+            Rectangle rec1 = GetBoundingBox(rectangle1, rotation1);
+            Rectangle rec2 = GetBoundingBox(rectangle2, rotation2);
+            return rec1.Intersects(rec2);
+        }
+        public static bool CouldOverlap(Rectangle rectangle1, Rectangle rectangle2, float rotation1, float rotation2)
+        {
+            if (DiagonalCollisionTest(rectangle1, rectangle2))
+            {
+                return BoundingBoxCollisionTest(rectangle1, rectangle2, rotation1, rotation2);
+            }
+
+            return false;
         }
     }
 }
