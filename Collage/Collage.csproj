@@ -48,6 +48,7 @@
     <Compile Include="DataAccess.cs" />
     <Compile Include="Operators\DeleteImageOperator.cs" />
     <Compile Include="Operators\EmptyOperator.cs" />
+    <Compile Include="Operators\SetToFrontOperator.cs" />
     <Compile Include="Utils\FileTypes.cs" />
     <Compile Include="Operators\GrabOperator.cs" />
     <Compile Include="Gui\GuiThread.cs" />

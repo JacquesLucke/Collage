@@ -114,6 +114,10 @@ namespace Collage
             // Change Aspect Ratio
             combination = new KeyCombination(false, false, false, Keys.R);
             keymap.Add("change aspect ratio", combination);
+
+            // Set To Front
+            combination = new KeyCombination(false, false, false, Keys.Up);
+            keymap.Add("set to front", combination);
         }
     }
 }
