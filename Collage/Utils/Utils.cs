@@ -10,7 +10,7 @@ namespace Collage
 {
     public abstract class Utils
     {
-        // convert file types tp filter
+        #region convert file types tp filter
         public static string FileTypesToWinFormFilter(params FileTypes[] types)
         {
             string filter = "";
@@ -62,8 +62,9 @@ namespace Collage
             }
             return filter;
         }
+        #endregion
 
-        // convert Vectors and Points
+        #region convert Vectors and Points
         public static Point ToPoint(Vector2 vector)
         {
             return new Point((int)Math.Round(vector.X), (int)Math.Round(vector.Y));
@@ -72,8 +73,9 @@ namespace Collage
         {
             return new Vector2(point.X, point.Y);
         }
+        #endregion
 
-        // Convert Colors and Vectors
+        #region Convert Colors and Vectors
         public static Vector4 ToVector(Color color)
         {
             return new Vector4(color.R / 255f, color.G / 255f, color.B / 255f, color.A / 255f);
@@ -98,8 +100,9 @@ namespace Collage
             }
             return output;
         }
+        #endregion
 
-        // Convert Textures and Bitmaps
+        #region Convert Textures and Bitmaps
         public static drawing.Bitmap ToBitmap(Texture2D texture)
         {
             drawing.Bitmap bitmap = new drawing.Bitmap(texture.Width, texture.Height, drawing.Imaging.PixelFormat.Format32bppArgb);
@@ -153,17 +156,21 @@ namespace Collage
 
             return texture;
         }
+        #endregion
 
-        // Calculations and Tests on Points and Rectangles
+        #region Calculations and Tests on Points and Rectangles
+        // this will calculate a vector by rotating another one around an origin
         public static Vector2 RotateAroundOrigin(Vector2 position, Vector2 origin, float rotation)
         {
             return Vector2.Transform((position - origin), Matrix.CreateRotationZ(-rotation)) + origin;
         }
+        // a better contains method that allows rotated rectangles. This works by rotating the vector and use then the normal Contains method
         public static bool IsVectorInRotatedRectangle(Vector2 vector, Rectangle rectangle, float rotation)
         {
             Vector2 rotatedVector = RotateAroundOrigin(vector, ToVector(rectangle.Center), rotation);
             return rectangle.Contains(rotatedVector);
         }
+        // creates a bigger bounding box of a rotated rectangle
         public static Rectangle GetBoundingBox(Rectangle rectangle, float rotation)
         {
             Vector2 topLeft = RotateAroundOrigin(new Vector2(rectangle.Left, rectangle.Top), ToVector(rectangle.Center), rotation);
@@ -184,6 +191,7 @@ namespace Collage
 
             return boundingBox;
         }
+        // checks if the distance between to rectangles is lower than the sum of the diagonals (the half of this)
         public static bool DiagonalCollisionTest(Rectangle rectangle1, Rectangle rectangle2)
         {
             float distance = Vector2.Distance(ToVector(rectangle1.Center), ToVector(rectangle2.Center));
@@ -191,20 +199,22 @@ namespace Collage
             float diagonal2 = (float)Math.Sqrt(rectangle2.Width * rectangle2.Width + rectangle2.Height * rectangle2.Height);
             return distance <= (diagonal1 + diagonal2) / 2;
         }
+        // checks if the bounding boxes of both rotated rectangles are intersecting
         public static bool BoundingBoxCollisionTest(Rectangle rectangle1, Rectangle rectangle2, float rotation1, float rotation2)
         {
             Rectangle rec1 = GetBoundingBox(rectangle1, rotation1);
             Rectangle rec2 = GetBoundingBox(rectangle2, rotation2);
             return rec1.Intersects(rec2);
         }
+        // not-exact test if 2 rotated rectangles are intersecting
         public static bool CouldOverlap(Rectangle rectangle1, Rectangle rectangle2, float rotation1, float rotation2)
         {
             if (DiagonalCollisionTest(rectangle1, rectangle2))
             {
                 return BoundingBoxCollisionTest(rectangle1, rectangle2, rotation1, rotation2);
             }
-
             return false;
         }
+        #endregion
     }
 }
