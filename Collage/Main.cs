@@ -118,6 +118,10 @@ namespace Collage
             // Set To Front
             combination = new KeyCombination(false, false, false, Keys.Up);
             keymap.Add("set to front", combination);
+
+            // Set As Background
+            combination = new KeyCombination(false, false, false, Keys.Down);
+            keymap.Add("set as background", combination);
         }
     }
 }
