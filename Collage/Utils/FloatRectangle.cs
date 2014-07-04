@@ -157,6 +157,7 @@ namespace Collage
         public float AspectRatio
         {
             get { return width / height; }
+            set { width = height * value; }
         }
     }
 }

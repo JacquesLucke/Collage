@@ -11,7 +11,7 @@ namespace Collage
 
         public CollageObject() { }
 
-        public float AspectRatio { get { return aspectRatio; } }
+        public float AspectRatio { get { return aspectRatio; } set { aspectRatio = value; } }
         public Color BackgroundColor { get { return backgroundColor; } set { backgroundColor = value; } }
         public List<Image> Images { get { return images; } }
     }

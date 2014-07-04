@@ -46,6 +46,12 @@ namespace Collage
             }
         }
 
+        public float AspectRatio
+        {
+            get { return current.AspectRatio; }
+            set { current.AspectRatio = value; }
+        }
+
         public Rectangle Rectangle
         {
             get { return current.ToRectangle(); }
