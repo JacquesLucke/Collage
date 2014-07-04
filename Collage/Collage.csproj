@@ -40,6 +40,7 @@
     <Compile Include="Images\AsyncImageSourcesLoader.cs" />
     <Compile Include="Images\ImageData.cs" />
     <Compile Include="Operators\AutoPositonOperator.cs" />
+    <Compile Include="Operators\ChangeAspectRatioOperator.cs" />
     <Compile Include="Operators\ChangeBackgroundColorOperator.cs" />
     <Compile Include="CollageEdit\CollageEditData.cs" />
     <Compile Include="CollageEdit\CollageObject.cs" />

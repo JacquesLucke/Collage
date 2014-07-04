@@ -110,6 +110,10 @@ namespace Collage
             // Auto Position
             combination = new KeyCombination(false, false, false, Keys.Q);
             keymap.Add("auto position", combination);
+
+            // Change Aspect Ratio
+            combination = new KeyCombination(false, false, false, Keys.R);
+            keymap.Add("change aspect ratio", combination);
         }
     }
 }

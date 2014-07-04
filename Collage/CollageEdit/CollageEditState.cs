@@ -93,6 +93,7 @@ namespace Collage
             collageOperators.Add(new SelectAllOperator());
             collageOperators.Add(new SaveCollageOperator());
             collageOperators.Add(new AutoPositonOperator());
+            collageOperators.Add(new ChangeAspectRatioOperator());
 
             foreach(ICollageOperator op in collageOperators)
             {
