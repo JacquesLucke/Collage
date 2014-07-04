@@ -122,6 +122,10 @@ namespace Collage
             // Set As Background
             combination = new KeyCombination(false, false, false, Keys.Down);
             keymap.Add("set as background", combination);
+
+            // Set As Background
+            combination = new KeyCombination(false, false, false, Keys.Right);
+            keymap.Add("set forward", combination);
         }
     }
 }
