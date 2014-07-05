@@ -49,7 +49,7 @@ namespace Collage
                     }
                 }
                 // unload the texture to free memory
-                if (unloadSource) ((Image)image).Unload();
+                if (unloadSource) image.Unload();
             }
             // clear selection because all selected images were deleted
             editData.SelectedImages.Clear();
