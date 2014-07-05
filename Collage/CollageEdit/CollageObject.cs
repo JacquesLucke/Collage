@@ -5,14 +5,26 @@ namespace Collage
 {
     public class CollageObject
     {
-        float aspectRatio = 1.8f;
-        Color backgroundColor = Color.DarkOrange;
-        List<Image> images = new List<Image>();
+        List<Image> images;
+        CollageData data;
 
-        public CollageObject() { }
+        public CollageObject() 
+        {
+            images = new List<Image>();
 
-        public float AspectRatio { get { return aspectRatio; } set { aspectRatio = value; } }
-        public Color BackgroundColor { get { return backgroundColor; } set { backgroundColor = value; } }
+            data = new CollageData();
+            SetDefaultData();
+        }
+        public void SetDefaultData()
+        {
+            data.AspectRatio = 1.8f;
+            data.BackgroundColor = Color.DarkOrange;
+        }
+
+        public float AspectRatio { get { return data.AspectRatio; } set { data.AspectRatio = value; } }
+        public Color BackgroundColor { get { return data.BackgroundColor; } set { data.BackgroundColor = value; } }
         public List<Image> Images { get { return images; } }
+
+        public CollageData Data { get { return data; } set { data = value; } }
     }
 }

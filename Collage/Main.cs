@@ -130,6 +130,10 @@ namespace Collage
             // Set Backward
             combination = new KeyCombination(false, false, false, Keys.Left);
             keymap.Add("set backward", combination);
+
+            // Clear Collage
+            combination = new KeyCombination(true, false, false, Keys.N);
+            keymap.Add("clear collage", combination);
         }
     }
 }

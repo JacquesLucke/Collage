@@ -35,6 +35,7 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="CollageEdit\CollageData.cs" />
     <Compile Include="Gui\ColorChooserDialog.cs" />
     <Compile Include="Gui\DimensionsDialog.cs" />
     <Compile Include="Images\AsyncImageSourcesLoader.cs" />
@@ -46,6 +47,7 @@
     <Compile Include="CollageEdit\CollageObject.cs" />
     <Compile Include="CollageEdit\CollagePreviewRenderer.cs" />
     <Compile Include="DataAccess.cs" />
+    <Compile Include="Operators\ClearCollageOperator.cs" />
     <Compile Include="Operators\DeleteImageOperator.cs" />
     <Compile Include="Operators\EmptyOperator.cs" />
     <Compile Include="Operators\SetAsBackgroundOperator.cs" />
