@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Gtk;
+﻿using Gtk;
+using System.Threading;
 
 namespace Collage
 {
@@ -40,8 +37,17 @@ namespace Collage
 
         public void Destroy()
         {
-            progressBar.Destroy();
-            window.Destroy();
+            if(progressBar == null)
+            {
+                for(int i = 0; i < 30; i++)
+                {
+                    if (progressBar != null) break;
+                    Thread.Sleep(1);
+                }
+            }
+
+            if(progressBar != null) progressBar.Destroy();
+            if(progressBar != null) window.Destroy();
         }
 
         public void StepUp(string text)
