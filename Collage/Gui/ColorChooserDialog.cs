@@ -23,6 +23,9 @@ namespace Collage
             dialog.ColorSelection.CurrentColor = Utils.ToColor(color);
             dialog.Response += DialogResponse;
             dialog.Run();
+
+            Clipboard c = Clipboard.Get(Gdk.Atom.Intern("CLIPBOARD", false));
+            c.Text = "Hallo";
         }
         public void Destroy()
         {
