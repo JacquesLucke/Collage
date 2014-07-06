@@ -3,7 +3,7 @@ using System;
 
 namespace Collage
 {
-    public class RotateOperator : IUpdateableCollageOperator
+    public class RotateOperator : IUpdateableCollageOperator, ISpecialOperatorStart
     {
         DataAccess dataAccess;
         CollageEditData editData;

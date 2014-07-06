@@ -1,7 +1,7 @@
 ﻿
 namespace Collage
 {
-    public class EmptyOperator : ICollageOperator
+    public class EmptyOperator : ICollageOperator, ISpecialOperatorStart
     {
         DataAccess dataAccess;
         CollageEditData editData;

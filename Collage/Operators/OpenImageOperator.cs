@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Collage
 {
-    public class OpenImageOperator : IUpdateableCollageOperator
+    public class OpenImageOperator : IUpdateableCollageOperator, ISpecialOperatorStart
     {
         DataAccess dataAccess;
         CollageEditData editData;

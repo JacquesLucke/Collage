@@ -1,6 +1,6 @@
 ﻿namespace Collage
 {
-    public class ChangeAspectRatioOperator : IUpdateableCollageOperator
+    public class ChangeAspectRatioOperator : IUpdateableCollageOperator, ISpecialOperatorStart
     {
         DataAccess dataAccess;
         CollageEditData editData;

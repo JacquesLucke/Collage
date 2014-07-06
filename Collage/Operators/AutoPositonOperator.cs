@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Collage
 {
-    public class AutoPositonOperator : ICollageOperator
+    public class AutoPositonOperator : ICollageOperator, ISpecialOperatorStart
     {
         DataAccess dataAccess;
         CollageEditData editData;

@@ -59,7 +59,7 @@ namespace Collage
             // activate operators
             if(activeOperator == null)
             {
-                foreach(ICollageOperator op in collageOperators)
+                foreach(ISpecialOperatorStart op in collageOperators)
                 {
                     if(op.CanStart())
                     {

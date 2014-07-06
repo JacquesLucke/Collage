@@ -2,7 +2,7 @@
 
 namespace Collage
 {
-    class SelectAllOperator : ICollageOperator
+    class SelectAllOperator : ICollageOperator, ISpecialOperatorStart
     {
         DataAccess dataAccess;
         CollageEditData editData;

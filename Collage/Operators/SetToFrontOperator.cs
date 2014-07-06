@@ -2,7 +2,7 @@
 
 namespace Collage
 {
-    public class SetToFrontOperator : ICollageOperator
+    public class SetToFrontOperator : ICollageOperator, ISpecialOperatorStart
     {
         DataAccess dataAccess;
         CollageEditData editData;

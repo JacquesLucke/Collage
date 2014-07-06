@@ -2,7 +2,7 @@
 
 namespace Collage
 {
-    class ChangeBackgroundColorOperator : IUpdateableCollageOperator
+    class ChangeBackgroundColorOperator : IUpdateableCollageOperator, ISpecialOperatorStart
     {
         DataAccess dataAccess;
         CollageEditData editData;

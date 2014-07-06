@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Collage
 {
-    public class SetAsBackgroundOperator : ICollageOperator
+    public class SetAsBackgroundOperator : ICollageOperator, ISpecialOperatorStart
     {
         DataAccess dataAccess;
         CollageEditData editData;

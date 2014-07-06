@@ -2,7 +2,7 @@
 
 namespace Collage
 {
-    class DeleteImageOperator : ICollageOperator
+    class DeleteImageOperator : ICollageOperator, ISpecialOperatorStart
     {
         DataAccess dataAccess;
         CollageEditData editData;

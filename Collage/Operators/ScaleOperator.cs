@@ -2,7 +2,7 @@
 
 namespace Collage
 {
-    public class ScaleOperator : IUpdateableCollageOperator
+    public class ScaleOperator : IUpdateableCollageOperator, ISpecialOperatorStart
     {
         DataAccess dataAccess;
         CollageEditData editData;

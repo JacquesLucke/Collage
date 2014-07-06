@@ -4,7 +4,7 @@ using System;
 
 namespace Collage
 {
-    class SaveCollageOperator : IUpdateableCollageOperator
+    class SaveCollageOperator : IUpdateableCollageOperator, ISpecialOperatorStart
     {
         DataAccess dataAccess;
         CollageEditData editData;
