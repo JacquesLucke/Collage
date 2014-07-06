@@ -52,22 +52,30 @@ namespace Collage
             }
 
             // update or deactivate operators
-            if(activeOperator != null)
+            if (activeOperator != null)
             {
                 if (!activeOperator.Update()) activeOperator = null;
             }
-            // activate operators
-            if(activeOperator == null)
+            if (activeOperator == null)
             {
-                foreach(ISpecialOperatorStart op in collageOperators)
+                List<ICollageOperator> startableOperators = new List<ICollageOperator>();
+
+                // check special starts
+                foreach(ICollageOperator op in collageOperators)
                 {
-                    if(op.CanStart())
+                    if (op is ISpecialOperatorStart)
                     {
-                        if(op.Start() && op is IUpdateableCollageOperator)
-                        {
-                            activeOperator = (IUpdateableCollageOperator)op;
-                            break;
-                        }
+                        if (((ISpecialOperatorStart)op).CanStart()) startableOperators.Add(op);
+                    }
+                }
+
+                // start startable operators
+                foreach(ICollageOperator op in startableOperators)
+                {
+                    if(op.Start() && op is IUpdateableCollageOperator)
+                    {
+                        activeOperator = (IUpdateableCollageOperator)op;
+                        break;
                     }
                 }
             }
