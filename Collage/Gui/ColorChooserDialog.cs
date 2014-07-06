@@ -17,15 +17,18 @@ namespace Collage
 
         public void OpenDialog(Color color)
         {
+            Clipboard c = Clipboard.Get(Gdk.Atom.Intern("CLIPBOARD", false));
+            c.RequestText(new ClipboardTextReceivedFunc(ClipboardReceiveText));
             selectedColor = color;
 
             dialog = new ColorSelectionDialog("Choose Color");
             dialog.ColorSelection.CurrentColor = Utils.ToColor(color);
             dialog.Response += DialogResponse;
             dialog.Run();
-
-            Clipboard c = Clipboard.Get(Gdk.Atom.Intern("CLIPBOARD", false));
-            c.Text = "Hallo";
+        }
+        public void ClipboardReceiveText(Clipboard c, string text)
+        {
+            System.Diagnostics.Debug.WriteLine(text);
         }
         public void Destroy()
         {
