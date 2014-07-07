@@ -5,13 +5,19 @@ namespace Collage
 {
     public class Keymap
     {
-        Dictionary<string, KeyCombination> combinations = new Dictionary<string, KeyCombination>();
+        Dictionary<string, KeyCombination> combinations;
 
-        public Keymap() { }
+        public Keymap() 
+        {
+            combinations = new Dictionary<string, KeyCombination>();
+
+            Add("empty", new KeyCombination(false, false, false));
+        }
 
         public void Add(string alias, KeyCombination keyCombination)
         {
-            combinations.Add(alias, keyCombination);
+            if (!combinations.ContainsKey(alias)) combinations.Add(alias, keyCombination);
+            else combinations[alias] = keyCombination;
         }
 
         public KeyCombination this[string alias]
@@ -19,14 +25,8 @@ namespace Collage
             get
             {
                 string lower = alias.ToLower();
-                if (combinations.ContainsKey(lower))
-                {
-                    return combinations[lower];
-                }
-                else
-                {
-                    return combinations["empty"];
-                }
+                if (combinations.ContainsKey(lower)) return combinations[lower];
+                else return combinations["empty"];
             }
         }
     }

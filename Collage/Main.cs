@@ -75,10 +75,6 @@ namespace Collage
         {
             KeyCombination combination;
 
-            // Empty
-            combination = new KeyCombination(false, false, false);
-            keymap.Add("empty", combination);
-
             // Undo
             combination = new KeyCombination(true, false, false, Keys.Z);
             keymap.Add("undo", combination);
