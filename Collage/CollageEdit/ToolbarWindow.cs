@@ -46,5 +46,10 @@ namespace Collage
         {
             return interactions;
         }
+
+        public void SetSensitivity(bool sensitivity)
+        {
+            if (window != null) window.Sensitive = sensitivity;
+        }
     }
 }

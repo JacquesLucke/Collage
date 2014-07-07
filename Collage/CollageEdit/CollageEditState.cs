@@ -62,7 +62,11 @@ namespace Collage
             // update or deactivate operators
             if (activeOperator != null)
             {
-                if (!activeOperator.Update()) activeOperator = null;
+                if (!activeOperator.Update())
+                {
+                    activeOperator = null;
+                    SetActivatorSensitivity(true);
+                }
             }
             if (activeOperator == null)
             {
@@ -80,9 +84,18 @@ namespace Collage
                     if(op.Start() && op is IUpdateableCollageOperator)
                     {
                         activeOperator = (IUpdateableCollageOperator)op;
+                        SetActivatorSensitivity(false);
                         break;
                     }
                 }
+            }
+        }
+
+        private void SetActivatorSensitivity(bool sensitivity)
+        {
+            foreach(IOperatorActivator activator in activators)
+            {
+                if (activator is IParallelOperatorActivator) ((IParallelOperatorActivator)activator).SetSensitivity(sensitivity);
             }
         }
 

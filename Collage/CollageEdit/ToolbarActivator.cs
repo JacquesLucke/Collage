@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Collage
 {
-    public class ToolbarActivator : IOperatorActivator
+    public class ToolbarActivator : IParallelOperatorActivator
     {
         DataAccess dataAccess;
         ToolbarWindow window;
@@ -23,6 +23,11 @@ namespace Collage
         {
             window = new ToolbarWindow();
             window.Start();
+        }
+
+        public void SetSensitivity(bool sensitivity)
+        {
+            window.SetSensitivity(sensitivity);
         }
 
         public List<ICollageOperator> GetActivatedOperators()
