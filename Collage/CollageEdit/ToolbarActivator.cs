@@ -21,7 +21,7 @@ namespace Collage
 
         private void OpenWindow()
         {
-            window = new ToolbarWindow();
+            window = new ToolbarWindow(dataAccess.Keymap);
             window.Start();
         }
 

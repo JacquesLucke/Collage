@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework.Input;
+using System;
 using System.Collections.Generic;
 
 namespace Collage
@@ -65,6 +66,26 @@ namespace Collage
             }
 
             return extraKeys && keysOK;
+        }
+
+        public override string ToString()
+        {
+            string output = "";
+            if (isStrg && isShift && isAlt) output = "Strg + Shift + Alt";
+            if (isStrg && isShift && !isAlt) output = "Strg + Shift";
+            if (isStrg && !isShift && isAlt) output = "Strg + Alt";
+            if (!isStrg && isShift && isAlt) output = "Shift + Alt";
+            if (isStrg && !isShift && !isAlt) output = "Strg";
+            if (!isStrg && isShift && !isAlt) output = "Shift";
+            if (!isStrg && !isStrg && isAlt) output = "Alt";
+            output += " ";
+
+            for (int i = 0; i < Keys.Length; i++)
+            {
+                output += Enum.GetName(typeof(Keys), Keys[i]) + " ";
+            }
+
+            return output.Trim();
         }
     }
 }

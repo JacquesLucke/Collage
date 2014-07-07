@@ -24,7 +24,7 @@ namespace Collage
 
             // check if key combinations are pressed
             if (keymap["change collage background color"].IsPressed(dataAccess.Input)) startableOperators.Add(operators[2]);
-            if (keymap["open image"].IsPressed(dataAccess.Input)) startableOperators.Add(operators[3]);
+            if (keymap["open images"].IsPressed(dataAccess.Input)) startableOperators.Add(operators[3]);
             if (keymap["delete image"].IsPressed(dataAccess.Input)) startableOperators.Add(operators[8]);
             if (keymap["select all"].IsPressed(dataAccess.Input)) startableOperators.Add(operators[9]);
             if (keymap["save collage"].IsPressed(dataAccess.Input)) startableOperators.Add(operators[10]);

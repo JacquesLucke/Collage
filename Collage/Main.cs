@@ -89,7 +89,7 @@ namespace Collage
 
             // Open Image
             combination = new KeyCombination(false, false, false, Keys.O);
-            keymap.Add("open image", combination);
+            keymap.Add("open images", combination);
 
             // Delete Image
             combination = new KeyCombination(false, false, false, Keys.X);

@@ -8,12 +8,15 @@ namespace Collage
 {
     public class ToolbarWindow
     {
+        Keymap keymap;
+
         Window window;
         Button openButton;
         List<object> interactions;
 
-        public ToolbarWindow() 
+        public ToolbarWindow(Keymap keymap) 
         {
+            this.keymap = keymap;
             interactions = new List<object>();
         }
 
@@ -30,6 +33,7 @@ namespace Collage
             openButton = new Button();
             openButton.Label = "Open Images";
             openButton.SetSizeRequest(80, 30);
+            openButton.TooltipText = "Shortcut: " + keymap["open images"].ToString();
             openButton.Clicked += openButton_Clicked;
             fix.Put(openButton, 10, 20);
 
