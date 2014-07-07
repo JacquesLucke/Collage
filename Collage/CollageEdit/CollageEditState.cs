@@ -11,7 +11,6 @@ namespace Collage
 
         List<ICollageOperator> collageOperators;
         IUpdateableCollageOperator activeOperator;
-
         List<IOperatorActivator> activators;
 
         public CollageEditState(DataAccess dataAccess) 
@@ -27,17 +26,16 @@ namespace Collage
 
             editData = new CollageEditData(collage, drawRectangle, undoManager);
 
+            // create the Preview Renderer
             previewRenderer = new CollagePreviewRenderer(dataAccess);
             previewRenderer.SetEditData(editData);
 
             RegisterCollageOperators();
 
-            SpecialOperatorActivator specialActivator = new SpecialOperatorActivator(dataAccess, collageOperators);
-            KeymapActivator keymapActivator = new KeymapActivator(dataAccess, collageOperators);
-
+            // create activators
             activators = new List<IOperatorActivator>();
-            activators.Add(specialActivator);
-            activators.Add(keymapActivator);
+            activators.Add(new SpecialOperatorActivator(dataAccess, collageOperators));
+            activators.Add(new KeymapActivator(dataAccess, collageOperators));
         }
 
         public void Start()

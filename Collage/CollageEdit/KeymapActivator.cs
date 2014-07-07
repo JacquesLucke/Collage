@@ -22,6 +22,7 @@ namespace Collage
             List<ICollageOperator> startableOperators = new List<ICollageOperator>();
             Keymap keymap = dataAccess.Keymap;
 
+            // check if key combinations are pressed
             if (keymap["change collage background color"].IsPressed(dataAccess.Input)) startableOperators.Add(operators[2]);
             if (keymap["open image"].IsPressed(dataAccess.Input)) startableOperators.Add(operators[3]);
             if (keymap["delete image"].IsPressed(dataAccess.Input)) startableOperators.Add(operators[8]);
