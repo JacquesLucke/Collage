@@ -2,7 +2,7 @@
 
 namespace Collage
 {
-    class ChangeBackgroundColorOperator : IUpdateableCollageOperator, ISpecialOperatorStart
+    class ChangeBackgroundColorOperator : IUpdateableCollageOperator
     {
         DataAccess dataAccess;
         CollageEditData editData;
@@ -15,10 +15,6 @@ namespace Collage
         {
             this.dataAccess = dataAccess;
             this.editData = editData;
-        }
-        public bool CanStart()
-        {
-            return dataAccess.Keymap["change collage background color"].IsCombinationPressed(dataAccess.Input);
         }
 
         public bool Start()

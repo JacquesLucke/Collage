@@ -50,11 +50,11 @@ namespace Collage
 
         public Keys[] Keys { get { return keys; } set { keys = value; } }
 
-        public bool IsCombinationDown(Input input)
+        public bool IsDown(Input input)
         {
             return isStrg == input.IsStrg && isAlt == input.IsAlt && isShift == input.IsShift && input.AreKeysDown(keys);
         }
-        public bool IsCombinationPressed(Input input)
+        public bool IsPressed(Input input)
         {
             bool extraKeys = isStrg == input.IsStrg && isAlt == input.IsAlt && isShift == input.IsShift;
             bool keysOK = false;

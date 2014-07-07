@@ -2,7 +2,7 @@
 
 namespace Collage
 {
-    class DeleteImageOperator : ICollageOperator, ISpecialOperatorStart
+    class DeleteImageOperator : ICollageOperator
     {
         DataAccess dataAccess;
         CollageEditData editData;
@@ -13,10 +13,6 @@ namespace Collage
         {
             this.dataAccess = dataAccess;
             this.editData = editData;
-        }
-        public bool CanStart()
-        {
-            return dataAccess.Keymap["delete image"].IsCombinationPressed(dataAccess.Input);
         }
 
         public bool Start()

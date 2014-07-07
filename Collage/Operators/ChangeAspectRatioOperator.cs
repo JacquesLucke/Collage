@@ -1,6 +1,6 @@
 ﻿namespace Collage
 {
-    public class ChangeAspectRatioOperator : IUpdateableCollageOperator, ISpecialOperatorStart
+    public class ChangeAspectRatioOperator : IUpdateableCollageOperator
     {
         DataAccess dataAccess;
         CollageEditData editData;
@@ -13,10 +13,6 @@
             this.dataAccess = dataAccess;
             this.editData = editData;
         }
-        public bool CanStart()
-        {
-            return dataAccess.Keymap["change aspect ratio"].IsCombinationPressed(dataAccess.Input);
-        }
 
         public bool Start()
         {
@@ -26,7 +22,7 @@
 
         public bool Update()
         {
-            if (dataAccess.Keymap["change aspect ratio"].IsCombinationDown(dataAccess.Input))
+            if (dataAccess.Keymap["change aspect ratio"].IsDown(dataAccess.Input))
             {
                 editData.Collage.AspectRatio += dataAccess.Input.MouseDifferenceVector.X / 500f;
                 return true;

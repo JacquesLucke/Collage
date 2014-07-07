@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Collage
 {
-    public class SetBackwardOperator : ICollageOperator, ISpecialOperatorStart
+    public class SetBackwardOperator : ICollageOperator
     {
         DataAccess dataAccess;
         CollageEditData editData;
@@ -14,10 +14,6 @@ namespace Collage
         {
             this.dataAccess = dataAccess;
             this.editData = editData;
-        }
-        public bool CanStart()
-        {
-            return dataAccess.Keymap["set backward"].IsCombinationPressed(dataAccess.Input) && editData.SelectedImages.Count > 0;
         }
 
         public bool Start()

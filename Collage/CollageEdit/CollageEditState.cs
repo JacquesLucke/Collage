@@ -33,9 +33,11 @@ namespace Collage
             RegisterCollageOperators();
 
             SpecialOperatorActivator specialActivator = new SpecialOperatorActivator(dataAccess, collageOperators);
+            KeymapActivator keymapActivator = new KeymapActivator(dataAccess, collageOperators);
 
             activators = new List<IOperatorActivator>();
             activators.Add(specialActivator);
+            activators.Add(keymapActivator);
         }
 
         public void Start()
@@ -48,12 +50,12 @@ namespace Collage
             editData.Update(input);
 
             // undo
-            if(activeOperator == null && dataAccess.Keymap["undo"].IsCombinationPressed(dataAccess.Input))
+            if(activeOperator == null && dataAccess.Keymap["undo"].IsPressed(dataAccess.Input))
             {
                 editData.UndoManager.Undo();
             }
             // redo
-            if (activeOperator == null && dataAccess.Keymap["redo"].IsCombinationPressed(dataAccess.Input))
+            if (activeOperator == null && dataAccess.Keymap["redo"].IsPressed(dataAccess.Input))
             {
                 editData.UndoManager.Redo();
             }
@@ -92,25 +94,25 @@ namespace Collage
 
         public void RegisterCollageOperators()
         {
-            collageOperators = new List<ICollageOperator>();
-            collageOperators.Add(new MoveOperator());
-            collageOperators.Add(new ZoomOperator());
-            collageOperators.Add(new ChangeBackgroundColorOperator());
-            collageOperators.Add(new OpenImageOperator());
-            collageOperators.Add(new SelectImageOperator());
-            collageOperators.Add(new GrabOperator());
-            collageOperators.Add(new ScaleOperator());
-            collageOperators.Add(new RotateOperator());
-            collageOperators.Add(new DeleteImageOperator());
-            collageOperators.Add(new SelectAllOperator());
-            collageOperators.Add(new SaveCollageOperator());
-            collageOperators.Add(new AutoPositonOperator());
-            collageOperators.Add(new ChangeAspectRatioOperator());
-            collageOperators.Add(new SetToFrontOperator());
-            collageOperators.Add(new SetAsBackgroundOperator());
-            collageOperators.Add(new SetForwardOperator());
-            collageOperators.Add(new SetBackwardOperator());
-            collageOperators.Add(new ClearCollageOperator());
+            collageOperators = new List<ICollageOperator>();            // every Operator has an index
+            collageOperators.Add(new MoveOperator());                   //  0
+            collageOperators.Add(new ZoomOperator());                   //  1
+            collageOperators.Add(new ChangeBackgroundColorOperator());  //  2
+            collageOperators.Add(new OpenImageOperator());              //  3
+            collageOperators.Add(new SelectImageOperator());            //  4    
+            collageOperators.Add(new GrabOperator());                   //  5
+            collageOperators.Add(new ScaleOperator());                  //  6
+            collageOperators.Add(new RotateOperator());                 //  7
+            collageOperators.Add(new DeleteImageOperator());            //  8
+            collageOperators.Add(new SelectAllOperator());              //  9
+            collageOperators.Add(new SaveCollageOperator());            // 10
+            collageOperators.Add(new AutoPositonOperator());            // 11    
+            collageOperators.Add(new ChangeAspectRatioOperator());      // 12
+            collageOperators.Add(new SetToFrontOperator());             // 13
+            collageOperators.Add(new SetAsBackgroundOperator());        // 14
+            collageOperators.Add(new SetForwardOperator());             // 15
+            collageOperators.Add(new SetBackwardOperator());            // 16
+            collageOperators.Add(new ClearCollageOperator());           // 17
 
             foreach(ICollageOperator op in collageOperators)
             {

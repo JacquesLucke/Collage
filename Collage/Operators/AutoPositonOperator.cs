@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Collage
 {
-    public class AutoPositonOperator : ICollageOperator, ISpecialOperatorStart
+    public class AutoPositonOperator : ICollageOperator
     {
         DataAccess dataAccess;
         CollageEditData editData;
@@ -17,10 +17,6 @@ namespace Collage
         {
             this.dataAccess = dataAccess;
             this.editData = editData;
-        }
-        public bool CanStart()
-        {
-            return dataAccess.Keymap["auto position"].IsCombinationPressed(dataAccess.Input);
         }
 
         public bool Start()

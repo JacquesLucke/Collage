@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Collage
 {
-    public class OpenImageOperator : IUpdateableCollageOperator, ISpecialOperatorStart
+    public class OpenImageOperator : IUpdateableCollageOperator
     {
         DataAccess dataAccess;
         CollageEditData editData;
@@ -15,10 +15,6 @@ namespace Collage
         {
             this.dataAccess = dataAccess;
             this.editData = editData;
-        }
-        public bool CanStart()
-        {
-            return dataAccess.Keymap["open image"].IsCombinationPressed(dataAccess.Input);
         }
 
         public bool Start()

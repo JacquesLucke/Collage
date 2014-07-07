@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Collage
 {
-    public class SetForwardOperator : ICollageOperator, ISpecialOperatorStart
+    public class SetForwardOperator : ICollageOperator
     {
         DataAccess dataAccess;
         CollageEditData editData;
@@ -15,13 +15,12 @@ namespace Collage
             this.dataAccess = dataAccess;
             this.editData = editData;
         }
-        public bool CanStart()
-        {
-            return dataAccess.Keymap["set forward"].IsCombinationPressed(dataAccess.Input) && editData.SelectedImages.Count > 0;
-        }
 
         public bool Start()
         {
+            // stop if no image is selected
+            if (editData.SelectedImages.Count == 0) return false;
+ 
             List<Image> newOrder = new List<Image>(editData.Collage.Images);
             Rectangle testBoundary = new Rectangle(0, 0, 1000, 600);
 

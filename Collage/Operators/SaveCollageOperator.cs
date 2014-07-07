@@ -4,7 +4,7 @@ using System;
 
 namespace Collage
 {
-    class SaveCollageOperator : IUpdateableCollageOperator, ISpecialOperatorStart
+    class SaveCollageOperator : IUpdateableCollageOperator
     {
         DataAccess dataAccess;
         CollageEditData editData;
@@ -25,10 +25,6 @@ namespace Collage
 
             tex = new Texture2D(dataAccess.GraphicsDevice, 1, 1);
             tex.SetData<Color>(new Color[] { Color.White });
-        }
-        public bool CanStart()
-        {
-            return dataAccess.Keymap["save collage"].IsCombinationPressed(dataAccess.Input);
         }
 
         public bool Start()

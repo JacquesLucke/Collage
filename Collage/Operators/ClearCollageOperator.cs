@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Collage
 {
-    public class ClearCollageOperator : ICollageOperator, ISpecialOperatorStart
+    public class ClearCollageOperator : ICollageOperator
     {
         DataAccess dataAccess;
         CollageEditData editData;
@@ -16,10 +16,6 @@ namespace Collage
         {
             this.dataAccess = dataAccess;
             this.editData = editData;
-        }
-        public bool CanStart()
-        {
-            return dataAccess.Keymap["clear collage"].IsCombinationPressed(dataAccess.Input);
         }
 
         public bool Start()

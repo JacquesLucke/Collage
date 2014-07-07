@@ -37,6 +37,7 @@
   <ItemGroup>
     <Compile Include="CollageEdit\CollageData.cs" />
     <Compile Include="CollageEdit\IOperatorActivator.cs" />
+    <Compile Include="CollageEdit\KeymapActivator.cs" />
     <Compile Include="CollageEdit\SpecialOperatorActivator.cs" />
     <Compile Include="Gui\ColorChooserDialog.cs" />
     <Compile Include="Gui\DimensionsDialog.cs" />
