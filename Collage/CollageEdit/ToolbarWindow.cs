@@ -34,16 +34,17 @@ namespace Collage
             openButton.Label = "Open Images";
             openButton.SetSizeRequest(80, 30);
             openButton.TooltipText = "Shortcut: " + keymap["open images"].ToString();
-            openButton.Clicked += openButton_Clicked;
+            openButton.Name = "open images";
+            openButton.Clicked += OperatorButtonClicked;
             fix.Put(openButton, 10, 20);
 
             window.Add(fix);
             window.ShowAll();
         }
 
-        void openButton_Clicked(object sender, EventArgs e)
+        void OperatorButtonClicked(object sender, EventArgs e)
         {
-            interactions.Add("open images");
+            interactions.Add(((Button)sender).Name);
         }
 
         public List<object> GetInteractions()
