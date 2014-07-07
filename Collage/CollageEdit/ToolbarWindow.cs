@@ -37,7 +37,6 @@ namespace Collage
             openButton.TooltipText = "Shortcut: " + keymap["open images"].ToString();
             openButton.Name = "open images";
             openButton.Clicked += OperatorButtonClicked;
-            fix.Put(openButton, 10, 20);
 
             saveButton = new Button();
             saveButton.Label = "Save Collage";
@@ -45,7 +44,6 @@ namespace Collage
             saveButton.TooltipText = "Shortcut: " + keymap["save collage"].ToString();
             saveButton.Name = "save collage";
             saveButton.Clicked += OperatorButtonClicked;
-            fix.Put(saveButton, 120, 20);
 
             autoPositionButton = new Button();
             autoPositionButton.Label = "Auto Position";
@@ -53,11 +51,15 @@ namespace Collage
             autoPositionButton.TooltipText = "Shortcut: " + keymap["auto position"].ToString();
             autoPositionButton.Name = "auto position";
             autoPositionButton.Clicked += OperatorButtonClicked;
-            fix.Put(autoPositionButton, 10, 55);
 
             stayOnTopCheckbutton = new CheckButton();
             stayOnTopCheckbutton.Label = "Stay on Top";
             stayOnTopCheckbutton.Toggled += StayOnTopToogled;
+
+            // place objects in window
+            fix.Put(openButton, 10, 20);
+            fix.Put(saveButton, 120, 20);
+            fix.Put(autoPositionButton, 10, 55);
             fix.Put(stayOnTopCheckbutton, 10, 200);
 
             window.Add(fix);
