@@ -11,7 +11,7 @@ namespace Collage
         Keymap keymap;
 
         Window window;
-        Button openButton, autoPositionButton;
+        Button openButton, saveButton, autoPositionButton;
         CheckButton stayOnTopCheckbutton;
         List<object> interactions;
 
@@ -25,7 +25,7 @@ namespace Collage
         {
             window = new Window(WindowType.Toplevel);
             window.Move(10, 60);
-            window.Resize(200, 700);
+            window.Resize(230, 700);
             window.Title = "Toolbar";
             window.Deletable = false;
 
@@ -38,6 +38,14 @@ namespace Collage
             openButton.Name = "open images";
             openButton.Clicked += OperatorButtonClicked;
             fix.Put(openButton, 10, 20);
+
+            saveButton = new Button();
+            saveButton.Label = "Save Collage";
+            saveButton.SetSizeRequest(100, 30);
+            saveButton.TooltipText = "Shortcut: " + keymap["save collage"].ToString();
+            saveButton.Name = "save collage";
+            saveButton.Clicked += OperatorButtonClicked;
+            fix.Put(saveButton, 120, 20);
 
             autoPositionButton = new Button();
             autoPositionButton.Label = "Auto Position";

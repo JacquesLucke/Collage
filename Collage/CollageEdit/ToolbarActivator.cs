@@ -44,6 +44,7 @@ namespace Collage
                         string action = (string)ob;
                         if (action == "open images") startableOperators.Add(operators[3]);
                         if (action == "auto position") startableOperators.Add(operators[11]);
+                        if (action == "save collage") startableOperators.Add(operators[10]);
                     }
                 }
                 interactions.Clear();
