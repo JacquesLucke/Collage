@@ -39,6 +39,8 @@
     <Compile Include="CollageEdit\IOperatorActivator.cs" />
     <Compile Include="CollageEdit\KeymapActivator.cs" />
     <Compile Include="CollageEdit\SpecialOperatorActivator.cs" />
+    <Compile Include="CollageEdit\ToolbarActivator.cs" />
+    <Compile Include="CollageEdit\ToolbarWindow.cs" />
     <Compile Include="Gui\ColorChooserDialog.cs" />
     <Compile Include="Gui\DimensionsDialog.cs" />
     <Compile Include="Images\AsyncImageSourcesLoader.cs" />

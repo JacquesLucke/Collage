@@ -36,6 +36,7 @@ namespace Collage
             activators = new List<IOperatorActivator>();
             activators.Add(new SpecialOperatorActivator(dataAccess, collageOperators));
             activators.Add(new KeymapActivator(dataAccess, collageOperators));
+            activators.Add(new ToolbarActivator(dataAccess, collageOperators));
         }
 
         public void Start()
