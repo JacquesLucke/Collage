@@ -12,6 +12,8 @@ namespace Collage
         List<ICollageOperator> collageOperators;
         IUpdateableCollageOperator activeOperator;
 
+        List<IOperatorActivator> activators;
+
         public CollageEditState(DataAccess dataAccess) 
         {
             this.dataAccess = dataAccess;
@@ -29,6 +31,11 @@ namespace Collage
             previewRenderer.SetEditData(editData);
 
             RegisterCollageOperators();
+
+            SpecialOperatorActivator specialActivator = new SpecialOperatorActivator(dataAccess, collageOperators);
+
+            activators = new List<IOperatorActivator>();
+            activators.Add(specialActivator);
         }
 
         public void Start()
@@ -60,13 +67,10 @@ namespace Collage
             {
                 List<ICollageOperator> startableOperators = new List<ICollageOperator>();
 
-                // check special starts
-                foreach(ICollageOperator op in collageOperators)
+                // check activators
+                foreach(IOperatorActivator activator in activators)
                 {
-                    if (op is ISpecialOperatorStart)
-                    {
-                        if (((ISpecialOperatorStart)op).CanStart()) startableOperators.Add(op);
-                    }
+                    startableOperators.AddRange(activator.GetActivatedOperators());
                 }
 
                 // start startable operators
