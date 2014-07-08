@@ -22,6 +22,7 @@ namespace Collage
             window.KeepAbove = true;
             window.Resize(400, 30);
             window.AcceptFocus = false;
+            window.Title = "Progress Bar";
 
             progressBar = new ProgressBar();
             progressBar.Fraction = 0;
