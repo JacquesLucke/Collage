@@ -14,6 +14,7 @@ namespace Collage
         Button openButton, saveButton, deleteButton, selectAllButton, autoPositionButton;
         Button setBackwardButton, setForwardButton;
         Button setAsBackgroundButton, setToFrontButton;
+        Button clearButton;
         CheckButton stayOnTopCheckbutton;
         List<object> interactions;
 
@@ -96,6 +97,13 @@ namespace Collage
             setToFrontButton.Name = "set to front";
             setToFrontButton.Clicked += OperatorButtonClicked;
 
+            clearButton = new Button();
+            clearButton.Label = "Clear Collage";
+            clearButton.SetSizeRequest(100, 30);
+            clearButton.TooltipText = "Shortcut: " + keymap["clear collage"].ToString();
+            clearButton.Name = "clear collage";
+            clearButton.Clicked += OperatorButtonClicked;
+
             stayOnTopCheckbutton = new CheckButton();
             stayOnTopCheckbutton.Label = "Stay on Top";
             stayOnTopCheckbutton.Toggled += StayOnTopToogled;
@@ -107,8 +115,9 @@ namespace Collage
 
             fix.Put(setBackwardButton, 10, 140); fix.Put(setForwardButton, 120, 140);
             fix.Put(setAsBackgroundButton, 10, 175); fix.Put(setToFrontButton, 120, 175);
+            fix.Put(clearButton, 10, 210);
 
-            fix.Put(stayOnTopCheckbutton, 10, 220);
+            fix.Put(stayOnTopCheckbutton, 10, 250);
 
             window.Add(fix);
             window.ShowAll();
