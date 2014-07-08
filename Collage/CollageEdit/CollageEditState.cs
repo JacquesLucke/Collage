@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework.Input;
+using System;
 using System.Collections.Generic;
 
 namespace Collage
@@ -106,6 +107,9 @@ namespace Collage
 
         public void RegisterCollageOperators()
         {
+            Keymap keymap = dataAccess.Keymap;
+
+            // create list with operators
             collageOperators = new List<ICollageOperator>();            // every Operator has an index
             collageOperators.Add(new MoveOperator());                   //  0
             collageOperators.Add(new ZoomOperator());                   //  1
@@ -118,7 +122,7 @@ namespace Collage
             collageOperators.Add(new DeleteImageOperator());            //  8
             collageOperators.Add(new SelectAllOperator());              //  9
             collageOperators.Add(new SaveCollageOperator());            // 10
-            collageOperators.Add(new AutoPositonOperator());            // 11    
+            collageOperators.Add(new AutoPositonOperator());            // 11  
             collageOperators.Add(new ChangeAspectRatioOperator());      // 12
             collageOperators.Add(new SetToFrontOperator());             // 13
             collageOperators.Add(new SetAsBackgroundOperator());        // 14
@@ -127,9 +131,21 @@ namespace Collage
             collageOperators.Add(new ClearCollageOperator());           // 17
 
             foreach(ICollageOperator op in collageOperators)
-            {
                 op.SetData(dataAccess, editData);
-            }
+
+            // register keymap for operators
+            keymap.Set("change background color", new KeyCombination(false, false, false, Keys.B));
+            keymap.Set("open images", new KeyCombination(false, false, false, Keys.O));
+            keymap.Set("delete image", new KeyCombination(false, false, false, Keys.X));
+            keymap.Set("select all", new KeyCombination(false, false, false, Keys.A));
+            keymap.Set("save collage", new KeyCombination(false, false, false, Keys.S));
+            keymap.Set("auto position", new KeyCombination(false, false, false, Keys.Q));
+            keymap.Set("change aspect ratio", new KeyCombination(false, false, false, Keys.R));
+            keymap.Set("set to front", new KeyCombination(false, false, false, Keys.Up));
+            keymap.Set("set as background", new KeyCombination(false, false, false, Keys.Down));
+            keymap.Set("set forward", new KeyCombination(false, false, false, Keys.Right));
+            keymap.Set("set backward", new KeyCombination(false, false, false, Keys.Left));
+            keymap.Set("clear collage", new KeyCombination(true, false, false, Keys.N));
         }
     }
 }

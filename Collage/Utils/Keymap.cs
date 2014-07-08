@@ -12,10 +12,10 @@ namespace Collage
         {
             combinations = new Dictionary<string, KeyCombination>();
 
-            Add("empty", new KeyCombination(false, false, false));
+            Set("empty", new KeyCombination(false, false, false));
         }
 
-        public void Add(string alias, KeyCombination keyCombination)
+        public void Set(string alias, KeyCombination keyCombination)
         {
             if (!combinations.ContainsKey(alias)) combinations.Add(alias, keyCombination);
             else combinations[alias] = keyCombination;

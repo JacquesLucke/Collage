@@ -73,63 +73,8 @@ namespace Collage
 
         public void RegisterKeyCombinations(Keymap keymap)
         {
-            KeyCombination combination;
-
-            // Undo
-            combination = new KeyCombination(true, false, false, Keys.Z);
-            keymap.Add("undo", combination);
-
-            // Redo
-            combination = new KeyCombination(true, false, false, Keys.Y);
-            keymap.Add("redo", combination);
-
-            // Change Background Color
-            combination = new KeyCombination(false, false, false, Keys.B);
-            keymap.Add("change collage background color", combination);
-
-            // Open Image
-            combination = new KeyCombination(false, false, false, Keys.O);
-            keymap.Add("open images", combination);
-
-            // Delete Image
-            combination = new KeyCombination(false, false, false, Keys.X);
-            keymap.Add("delete image", combination);
-
-            // Select All
-            combination = new KeyCombination(false, false, false, Keys.A);
-            keymap.Add("select all", combination);
-
-            // Save Collage
-            combination = new KeyCombination(false, false, false, Keys.S);
-            keymap.Add("save collage", combination);
-
-            // Auto Position
-            combination = new KeyCombination(false, false, false, Keys.Q);
-            keymap.Add("auto position", combination);
-
-            // Change Aspect Ratio
-            combination = new KeyCombination(false, false, false, Keys.R);
-            keymap.Add("change aspect ratio", combination);
-
-            // Set To Front
-            combination = new KeyCombination(false, false, false, Keys.Up);
-            keymap.Add("set to front", combination);
-
-            // Set As Background
-            combination = new KeyCombination(false, false, false, Keys.Down);
-            keymap.Add("set as background", combination);
-
-            // Set Forward
-            combination = new KeyCombination(false, false, false, Keys.Right);
-            keymap.Add("set forward", combination);
-
-            // Set Backward
-            combination = new KeyCombination(false, false, false, Keys.Left);
-            keymap.Add("set backward", combination);
-
-            // Clear Collage
-            combination = new KeyCombination(true, false, false, Keys.N);
-            keymap.Add("clear collage", combination);
+            keymap.Set("undo", new KeyCombination(true, false, false, Keys.Z));
+            keymap.Set("redo", new KeyCombination(true, false, false, Keys.Y));
         }
     }
 }
