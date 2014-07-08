@@ -49,6 +49,8 @@ namespace Collage
                         if (action == "select all") startableOperators.Add(operators[9]);
                         if (action == "set backward") startableOperators.Add(operators[16]);
                         if (action == "set forward") startableOperators.Add(operators[15]);
+                        if (action == "set as background") startableOperators.Add(operators[14]);
+                        if (action == "set to front") startableOperators.Add(operators[13]);
                     }
                 }
                 interactions.Clear();

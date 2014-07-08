@@ -13,6 +13,7 @@ namespace Collage
         Window window;
         Button openButton, saveButton, deleteButton, selectAllButton, autoPositionButton;
         Button setBackwardButton, setForwardButton;
+        Button setAsBackgroundButton, setToFrontButton;
         CheckButton stayOnTopCheckbutton;
         List<object> interactions;
 
@@ -81,6 +82,20 @@ namespace Collage
             setForwardButton.Name = "set forward";
             setForwardButton.Clicked += OperatorButtonClicked;
 
+            setAsBackgroundButton = new Button();
+            setAsBackgroundButton.Label = "Set Background";
+            setAsBackgroundButton.SetSizeRequest(100, 30);
+            setAsBackgroundButton.TooltipText = "Shortcut: " + keymap["set as background"].ToString();
+            setAsBackgroundButton.Name = "set as background";
+            setAsBackgroundButton.Clicked += OperatorButtonClicked;
+
+            setToFrontButton = new Button();
+            setToFrontButton.Label = "Set to Front";
+            setToFrontButton.SetSizeRequest(100, 30);
+            setToFrontButton.TooltipText = "Shortcut: " + keymap["set to front"].ToString();
+            setToFrontButton.Name = "set to front";
+            setToFrontButton.Clicked += OperatorButtonClicked;
+
             stayOnTopCheckbutton = new CheckButton();
             stayOnTopCheckbutton.Label = "Stay on Top";
             stayOnTopCheckbutton.Toggled += StayOnTopToogled;
@@ -91,8 +106,9 @@ namespace Collage
             fix.Put(autoPositionButton, 10, 90);
 
             fix.Put(setBackwardButton, 10, 140); fix.Put(setForwardButton, 120, 140);
+            fix.Put(setAsBackgroundButton, 10, 175); fix.Put(setToFrontButton, 120, 175);
 
-            fix.Put(stayOnTopCheckbutton, 10, 200);
+            fix.Put(stayOnTopCheckbutton, 10, 220);
 
             window.Add(fix);
             window.ShowAll();
