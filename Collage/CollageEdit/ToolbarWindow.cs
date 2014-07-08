@@ -11,11 +11,11 @@ namespace Collage
         Keymap keymap;
 
         Window window;
-        Button openButton, saveButton, autoPositionButton;
+        Button openButton, saveButton, deleteButton, selectAllButton, autoPositionButton;
         CheckButton stayOnTopCheckbutton;
         List<object> interactions;
 
-        public ToolbarWindow(Keymap keymap) 
+        public ToolbarWindow(Keymap keymap)
         {
             this.keymap = keymap;
             interactions = new List<object>();
@@ -45,6 +45,20 @@ namespace Collage
             saveButton.Name = "save collage";
             saveButton.Clicked += OperatorButtonClicked;
 
+            deleteButton = new Button();
+            deleteButton.Label = "Delete";
+            deleteButton.SetSizeRequest(100, 30);
+            deleteButton.TooltipText = "Shortcut: " + keymap["delete images"].ToString();
+            deleteButton.Name = "delete images";
+            deleteButton.Clicked += OperatorButtonClicked;
+
+            selectAllButton = new Button();
+            selectAllButton.Label = "Select All";
+            selectAllButton.SetSizeRequest(100, 30);
+            selectAllButton.TooltipText = "Shortcut: " + keymap["select all"].ToString();
+            selectAllButton.Name = "select all";
+            selectAllButton.Clicked += OperatorButtonClicked;
+
             autoPositionButton = new Button();
             autoPositionButton.Label = "Auto Position";
             autoPositionButton.SetSizeRequest(100, 30);
@@ -57,9 +71,9 @@ namespace Collage
             stayOnTopCheckbutton.Toggled += StayOnTopToogled;
 
             // place objects in window
-            fix.Put(openButton, 10, 20);
-            fix.Put(saveButton, 120, 20);
-            fix.Put(autoPositionButton, 10, 55);
+            fix.Put(openButton, 10, 20); fix.Put(saveButton, 120, 20);
+            fix.Put(deleteButton, 10, 55); fix.Put(selectAllButton, 120, 55);
+            fix.Put(autoPositionButton, 10, 90);
             fix.Put(stayOnTopCheckbutton, 10, 200);
 
             window.Add(fix);

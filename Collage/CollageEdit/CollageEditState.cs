@@ -136,7 +136,7 @@ namespace Collage
             // register keymap for operators
             keymap.Set("change background color", new KeyCombination(false, false, false, Keys.B));
             keymap.Set("open images", new KeyCombination(false, false, false, Keys.O));
-            keymap.Set("delete image", new KeyCombination(false, false, false, Keys.X));
+            keymap.Set("delete images", new KeyCombination(false, false, false, Keys.X));
             keymap.Set("select all", new KeyCombination(false, false, false, Keys.A));
             keymap.Set("save collage", new KeyCombination(false, false, false, Keys.S));
             keymap.Set("auto position", new KeyCombination(false, false, false, Keys.Q));

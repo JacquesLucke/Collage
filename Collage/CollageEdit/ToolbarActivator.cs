@@ -45,6 +45,8 @@ namespace Collage
                         if (action == "open images") startableOperators.Add(operators[3]);
                         if (action == "auto position") startableOperators.Add(operators[11]);
                         if (action == "save collage") startableOperators.Add(operators[10]);
+                        if (action == "delete images") startableOperators.Add(operators[8]);
+                        if (action == "select all") startableOperators.Add(operators[9]);
                     }
                 }
                 interactions.Clear();
