@@ -12,7 +12,7 @@ namespace Collage
         Button openButton, saveButton, deleteButton, selectAllButton, autoPositionButton;
         Button setBackwardButton, setForwardButton;
         Button setAsBackgroundButton, setToFrontButton;
-        Button clearButton;
+        Button clearButton, changeBackgroundColorButton;
         CheckButton stayOnTopCheckbutton;
         List<object> interactions;
 
@@ -67,6 +67,13 @@ namespace Collage
             autoPositionButton.Name = "auto position";
             autoPositionButton.Clicked += OperatorButtonClicked;
 
+            changeBackgroundColorButton = new Button();
+            changeBackgroundColorButton.Label = "Background";
+            changeBackgroundColorButton.SetSizeRequest(100, 30);
+            changeBackgroundColorButton.TooltipText = "Shortcut: " + keymap["change background color"].ToString();
+            changeBackgroundColorButton.Name = "change background color";
+            changeBackgroundColorButton.Clicked += OperatorButtonClicked;
+
             setBackwardButton = new Button();
             setBackwardButton.Label = "Set Backward";
             setBackwardButton.SetSizeRequest(100, 30);
@@ -102,6 +109,7 @@ namespace Collage
             clearButton.Name = "clear collage";
             clearButton.Clicked += OperatorButtonClicked;
 
+
             stayOnTopCheckbutton = new CheckButton();
             stayOnTopCheckbutton.Label = "Stay on Top";
             stayOnTopCheckbutton.Toggled += StayOnTopToogled;
@@ -109,7 +117,7 @@ namespace Collage
             // place objects in window
             fix.Put(openButton, 10, 20); fix.Put(saveButton, 120, 20);
             fix.Put(deleteButton, 10, 55); fix.Put(selectAllButton, 120, 55);
-            fix.Put(autoPositionButton, 10, 90);
+            fix.Put(autoPositionButton, 10, 90); fix.Put(changeBackgroundColorButton, 120, 90);
 
             fix.Put(setBackwardButton, 10, 140); fix.Put(setForwardButton, 120, 140);
             fix.Put(setAsBackgroundButton, 10, 175); fix.Put(setToFrontButton, 120, 175);
