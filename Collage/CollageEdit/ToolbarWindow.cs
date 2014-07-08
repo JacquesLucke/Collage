@@ -12,6 +12,7 @@ namespace Collage
 
         Window window;
         Button openButton, saveButton, deleteButton, selectAllButton, autoPositionButton;
+        Button setBackwardButton, setForwardButton;
         CheckButton stayOnTopCheckbutton;
         List<object> interactions;
 
@@ -66,6 +67,20 @@ namespace Collage
             autoPositionButton.Name = "auto position";
             autoPositionButton.Clicked += OperatorButtonClicked;
 
+            setBackwardButton = new Button();
+            setBackwardButton.Label = "Set Backward";
+            setBackwardButton.SetSizeRequest(100, 30);
+            setBackwardButton.TooltipText = "Shortcut: " + keymap["set backward"].ToString();
+            setBackwardButton.Name = "set backward";
+            setBackwardButton.Clicked += OperatorButtonClicked;
+
+            setForwardButton = new Button();
+            setForwardButton.Label = "Set Forward";
+            setForwardButton.SetSizeRequest(100, 30);
+            setForwardButton.TooltipText = "Shortcut: " + keymap["set forward"].ToString();
+            setForwardButton.Name = "set forward";
+            setForwardButton.Clicked += OperatorButtonClicked;
+
             stayOnTopCheckbutton = new CheckButton();
             stayOnTopCheckbutton.Label = "Stay on Top";
             stayOnTopCheckbutton.Toggled += StayOnTopToogled;
@@ -74,6 +89,9 @@ namespace Collage
             fix.Put(openButton, 10, 20); fix.Put(saveButton, 120, 20);
             fix.Put(deleteButton, 10, 55); fix.Put(selectAllButton, 120, 55);
             fix.Put(autoPositionButton, 10, 90);
+
+            fix.Put(setBackwardButton, 10, 140); fix.Put(setForwardButton, 120, 140);
+
             fix.Put(stayOnTopCheckbutton, 10, 200);
 
             window.Add(fix);
