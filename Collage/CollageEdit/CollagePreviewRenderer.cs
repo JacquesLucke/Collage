@@ -8,12 +8,15 @@ namespace Collage
         CollageEditData editData;
         DataAccess dataAccess;
         Texture2D tex;
+        Border border;
 
         public CollagePreviewRenderer(DataAccess dataAccess)
         {
             this.dataAccess = dataAccess;
             tex = new Texture2D(dataAccess.GraphicsDevice, 1, 1);
             tex.SetData<Color>(new Color[] { Color.White });
+
+            border = new Border(dataAccess.GraphicsDevice, Color.FromNonPremultiplied(0, 0, 0, 200));
         }
 
         public void SetEditData(CollageEditData editData)
@@ -39,6 +42,8 @@ namespace Collage
             }
 
             dataAccess.SpriteBatch.End();
+
+            border.Draw(dataAccess.SpriteBatch, drawRectangle);
         }
 
         public void DrawImageSource(ImageSource source, Rectangle rectangle, float rotation, Color color)

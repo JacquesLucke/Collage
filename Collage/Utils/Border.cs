@@ -6,24 +6,22 @@ namespace Collage
 {
     public class Border
     {
-        public Color color = Color.FromNonPremultiplied(0, 0, 0, 200);
+        public Color color;
         private Texture2D background;
         private GraphicsDevice graphicsDevice;
 
-        public Border(GraphicsDevice graphicsDevice)
+        public Border(GraphicsDevice graphicsDevice, Color color)
         {
             this.graphicsDevice = graphicsDevice;
+            this.color = color;
 
             // creates a 1 pixel texture
             background = new Texture2D(graphicsDevice, 1, 1);
             background.SetData<Color>(new Color[1] { Color.White });
         }
 
-        public void Draw(SpriteBatch spriteBatch, Rectangle innerRectangle, Color? color)
+        public void Draw(SpriteBatch spriteBatch, Rectangle innerRectangle)
         {
-            // check if the default or another color will be used
-            if (color == null) color = this.color;
-
             #region calculate border rectangles
             Viewport viewport = graphicsDevice.Viewport;
 
