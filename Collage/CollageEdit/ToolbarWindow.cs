@@ -13,6 +13,7 @@ namespace Collage
         Button setBackwardButton, setForwardButton;
         Button setAsBackgroundButton, setToFrontButton;
         Button clearButton, changeBackgroundColorButton;
+        Button undoButton, redoButton;
         CheckButton stayOnTopCheckbutton;
         List<object> interactions;
 
@@ -109,6 +110,20 @@ namespace Collage
             clearButton.Name = "clear collage";
             clearButton.Clicked += OperatorButtonClicked;
 
+            undoButton = new Button();
+            undoButton.Label = "Undo";
+            undoButton.SetSizeRequest(100, 30);
+            undoButton.TooltipText = "Shortcut: " + keymap["undo"].ToString();
+            undoButton.Name = "undo";
+            undoButton.Clicked += OperatorButtonClicked;
+
+            redoButton = new Button();
+            redoButton.Label = "Redo";
+            redoButton.SetSizeRequest(100, 30);
+            redoButton.TooltipText = "Shortcut: " + keymap["redo"].ToString();
+            redoButton.Name = "redo";
+            redoButton.Clicked += OperatorButtonClicked;
+
 
             stayOnTopCheckbutton = new CheckButton();
             stayOnTopCheckbutton.Label = "Stay on Top";
@@ -123,7 +138,9 @@ namespace Collage
             fix.Put(setAsBackgroundButton, 10, 175); fix.Put(setToFrontButton, 120, 175);
             fix.Put(clearButton, 10, 210);
 
-            fix.Put(stayOnTopCheckbutton, 10, 250);
+            fix.Put(undoButton, 10, 260); fix.Put(redoButton, 120, 260);
+
+            fix.Put(stayOnTopCheckbutton, 10, 300);
 
             window.Add(fix);
             window.ShowAll();

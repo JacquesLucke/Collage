@@ -50,6 +50,8 @@ namespace Collage
                         if (action == "set to front") startableOperators.Add(operators[13]);
                         if (action == "clear collage") startableOperators.Add(operators[17]);
                         if (action == "change background color") startableOperators.Add(operators[2]);
+                        if (action == "undo") startableOperators.Add(operators[18]);
+                        if (action == "redo") startableOperators.Add(operators[19]);
                     }
                 }
                 interactions.Clear();

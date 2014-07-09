@@ -48,18 +48,7 @@ namespace Collage
         {
             Input input = dataAccess.Input;
             editData.Update(input);
-
-            // undo
-            if(activeOperator == null && dataAccess.Keymap["undo"].IsPressed(dataAccess.Input))
-            {
-                editData.UndoManager.Undo();
-            }
-            // redo
-            if (activeOperator == null && dataAccess.Keymap["redo"].IsPressed(dataAccess.Input))
-            {
-                editData.UndoManager.Redo();
-            }
-
+            
             // update or deactivate operators
             if (activeOperator != null)
             {
@@ -129,6 +118,8 @@ namespace Collage
             collageOperators.Add(new SetForwardOperator());             // 15
             collageOperators.Add(new SetBackwardOperator());            // 16
             collageOperators.Add(new ClearCollageOperator());           // 17
+            collageOperators.Add(new UndoOperator());                   // 18
+            collageOperators.Add(new RedoOperator());                   // 19
 
             foreach(ICollageOperator op in collageOperators)
                 op.SetData(dataAccess, editData);
