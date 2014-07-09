@@ -16,7 +16,7 @@ namespace Collage
             tex = new Texture2D(dataAccess.GraphicsDevice, 1, 1);
             tex.SetData<Color>(new Color[] { Color.White });
 
-            border = new Border(dataAccess.GraphicsDevice, Color.FromNonPremultiplied(0, 0, 0, 200));
+            border = new Border(dataAccess.GraphicsDevice, Color.FromNonPremultiplied(182, 195, 205, 200));
         }
 
         public void SetEditData(CollageEditData editData)

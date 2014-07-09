@@ -18,7 +18,7 @@ namespace Collage
         public void SetDefaultData()
         {
             data.AspectRatio = 1.8f;
-            data.BackgroundColor = Color.DarkOrange;
+            data.BackgroundColor = Color.FromNonPremultiplied(88, 123, 150, 255);
         }
 
         public float AspectRatio { get { return data.AspectRatio; } set { data.AspectRatio = value; } }

@@ -32,7 +32,7 @@ namespace Collage
             #endregion
 
             #region draw rectangles
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.NonPremultiplied);
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
             spriteBatch.Draw(background, top, (Color)color);
             spriteBatch.Draw(background, bottom, (Color)color);
             spriteBatch.Draw(background, left, (Color)color);
