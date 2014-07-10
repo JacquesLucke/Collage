@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.IO;
 
 namespace Collage
 {
@@ -12,6 +13,7 @@ namespace Collage
         Texture2D tex;
         ProgressBarWindow progressBar;
         DimensionsDialog dimensionsDialog;
+        Effect imageEffect;
         int step = 1;
         int width, height;
         string fileName;
@@ -25,6 +27,11 @@ namespace Collage
 
             tex = new Texture2D(dataAccess.GraphicsDevice, 1, 1);
             tex.SetData<Color>(new Color[] { Color.White });
+
+            // load the effect
+            BinaryReader br = new BinaryReader(new FileStream("Content\\ImageEffect.mgfx", FileMode.Open));
+            imageEffect = new Effect(dataAccess.GraphicsDevice, br.ReadBytes((int)br.BaseStream.Length));
+            br.Close();
         }
 
         public bool Start()
@@ -36,7 +43,7 @@ namespace Collage
         public void OpenFileBrowser()
         {
             sfw = new SaveFileWindow();
-            sfw.OpenDialog(FileTypes.Images);
+            sfw.OpenDialog(FileTypes.JPG, FileTypes.PNG, FileTypes.BMP);
         }
         public void OpenDimensionsDialog()
         {
@@ -96,10 +103,23 @@ namespace Collage
                 // setup progress bar
                 dataAccess.GuiThread.Invoke(StartProgressBar);
                 while (progressBar == null) ; // wait until the bar is setup
-                progressBar.TotalSteps = editData.Collage.Images.Count + 1;
+                progressBar.TotalSteps = editData.Collage.Images.Count + 2;
 
                 Rectangle dimensions = new Rectangle(0, 0, width, height);
                 Texture2D render = Render(dimensions, width, height);
+
+                // correct alpha
+                progressBar.StepUp("correct alpha");
+                Color[] colors = new Color[width * height];
+                render.GetData<Color>(colors);
+                for (int i = 0; i < colors.Length; i++)
+                {
+                    colors[i].A = 255;
+                }
+                render.SetData<Color>(colors);
+                colors = null;
+                GC.Collect();
+
                 System.Drawing.Bitmap bitmap = Utils.ToBitmap(render);
                 progressBar.StepUp("Save");
                 bitmap.Save(fileName);
@@ -134,6 +154,7 @@ namespace Collage
             // create and set RenderTarget
             RenderTarget2D rt = new RenderTarget2D(dataAccess.GraphicsDevice, part.Width, part.Height);
             dataAccess.GraphicsDevice.SetRenderTarget(rt);
+            dataAccess.GraphicsDevice.Clear(editData.Collage.BackgroundColor);
 
             Rectangle capureRec = new Rectangle(0, 0, part.Width, part.Height);
             Rectangle totalRec = new Rectangle(-part.X, -part.Y, totalWidth, totalHeight);
@@ -141,14 +162,21 @@ namespace Collage
             dataAccess.SpriteBatch.Begin(SpriteSortMode.Immediate, BlendState.NonPremultiplied);
             // -----------------------------------------------------------------------------------------
 
-            // draw background color
-            dataAccess.SpriteBatch.Draw(tex, capureRec, editData.Collage.BackgroundColor);
-
+            // setup viewport matrix
+            imageEffect.Parameters["MatrixTransform"].SetValue(GetTransformMatrix());
+            
             // draw each image
             foreach (Image image in editData.Collage.Images)
             {
                 // calculate rectangle where the image will be drawn
                 Rectangle imageRectangle = image.GetRectangleInBoundary(totalRec);
+
+                // setup the effect
+                imageEffect.Parameters["Size"].SetValue((float)imageRectangle.Width);
+                imageEffect.Parameters["AspectRatio"].SetValue(image.Source.AspectRatio);
+                imageEffect.Parameters["ColorMultiply"].SetValue(new Vector4(1));
+                imageEffect.CurrentTechnique.Passes[0].Apply();
+
                 DrawImageSource(image.Source, imageRectangle, image.Rotation);
                 progressBar.StepUp();
             }
@@ -160,6 +188,12 @@ namespace Collage
             dataAccess.GraphicsDevice.SetRenderTarget(null);
 
             return rt;
+        }
+
+        private Matrix GetTransformMatrix()
+        {
+            Viewport viewport = dataAccess.GraphicsDevice.Viewport;
+            return Matrix.CreateOrthographicOffCenter(0, viewport.Width, viewport.Height, 0, 0, 1);
         }
     }
 }
