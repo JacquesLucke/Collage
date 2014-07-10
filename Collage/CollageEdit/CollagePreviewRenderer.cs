@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.IO;
 
 namespace Collage
 {
@@ -9,6 +10,7 @@ namespace Collage
         DataAccess dataAccess;
         Texture2D tex;
         Border border;
+        Effect imageEffect;
 
         public CollagePreviewRenderer(DataAccess dataAccess)
         {
@@ -17,6 +19,11 @@ namespace Collage
             tex.SetData<Color>(new Color[] { Color.White });
 
             border = new Border(dataAccess.GraphicsDevice, Color.FromNonPremultiplied(182, 195, 205, 200));
+
+            // load the effect
+            BinaryReader br = new BinaryReader(new FileStream("Content\\ImageEffect.mgfx", FileMode.Open));
+            imageEffect = new Effect(dataAccess.GraphicsDevice, br.ReadBytes((int)br.BaseStream.Length));
+            br.Close();
         }
 
         public void SetEditData(CollageEditData editData)
@@ -27,8 +34,11 @@ namespace Collage
         public void Draw()
         {
             Rectangle drawRectangle = editData.DrawRectangle.Rectangle;
-            dataAccess.SpriteBatch.Begin();
+            dataAccess.SpriteBatch.Begin(SpriteSortMode.Immediate, BlendState.NonPremultiplied);
             dataAccess.SpriteBatch.Draw(tex, drawRectangle, editData.Collage.BackgroundColor);
+
+            // setup viewport matrix
+            imageEffect.Parameters["MatrixTransform"].SetValue(GetTransformMatrix());
 
             foreach(Image image in editData.Collage.Images)
             {
@@ -37,6 +47,12 @@ namespace Collage
                 if (editData.ImageUnderMouse == image) color = Utils.MultiplyColors(color, Color.FromNonPremultiplied(220, 220, 220, 255));
                 // calculate rectangle where the image will be drawn
                 Rectangle imageRectangle = image.GetRectangleInBoundary(drawRectangle);
+
+                // setup the effect
+                imageEffect.Parameters["Size"].SetValue((float)imageRectangle.Width);
+                imageEffect.Parameters["AspectRatio"].SetValue(image.Source.AspectRatio);
+                imageEffect.Parameters["ColorMultiply"].SetValue(Utils.ToVector(color));
+                imageEffect.CurrentTechnique.Passes[0].Apply();
 
                 DrawImageSource(image.Source, imageRectangle, image.Rotation, color);
             }
@@ -52,6 +68,12 @@ namespace Collage
             rectangle.X += rectangle.Width / 2;
             rectangle.Y += rectangle.Height / 2;
             dataAccess.SpriteBatch.Draw(source.Texture, rectangle, null, color, rotation, origin, SpriteEffects.None, 0);
+        }
+
+        private Matrix GetTransformMatrix()
+        {
+            Viewport viewport = dataAccess.GraphicsDevice.Viewport;
+            return Matrix.CreateOrthographicOffCenter(0, viewport.Width, viewport.Height, 0, 0, 1);
         }
     }
 }
