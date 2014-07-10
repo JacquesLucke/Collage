@@ -30,6 +30,7 @@ namespace Collage
             window.Resize(230, 700);
             window.Title = "Toolbar";
             window.Deletable = false;
+            window.ModifyBg(StateType.Normal, new Gdk.Color(182, 195, 205));
 
             Fixed fix = new Fixed();
 
