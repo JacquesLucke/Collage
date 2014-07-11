@@ -13,7 +13,7 @@ namespace Collage
         Texture2D tex;
         ProgressBarWindow progressBar;
         DimensionsDialog dimensionsDialog;
-        Effect imageEffect;
+        Effect imageEffect, dropShadowEffect;
         int step = 1;
         int width, height;
         string fileName;
@@ -28,9 +28,14 @@ namespace Collage
             tex = new Texture2D(dataAccess.GraphicsDevice, 1, 1);
             tex.SetData<Color>(new Color[] { Color.White });
 
-            // load the effect
+            // load the image effect
             BinaryReader br = new BinaryReader(new FileStream("Content\\ImageEffect.mgfx", FileMode.Open));
             imageEffect = new Effect(dataAccess.GraphicsDevice, br.ReadBytes((int)br.BaseStream.Length));
+            br.Close();
+
+            // load the drop shadow effect
+            br = new BinaryReader(new FileStream("Content\\DropShadow.mgfx", FileMode.Open));
+            dropShadowEffect = new Effect(dataAccess.GraphicsDevice, br.ReadBytes((int)br.BaseStream.Length));
             br.Close();
         }
 
@@ -133,15 +138,15 @@ namespace Collage
             return step < 4;
         }
 
-        public void DrawImageSource(ImageSource source, Rectangle rectangle, float rotation)
+        public void DrawImageSource(ImageSource source, Rectangle rectangle, float rotation, bool loadFullSize)
         {
             Texture2D texture = source.Texture;
-            if (source.FileName != "") texture = source.GetBigVersion(Math.Max(rectangle.Width, rectangle.Height));
+            if (source.FileName != "" && loadFullSize) texture = source.GetBigVersion(Math.Max(rectangle.Width, rectangle.Height));
             Vector2 origin = new Vector2(texture.Width / 2f, texture.Height / 2f);
             rectangle.X += rectangle.Width / 2;
             rectangle.Y += rectangle.Height / 2;
             dataAccess.SpriteBatch.Draw(texture, rectangle, null, Color.White, rotation, origin, SpriteEffects.None, 0);
-            if (source.FileName != "")
+            if (source.FileName != "" && loadFullSize)
             {
                 texture.Dispose();
                 texture = null;
@@ -163,21 +168,30 @@ namespace Collage
             // -----------------------------------------------------------------------------------------
 
             // setup viewport matrix
-            imageEffect.Parameters["MatrixTransform"].SetValue(GetTransformMatrix());
+            Matrix transformMatrix = GetTransformMatrix();
+            imageEffect.Parameters["MatrixTransform"].SetValue(transformMatrix);
+            dropShadowEffect.Parameters["MatrixTransform"].SetValue(transformMatrix);
             
             // draw each image
             foreach (Image image in editData.Collage.Images)
             {
-                // calculate rectangle where the image will be drawn
+                // calculate rectangles where to draw the image and drop shadow
                 Rectangle imageRectangle = image.GetRectangleInBoundary(totalRec);
+                Rectangle dropShadowRectangle = Utils.ExpandRectangle(imageRectangle, imageRectangle.Width / 10);
 
-                // setup the effect
+                // setup the drop shadow effect
+                dropShadowEffect.Parameters["AspectRatio"].SetValue(dropShadowRectangle.Width / (float)dropShadowRectangle.Height);
+                dropShadowEffect.Parameters["Intense"].SetValue(30f);
+                dropShadowEffect.CurrentTechnique.Passes[0].Apply();
+                DrawImageSource(image.Source, dropShadowRectangle, image.Rotation, false);
+
+                // setup the image effect
                 imageEffect.Parameters["Size"].SetValue((float)imageRectangle.Width);
                 imageEffect.Parameters["AspectRatio"].SetValue(image.Source.AspectRatio);
                 imageEffect.Parameters["ColorMultiply"].SetValue(new Vector4(1));
                 imageEffect.CurrentTechnique.Passes[0].Apply();
-
-                DrawImageSource(image.Source, imageRectangle, image.Rotation);
+                DrawImageSource(image.Source, imageRectangle, image.Rotation, true);
+               
                 progressBar.StepUp();
             }
 
