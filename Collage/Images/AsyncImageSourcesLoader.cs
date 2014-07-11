@@ -30,11 +30,15 @@ namespace Collage
         {
             while (progressBar == null) ;
             progressBar.TotalSteps = imageSources.Count;
-            foreach(ImageSource source in imageSources)
+            foreach (ImageSource source in imageSources)
             {
-                source.Load();
-                progressBar.StepUp();
+                lock (dataAccess.GraphicsDevice)
+                {
+                    source.Load();
+                    progressBar.StepUp();
+                }
             }
+            
             progressBar.Destroy();
         }
 
