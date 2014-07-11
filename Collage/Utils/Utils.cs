@@ -216,5 +216,14 @@ namespace Collage
             return false;
         }
         #endregion
+
+        public static Rectangle ExpandRectangle(Rectangle source, int margin)
+        {
+            source.X -= margin;
+            source.Y -= margin;
+            source.Width += margin * 2;
+            source.Height += margin * 2;
+            return source;
+        }
     }
 }
