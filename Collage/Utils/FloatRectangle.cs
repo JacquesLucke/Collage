@@ -149,10 +149,10 @@ namespace Collage
             }
         }
 
-        public float X { get { return x; } }
-        public float Y { get { return y; } }
-        public float Width { get { return width; } }
-        public float Height { get { return height; } }
+        public float X { get { return x; } set { x = value; } }
+        public float Y { get { return y; } set { y = value; } }
+        public float Width { get { return width; } set { width = value; } }
+        public float Height { get { return height; } set { height = value; } }
 
         public float AspectRatio
         {

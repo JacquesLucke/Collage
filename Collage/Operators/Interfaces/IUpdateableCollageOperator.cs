@@ -1,7 +1,7 @@
 ﻿
 namespace Collage
 {
-    interface IUpdateableCollageOperator : ICollageOperator
+    public interface IUpdateableCollageOperator : ICollageOperator
     {
         bool Update();
     }

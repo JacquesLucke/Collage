@@ -92,6 +92,7 @@ namespace Collage
         public void Draw()
         {
             previewRenderer.Draw();
+            if (activeOperator is IDrawableCollageOperator) ((IDrawableCollageOperator)activeOperator).Draw();
         }
 
         public void RegisterCollageOperators()

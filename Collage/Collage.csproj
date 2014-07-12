@@ -44,6 +44,7 @@
     <Compile Include="CollageEdit\ToolbarWindow.cs" />
     <Compile Include="Gui\ColorChooserDialog.cs" />
     <Compile Include="Gui\DimensionsDialog.cs" />
+    <Compile Include="Gui\TexturedButton.cs" />
     <Compile Include="Images\AsyncImageSourcesLoader.cs" />
     <Compile Include="Images\ImageData.cs" />
     <Compile Include="Operators\AutoPositonOperator.cs" />
@@ -56,6 +57,7 @@
     <Compile Include="Operators\ClearCollageOperator.cs" />
     <Compile Include="Operators\DeleteImageOperator.cs" />
     <Compile Include="Operators\EmptyOperator.cs" />
+    <Compile Include="Operators\Interfaces\IDrawableCollageOperator.cs" />
     <Compile Include="Operators\Interfaces\ISpecialOperatorStart.cs" />
     <Compile Include="Operators\UndoOperator.cs" />
     <Compile Include="Operators\RedoOperator.cs" />

@@ -5,18 +5,16 @@ namespace Collage
     public class MoveableRectangle
     {
         FloatRectangle current;
-        FloatRectangle start;
 
         public MoveableRectangle(FloatRectangle startRectangle)
         {
-            start = startRectangle;
             current = startRectangle;
         }
-
-        public void Reset()
+        public void SetRectangle(Rectangle rectangle)
         {
-            current = start;
+            current = new FloatRectangle(rectangle);
         }
+
         public void Move(Vector2 distance)
         {
             current.Position += distance;
@@ -39,7 +37,7 @@ namespace Collage
             Y1 += topPercent * factor;
             Y2 -= (1 - topPercent) * factor;
 
-            if (X1 + 50 < X2 && Y1 + 50 < Y2)
+            if (X1 + 50 < X2 && Y1 + 50 < Y2 || factor < 1)
             {
                 current.Position = new Vector2(X1, Y1);
                 current.Size = new Vector2(X2 - X1, Y2 - Y1);
