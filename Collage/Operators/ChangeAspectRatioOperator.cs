@@ -35,6 +35,7 @@ namespace Collage
 
         public bool Update()
         {
+            // update buttons
             okButton.Update();
             cancelButton.Update();
             rightMoveButton.Update();
@@ -48,24 +49,18 @@ namespace Collage
 
             if (!okButton.IsDown)
             {
-                rightMoveButton.Update();
-                downMoveButton.Update();
+                Rectangle newDrawPosition = editData.DrawRectangle.Rectangle;
 
-                if (rightMoveButton.IsDown)
-                {
-                    Rectangle newDrawPosition = editData.DrawRectangle.Rectangle;
-                    newDrawPosition.Width += dataAccess.Input.MouseDifferencePoint.X;
-                    if (newDrawPosition.Width < 50) newDrawPosition.Width = 50;
-                    editData.DrawRectangle.SetRectangle(newDrawPosition);
-                }
-                if(downMoveButton.IsDown)
-                {
-                    Rectangle newDrawPosition = editData.DrawRectangle.Rectangle;
-                    newDrawPosition.Height += dataAccess.Input.MouseDifferencePoint.Y;
-                    if (newDrawPosition.Height < 50) newDrawPosition.Height = 50;
-                    editData.DrawRectangle.SetRectangle(newDrawPosition);
-                }
+                // change size
+                if (rightMoveButton.IsDown) newDrawPosition.Width += dataAccess.Input.MouseDifferencePoint.X;
+                if(downMoveButton.IsDown)  newDrawPosition.Height += dataAccess.Input.MouseDifferencePoint.Y;
+                // set minimum size
+                if (newDrawPosition.Width < 50) newDrawPosition.Width = 50;
+                if (newDrawPosition.Height < 50) newDrawPosition.Height = 50;
 
+                editData.DrawRectangle.SetRectangle(newDrawPosition);
+
+                // recalculate position of the buttons
                 rightMoveButton.Rectangle = CalculateHandlePositionRight();
                 downMoveButton.Rectangle = CalculateHandlePositionDown();
                 return true;
