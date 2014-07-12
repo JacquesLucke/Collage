@@ -8,6 +8,7 @@ namespace Collage
         CollageEditData editData;
         float startAspectRatio;
         TexturedButton okButton;
+        TexturedButton cancelButton;
         TexturedButton rightMoveButton;
         TexturedButton downMoveButton;
 
@@ -17,7 +18,8 @@ namespace Collage
         {
             this.dataAccess = dataAccess;
             this.editData = editData;
-            okButton = new TexturedButton(dataAccess, @"F:\Content\Icons\Check.png", new Point(0, 0));
+            okButton = new TexturedButton(dataAccess, @"F:\Content\Icons\Check.png", new Point(10, 10));
+            cancelButton = new TexturedButton(dataAccess, @"F:\Content\Icons\Delete.png", new Point(70, 10));
             rightMoveButton = new TexturedButton(dataAccess, @"F:\Content\Icons\Right.png", new Point(0, 0));
             downMoveButton = new TexturedButton(dataAccess, @"F:\Content\Icons\Down.png", new Point(0, 0));
         }
@@ -33,7 +35,18 @@ namespace Collage
 
         public bool Update()
         {
-            if (!okButton.IsMouseOverAndPressed)
+            okButton.Update();
+            cancelButton.Update();
+            rightMoveButton.Update();
+            downMoveButton.Update();
+
+            if(cancelButton.IsDown)
+            {
+                editData.DrawRectangle.AspectRatio = startAspectRatio;
+                return false;
+            }
+
+            if (!okButton.IsDown)
             {
                 rightMoveButton.Update();
                 downMoveButton.Update();
@@ -70,6 +83,7 @@ namespace Collage
         {
             dataAccess.SpriteBatch.Begin(SpriteSortMode.Immediate, BlendState.NonPremultiplied);
             okButton.Draw();
+            cancelButton.Draw();
             rightMoveButton.Draw();
             downMoveButton.Draw();
             dataAccess.SpriteBatch.End();
@@ -99,7 +113,7 @@ namespace Collage
 
         public object ExecuteAspectRatioChange(object newAspectRatio)
         {
-            editData.Collage.AspectRatio = (float)newAspectRatio;
+            editData.DrawRectangle.AspectRatio = (float)newAspectRatio;
             return null;
         }
     }
