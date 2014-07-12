@@ -10,42 +10,92 @@ namespace Collage
     {
         DataAccess dataAccess;
         ImageSource source;
-        FloatRectangle position;
+        Rectangle rectangle;
+        bool isDown = false;
 
         public TexturedButton(DataAccess dataAccess, ImageSource source, Rectangle position)
         {
             this.dataAccess = dataAccess;
             this.source = source;
-            this.position = new FloatRectangle(position);
+            this.rectangle = position;
+        }
+        public TexturedButton(DataAccess dataAccess, string fileName, Point position)
+        {
+            this.dataAccess = dataAccess;
+            this.source = new ImageSource(dataAccess, fileName);
+            this.source.Load();
+            rectangle = new Rectangle(position.X, position.Y, source.Width, source.Height);
         }
 
-        public FloatRectangle DrawPosition
+        public Rectangle DrawPosition
         {
-            get { return position; }
-            set { position = value; }
+            get { return rectangle; }
+            set { rectangle = value; }
         }
-        public FloatRectangle Position
+        public Rectangle Rectangle
         {
-            get { return position; }
-            set { position = value; }
+            get { return rectangle; }
+            set { rectangle = value; }
+        }
+        public int X
+        {
+            get { return rectangle.X; }
+            set { rectangle.X = value; }
+        }
+        public int Y
+        {
+            get { return rectangle.Y; }
+            set { rectangle.Y = value; }
+        }
+        public int Width
+        {
+            get { return rectangle.Width; }
+            set { rectangle.Width = value; }
+        }
+        public int Height
+        {
+            get { return rectangle.Height; }
+            set { rectangle.Height = value; }
         }
 
-        public bool IsOver
+        public bool IsMouseOver
         {
-            get { return position.ToRectangle().Contains(dataAccess.Input.MousePositionPoint); }
+            get { return rectangle.Contains(dataAccess.Input.MousePositionPoint); }
         }
+        public bool IsMouseOverAndDown
+        {
+            get { return IsMouseOver && dataAccess.Input.IsLeftButtonDown; }
+        }
+        public bool IsMouseOverAndPressed
+        {
+            get { return IsMouseOver && dataAccess.Input.IsLeftButtonPressed; }
+        }
+
         public bool IsDown
         {
-            get { return IsOver && dataAccess.Input.IsLeftButtonDown; }
+            get { return isDown; }
         }
-        public bool IsPressed
+
+        public void Update()
         {
-            get { return IsOver && dataAccess.Input.IsLeftButtonPressed; }
+            if (isDown)
+                isDown = dataAccess.Input.IsLeftButtonDown;
+            else
+                isDown = IsMouseOverAndPressed;
         }
 
         public void Draw()
         {
-            dataAccess.SpriteBatch.Draw(source.Texture, position.ToRectangle(), Color.White);
+            dataAccess.SpriteBatch.Draw(source.Texture, rectangle, GetColorOverlay());
+        }
+
+        public Color GetColorOverlay()
+        {
+            Color color = Color.White;
+            if (IsMouseOver  && !isDown) color = Color.FromNonPremultiplied(200, 200, 200, 255);
+            if (dataAccess.Input.IsLeftButtonDown && !isDown) color = Color.White;
+            if (isDown) color = Color.FromNonPremultiplied(160, 160, 160, 255);
+            return color;
         }
     }
 }

@@ -38,7 +38,7 @@ namespace Collage
         }
         public void Reload()
         {
-            source.Load();
+            source.LoadProxy();
         }
 
         public float Width

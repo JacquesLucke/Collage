@@ -45,11 +45,19 @@ namespace Collage
                 GC.Collect();
             }
         }
-        public void Load()
+        public void LoadProxy()
         {
             if (texture == null)
             {
                 ImageLoader loader = new ImageLoader(dataAccess, fileName, 170);
+                texture = loader.Load();
+            }
+        }
+        public void Load()
+        {
+            if (texture == null)
+            {
+                ImageLoader loader = new ImageLoader(dataAccess, fileName, 0);
                 texture = loader.Load();
             }
         }

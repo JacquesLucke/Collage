@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 namespace Collage
 {
     public class ChangeAspectRatioOperator : IDrawableCollageOperator
@@ -7,8 +8,8 @@ namespace Collage
         CollageEditData editData;
         float startAspectRatio;
         TexturedButton okButton;
-        TexturedButton moveHandle;
-        bool moveHandlePressed = false;
+        TexturedButton rightMoveButton;
+        TexturedButton downMoveButton;
 
         public ChangeAspectRatioOperator() { }
 
@@ -16,36 +17,44 @@ namespace Collage
         {
             this.dataAccess = dataAccess;
             this.editData = editData;
-
-            okButton = new TexturedButton(dataAccess, new ImageSource(dataAccess, 1, 1, Color.Firebrick), new Rectangle(10, 200, 100, 50));
-            moveHandle = new TexturedButton(dataAccess, new ImageSource(dataAccess, 1, 1, Color.AntiqueWhite), new Rectangle(300, 300, 50, 50));
+            okButton = new TexturedButton(dataAccess, @"F:\Content\Icons\Check.png", new Point(0, 0));
+            rightMoveButton = new TexturedButton(dataAccess, @"F:\Content\Icons\Right.png", new Point(0, 0));
+            downMoveButton = new TexturedButton(dataAccess, @"F:\Content\Icons\Down.png", new Point(0, 0));
         }
 
         public bool Start()
         {
             startAspectRatio = editData.Collage.AspectRatio;
-            moveHandlePressed = false;
-
-            moveHandle.Position = CalculateMoveHandlePosition();
+            rightMoveButton.Rectangle = CalculateHandlePositionRight();
+            downMoveButton.Rectangle = CalculateHandlePositionDown();
 
             return true;
         }
 
         public bool Update()
         {
-            if (!okButton.IsPressed)
+            if (!okButton.IsMouseOverAndPressed)
             {
-                if (moveHandle.IsDown) moveHandlePressed = true;
-                if (dataAccess.Input.IsLeftButtonReleased) moveHandlePressed = false;
-                if (moveHandlePressed)
-                {
-                    Rectangle r = editData.DrawRectangle.Rectangle;
-                    r.Width += dataAccess.Input.MouseDifferencePoint.X;
-                    if (r.Width < 50) r.Width = 50;
-                    editData.DrawRectangle.SetRectangle(r);
+                rightMoveButton.Update();
+                downMoveButton.Update();
 
-                    moveHandle.Position = CalculateMoveHandlePosition();
+                if (rightMoveButton.IsDown)
+                {
+                    Rectangle newDrawPosition = editData.DrawRectangle.Rectangle;
+                    newDrawPosition.Width += dataAccess.Input.MouseDifferencePoint.X;
+                    if (newDrawPosition.Width < 50) newDrawPosition.Width = 50;
+                    editData.DrawRectangle.SetRectangle(newDrawPosition);
                 }
+                if(downMoveButton.IsDown)
+                {
+                    Rectangle newDrawPosition = editData.DrawRectangle.Rectangle;
+                    newDrawPosition.Height += dataAccess.Input.MouseDifferencePoint.Y;
+                    if (newDrawPosition.Height < 50) newDrawPosition.Height = 50;
+                    editData.DrawRectangle.SetRectangle(newDrawPosition);
+                }
+
+                rightMoveButton.Rectangle = CalculateHandlePositionRight();
+                downMoveButton.Rectangle = CalculateHandlePositionDown();
                 return true;
             }
             else
@@ -59,17 +68,29 @@ namespace Collage
 
         public void Draw()
         {
-            dataAccess.SpriteBatch.Begin();
+            dataAccess.SpriteBatch.Begin(SpriteSortMode.Immediate, BlendState.NonPremultiplied);
             okButton.Draw();
-            moveHandle.Draw();
+            rightMoveButton.Draw();
+            downMoveButton.Draw();
             dataAccess.SpriteBatch.End();
         }
 
-        public FloatRectangle CalculateMoveHandlePosition()
+        public Rectangle CalculateHandlePositionRight()
         {
-            FloatRectangle position = new FloatRectangle();
+            Rectangle position = new Rectangle();
             position.X = editData.DrawRectangle.Rectangle.Right + 10;
-            position.Y = editData.DrawRectangle.Center.Y - 25;
+            position.Y = editData.DrawRectangle.Rectangle.Center.Y - 25;
+            position.Width = 50;
+            position.Height = 50;
+
+            return position;
+        }
+
+        public Rectangle CalculateHandlePositionDown()
+        {
+            Rectangle position = new Rectangle();
+            position.X = editData.DrawRectangle.Rectangle.Center.X - 25;
+            position.Y = editData.DrawRectangle.Rectangle.Bottom + 10;
             position.Width = 50;
             position.Height = 50;
 

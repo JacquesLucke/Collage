@@ -34,7 +34,7 @@ namespace Collage
             {
                 lock (dataAccess.GraphicsDevice)
                 {
-                    source.Load();
+                    source.LoadProxy();
                     progressBar.StepUp();
                 }
             }
