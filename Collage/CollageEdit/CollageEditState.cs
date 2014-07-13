@@ -121,6 +121,7 @@ namespace Collage
             collageOperators.Add(new ClearCollageOperator());           // 17
             collageOperators.Add(new UndoOperator());                   // 18
             collageOperators.Add(new RedoOperator());                   // 19
+            collageOperators.Add(new RandomSelectionOperator());        // 20
 
             foreach(ICollageOperator op in collageOperators)
                 op.SetData(dataAccess, editData);
@@ -138,6 +139,7 @@ namespace Collage
             keymap.Set("set forward", new KeyCombination(false, false, false, Keys.Right));
             keymap.Set("set backward", new KeyCombination(false, false, false, Keys.Left));
             keymap.Set("clear collage", new KeyCombination(true, false, false, Keys.N));
+            keymap.Set("random selection", new KeyCombination(false, false, false, Keys.L));
         }
     }
 }

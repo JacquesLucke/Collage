@@ -59,6 +59,7 @@
     <Compile Include="Operators\EmptyOperator.cs" />
     <Compile Include="Operators\Interfaces\IDrawableCollageOperator.cs" />
     <Compile Include="Operators\Interfaces\ISpecialOperatorStart.cs" />
+    <Compile Include="Operators\RandomSelectionOperator.cs" />
     <Compile Include="Operators\UndoOperator.cs" />
     <Compile Include="Operators\RedoOperator.cs" />
     <Compile Include="Operators\SetAsBackgroundOperator.cs" />

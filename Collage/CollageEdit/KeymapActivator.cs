@@ -35,6 +35,7 @@ namespace Collage
             if (keymap["set forward"].IsPressed(dataAccess.Input)) startableOperators.Add(operators[15]);
             if (keymap["set backward"].IsPressed(dataAccess.Input)) startableOperators.Add(operators[16]);
             if (keymap["clear collage"].IsPressed(dataAccess.Input)) startableOperators.Add(operators[17]);
+            if (keymap["random selection"].IsPressed(dataAccess.Input)) startableOperators.Add(operators[20]);
             if (keymap["undo"].IsPressed(dataAccess.Input)) startableOperators.Add(operators[18]);
             if (keymap["redo"].IsPressed(dataAccess.Input)) startableOperators.Add(operators[19]);
 
