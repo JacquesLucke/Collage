@@ -118,20 +118,24 @@ namespace Collage
         }
         public Rectangle CalculateButtonPositionOk()
         {
-            Rectangle position = rightMoveButton.Rectangle;
-            position.X += 15;
-            position.Y -= 50;
-            position.Width = 30;
-            position.Height = 30;
+            Rectangle viewport = dataAccess.GraphicsDevice.Viewport.Bounds;
+
+            Rectangle position = new Rectangle();
+            position.X = viewport.Right - 50;
+            position.Y = viewport.Bottom - 50;
+            position.Width = 40;
+            position.Height = 40;
             return position;
         }
         public Rectangle CalculateButtonPositionCancel()
         {
-            Rectangle position = rightMoveButton.Rectangle;
-            position.X += 15;
-            position.Y += 75;
-            position.Width = 30;
-            position.Height = 30;
+            Rectangle viewport = dataAccess.GraphicsDevice.Viewport.Bounds;
+
+            Rectangle position = new Rectangle();
+            position.X = viewport.Right - 110;
+            position.Y = viewport.Bottom - 50;
+            position.Width = 40;
+            position.Height = 40;
             return position;
         }
 
