@@ -56,7 +56,8 @@ namespace Collage
                 
                 // setup the drop shadow effect
                 dropShadowEffect.Parameters["AspectRatio"].SetValue(dropShadowRectangle.Width / (float)dropShadowRectangle.Height);
-                dropShadowEffect.Parameters["Intense"].SetValue(30f);
+                dropShadowEffect.Parameters["Intense"].SetValue(80f);
+                dropShadowEffect.Parameters["BorderRadius"].SetValue((dropShadowRectangle.Width - imageRectangle.Width) / (float)dropShadowRectangle.Width / 2f);
                 dropShadowEffect.CurrentTechnique.Passes[0].Apply();
                 DrawImageSource(image.Source, dropShadowRectangle, image.Rotation, Color.Black);
 
