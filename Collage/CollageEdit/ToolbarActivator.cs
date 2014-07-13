@@ -43,6 +43,7 @@ namespace Collage
                         if (action == "auto position") startableOperators.Add(operators[11]);
                         if (action == "save collage") startableOperators.Add(operators[10]);
                         if (action == "delete images") startableOperators.Add(operators[8]);
+                        if (action == "change aspect ratio") startableOperators.Add(operators[12]);
                         if (action == "select all") startableOperators.Add(operators[9]);
                         if (action == "set backward") startableOperators.Add(operators[16]);
                         if (action == "set forward") startableOperators.Add(operators[15]);
