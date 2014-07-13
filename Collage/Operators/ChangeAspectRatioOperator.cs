@@ -18,10 +18,10 @@ namespace Collage
         {
             this.dataAccess = dataAccess;
             this.editData = editData;
-            okButton = new TexturedButton(dataAccess, @"F:\Content\Icons\Check.png", new Point(10, 10));
-            cancelButton = new TexturedButton(dataAccess, @"F:\Content\Icons\Delete.png", new Point(70, 10));
-            rightMoveButton = new TexturedButton(dataAccess, @"F:\Content\Icons\Right.png", new Point(0, 0));
-            downMoveButton = new TexturedButton(dataAccess, @"F:\Content\Icons\Down.png", new Point(0, 0));
+            okButton = new TexturedButton(dataAccess, @"Content\Images\Check.png", new Point(10, 10));
+            cancelButton = new TexturedButton(dataAccess, @"Content\Images\Delete.png", new Point(70, 10));
+            rightMoveButton = new TexturedButton(dataAccess, @"Content\Images\Right.png", new Point(0, 0));
+            downMoveButton = new TexturedButton(dataAccess, @"Content\Images\Down.png", new Point(0, 0));
         }
 
         public bool Start()
@@ -35,6 +35,11 @@ namespace Collage
 
         public bool Update()
         {
+            // allow to zoom and move the view
+            editData.DrawRectangle.Zoom(-dataAccess.Input.ScrollWheelDifference / 10f, dataAccess.Input.MousePositionVector);
+            if (dataAccess.Input.IsMiddleButtonDown) editData.DrawRectangle.Move(dataAccess.Input.MouseDifferenceVector);
+
+
             // update buttons
             okButton.Update();
             cancelButton.Update();
@@ -60,9 +65,7 @@ namespace Collage
 
                 editData.DrawRectangle.SetRectangle(newDrawPosition);
 
-                // recalculate position of the buttons
-                rightMoveButton.Rectangle = CalculateHandlePositionRight();
-                downMoveButton.Rectangle = CalculateHandlePositionDown();
+                SetButtonPositions();
                 return true;
             }
             else
@@ -84,6 +87,15 @@ namespace Collage
             dataAccess.SpriteBatch.End();
         }
 
+        public void SetButtonPositions()
+        {
+            rightMoveButton.Rectangle = CalculateHandlePositionRight();
+            downMoveButton.Rectangle = CalculateHandlePositionDown();
+
+            okButton.Rectangle = CalculateButtonPositionOk();
+            cancelButton.Rectangle = CalculateButtonPositionCancel();
+        }
+
         public Rectangle CalculateHandlePositionRight()
         {
             Rectangle position = new Rectangle();
@@ -94,7 +106,6 @@ namespace Collage
 
             return position;
         }
-
         public Rectangle CalculateHandlePositionDown()
         {
             Rectangle position = new Rectangle();
@@ -105,6 +116,25 @@ namespace Collage
 
             return position;
         }
+        public Rectangle CalculateButtonPositionOk()
+        {
+            Rectangle position = rightMoveButton.Rectangle;
+            position.X += 15;
+            position.Y -= 50;
+            position.Width = 30;
+            position.Height = 30;
+            return position;
+        }
+        public Rectangle CalculateButtonPositionCancel()
+        {
+            Rectangle position = rightMoveButton.Rectangle;
+            position.X += 15;
+            position.Y += 75;
+            position.Width = 30;
+            position.Height = 30;
+            return position;
+        }
+
 
         public object ExecuteAspectRatioChange(object newAspectRatio)
         {
