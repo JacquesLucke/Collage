@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 namespace Collage
 {
     public class ChangeAspectRatioOperator : IDrawableCollageOperator
@@ -27,6 +28,9 @@ namespace Collage
         public bool Start()
         {
             startAspectRatio = editData.Collage.AspectRatio;
+
+            okButton.Rectangle = CalculateButtonPositionOk();
+            cancelButton.Rectangle = CalculateButtonPositionCancel();
             rightMoveButton.Rectangle = CalculateHandlePositionRight();
             downMoveButton.Rectangle = CalculateHandlePositionDown();
 
@@ -46,19 +50,26 @@ namespace Collage
             rightMoveButton.Update();
             downMoveButton.Update();
 
-            if(cancelButton.IsDown)
+            if(cancelButton.IsDown || dataAccess.Input.IsKeyDown(Keys.Escape))
             {
                 editData.DrawRectangle.AspectRatio = startAspectRatio;
                 return false;
             }
 
-            if (!okButton.IsDown)
+            if (okButton.IsDown || dataAccess.Input.IsKeyDown(Keys.Enter))
+            {
+                Command command = new Command(ExecuteAspectRatioChange, ExecuteAspectRatioChange, editData.Collage.AspectRatio, "Change Aspect Ratio");
+                command.SetUndoData(startAspectRatio);
+                editData.UndoManager.AddCommand(command);
+                return false;
+            }
+            else
             {
                 Rectangle newDrawPosition = editData.DrawRectangle.Rectangle;
 
                 // change size
                 if (rightMoveButton.IsDown) newDrawPosition.Width += dataAccess.Input.MouseDifferencePoint.X;
-                if(downMoveButton.IsDown)  newDrawPosition.Height += dataAccess.Input.MouseDifferencePoint.Y;
+                if (downMoveButton.IsDown) newDrawPosition.Height += dataAccess.Input.MouseDifferencePoint.Y;
                 // set minimum size
                 if (newDrawPosition.Width < 50) newDrawPosition.Width = 50;
                 if (newDrawPosition.Height < 50) newDrawPosition.Height = 50;
@@ -67,13 +78,6 @@ namespace Collage
 
                 SetButtonPositions();
                 return true;
-            }
-            else
-            {
-                Command command = new Command(ExecuteAspectRatioChange, ExecuteAspectRatioChange, editData.Collage.AspectRatio, "Change Aspect Ratio");
-                command.SetUndoData(startAspectRatio);
-                editData.UndoManager.AddCommand(command);
-                return false;
             }
         }
 
