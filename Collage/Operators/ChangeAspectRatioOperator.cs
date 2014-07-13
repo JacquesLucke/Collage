@@ -83,11 +83,11 @@ namespace Collage
 
         private bool IsCanceled()
         {
-            return cancelButton.IsDown || dataAccess.Input.IsKeyDown(Keys.Escape);
+            return cancelButton.IsReleased || dataAccess.Input.IsKeyDown(Keys.Escape);
         }
         private bool IsConfirmed()
         {
-            return okButton.IsDown || dataAccess.Input.IsKeyDown(Keys.Enter);
+            return okButton.IsReleased || dataAccess.Input.IsKeyDown(Keys.Enter);
         }
 
         private void UpdateButtons()

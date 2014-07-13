@@ -12,6 +12,7 @@ namespace Collage
         ImageSource source;
         Rectangle rectangle;
         bool isDown = false;
+        bool wasDown = false;
 
         public TexturedButton(DataAccess dataAccess, ImageSource source, Rectangle position)
         {
@@ -75,9 +76,14 @@ namespace Collage
         {
             get { return isDown; }
         }
+        public bool IsReleased
+        {
+            get { return wasDown && !isDown; }
+        }
 
         public void Update()
         {
+            wasDown = isDown;
             if (isDown)
                 isDown = dataAccess.Input.IsLeftButtonDown;
             else
