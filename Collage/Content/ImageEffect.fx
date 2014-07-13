@@ -2,16 +2,10 @@
 
 DECLARE_TEXTURE(Texture, 0);
 
-BEGIN_CONSTANTS
-MATRIX_CONSTANTS
-
-    float4x4 MatrixTransform    _vs(c0) _cb(c0);
-	float4 Size = 1;
-	float AspectRatio = 1;
-	float4 ColorMultiply = float4(1, 1, 1, 1);
-
-END_CONSTANTS
-
+float4x4 MatrixTransform    _vs(c0) _cb(c0);
+float4 Size = 1;
+float AspectRatio = 1;
+float4 ColorMultiply = float4(1, 1, 1, 1);
 
 struct VSOutput
 {
@@ -20,9 +14,7 @@ struct VSOutput
     float2 texCoord		: TEXCOORD0;
 };
 
-VSOutput SpriteVertexShader(	float4 position	: SV_Position,
-								float4 color	: COLOR0,
-								float2 texCoord	: TEXCOORD0)
+VSOutput SpriteVertexShader(float4 position : SV_Position, float4 color : COLOR0, float2 texCoord : TEXCOORD0)
 {
 	VSOutput output;
     output.position = mul(position, MatrixTransform);
@@ -30,7 +22,6 @@ VSOutput SpriteVertexShader(	float4 position	: SV_Position,
 	output.texCoord = texCoord;
 	return output;
 }
-
 
 float4 SpritePixelShader(VSOutput input) : SV_Target0
 {
