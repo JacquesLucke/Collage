@@ -1,16 +1,19 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 
 namespace Collage
 {
-    class RandomSelectionOperator : IUpdateableCollageOperator
+    class RandomSelectionOperator : IDrawableCollageOperator
     {
         DataAccess dataAccess;
         CollageEditData editData;
         List<Image> selectionBefore;
         List<Image> randomOrder;
         float selectionFraction;
+        SpriteFont font;
+        Texture2D emptyTexture;
 
         public RandomSelectionOperator() { }
 
@@ -18,6 +21,9 @@ namespace Collage
         {
             this.dataAccess = dataAccess;
             this.editData = editData;
+
+            font = dataAccess.Content.GetSpriteFont("normal font");
+            emptyTexture = dataAccess.Content.GetImageSource("empty").Texture;
         }
 
         public bool Start()
@@ -55,6 +61,16 @@ namespace Collage
                 editData.SelectedImages.AddRange(randomOrder.GetRange(0, (int)Math.Floor(randomOrder.Count * selectionFraction)));
                 return true;
             }
+        }
+
+        public void Draw()
+        {
+            dataAccess.SpriteBatch.Begin(SpriteSortMode.Immediate, BlendState.NonPremultiplied);
+            Rectangle textBackgroundRec = new Rectangle(0, 0, dataAccess.GraphicsDevice.Viewport.Width, 25);
+            dataAccess.SpriteBatch.Draw(emptyTexture, textBackgroundRec, Color.FromNonPremultiplied(240, 240, 240, 255));
+            int percent = (int)Math.Round(selectionFraction * 100);
+            dataAccess.SpriteBatch.DrawString(font, percent + " %", new Vector2(50, -3), Color.FromNonPremultiplied(20, 20, 20, 255));
+            dataAccess.SpriteBatch.End();
         }
 
         public object ExecuteSelectionChange(object newSelection)
