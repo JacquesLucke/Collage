@@ -65,11 +65,14 @@ namespace Collage
 
         public void Draw()
         {
-            dataAccess.SpriteBatch.Begin(SpriteSortMode.Immediate, BlendState.NonPremultiplied);
             Rectangle textBackgroundRec = new Rectangle(0, 0, dataAccess.GraphicsDevice.Viewport.Width, 25);
+
+            string text = (int)Math.Round(selectionFraction * 100) + " % - " + editData.SelectedImages.Count + " / " + editData.Collage.Images.Count;
+            Vector2 position = new Vector2(Utils.CenterTextHorizontal(text, font, textBackgroundRec), -3);
+
+            dataAccess.SpriteBatch.Begin(SpriteSortMode.Immediate, BlendState.NonPremultiplied);
             dataAccess.SpriteBatch.Draw(emptyTexture, textBackgroundRec, Color.FromNonPremultiplied(240, 240, 240, 255));
-            int percent = (int)Math.Round(selectionFraction * 100);
-            dataAccess.SpriteBatch.DrawString(font, percent + " %", new Vector2(50, -3), Color.FromNonPremultiplied(20, 20, 20, 255));
+            dataAccess.SpriteBatch.DrawString(font, text, position, Color.FromNonPremultiplied(20, 20, 20, 255));
             dataAccess.SpriteBatch.End();
         }
 

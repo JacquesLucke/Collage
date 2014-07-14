@@ -225,5 +225,11 @@ namespace Collage
             source.Height += margin * 2;
             return source;
         }
+
+        public static int CenterTextHorizontal(string text, SpriteFont font, Rectangle boundary)
+        {
+            Vector2 size = font.MeasureString(text);
+            return (boundary.Width - (int)Math.Round(size.X)) / 2 + boundary.X;
+        }
     }
 }
