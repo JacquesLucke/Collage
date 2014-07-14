@@ -19,6 +19,7 @@ namespace Collage
         {
             this.dataAccess = dataAccess;
             this.editData = editData;
+
             okButton = new TexturedButton(dataAccess, dataAccess.Content.GetImageSource("check icon"));
             cancelButton = new TexturedButton(dataAccess, dataAccess.Content.GetImageSource("delete icon"));
             rightMoveButton = new TexturedButton(dataAccess, dataAccess.Content.GetImageSource("right icon"));
