@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 
@@ -45,7 +46,14 @@ namespace Collage
 
         public bool Update()
         {
-            if (dataAccess.Input.IsLeftButtonReleased)
+            if(dataAccess.Input.IsKeyPressed(Keys.Escape))
+            {
+                editData.SelectedImages.Clear();
+                editData.SelectedImages.AddRange(selectionBefore);
+                return false;
+            }
+
+            if (dataAccess.Input.IsLeftButtonReleased || dataAccess.Input.AreKeysPressed(Keys.Enter))
             {
                 Command command = new Command(ExecuteSelectionChange, ExecuteSelectionChange, new List<Image>(editData.SelectedImages), "Random Selection");
                 command.SetUndoData(selectionBefore);
