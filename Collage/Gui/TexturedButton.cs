@@ -14,18 +14,24 @@ namespace Collage
         bool isDown = false;
         bool wasDown = false;
 
-        public TexturedButton(DataAccess dataAccess, ImageSource source, Rectangle position)
+        public TexturedButton(DataAccess dataAccess, ImageSource source, Point position)
         {
             this.dataAccess = dataAccess;
             this.source = source;
-            this.rectangle = position;
+            rectangle = new Rectangle(position.X, position.Y, source.Width, source.Height);
         }
         public TexturedButton(DataAccess dataAccess, string fileName, Point position)
         {
             this.dataAccess = dataAccess;
-            this.source = new ImageSource(dataAccess, fileName);
+            this.source = new ImageSource(dataAccess.GraphicsDevice, fileName);
             this.source.Load();
             rectangle = new Rectangle(position.X, position.Y, source.Width, source.Height);
+        }
+        public TexturedButton(DataAccess dataAccess, ImageSource source)
+        {
+            this.dataAccess = dataAccess;
+            this.source = source;
+            rectangle = new Rectangle(0, 0, 100, 100);
         }
 
         public Rectangle DrawPosition

@@ -21,15 +21,8 @@ namespace Collage
 
             border = new Border(dataAccess.GraphicsDevice, Color.FromNonPremultiplied(182, 195, 205, 200));
 
-            // load the image effect
-            BinaryReader br = new BinaryReader(new FileStream("Content\\Effects\\ImageEffect.mgfx", FileMode.Open));
-            imageEffect = new Effect(dataAccess.GraphicsDevice, br.ReadBytes((int)br.BaseStream.Length));
-            br.Close();
-
-            // load the drop shadow effect
-            br = new BinaryReader(new FileStream("Content\\Effects\\DropShadow.mgfx", FileMode.Open));
-            dropShadowEffect = new Effect(dataAccess.GraphicsDevice, br.ReadBytes((int)br.BaseStream.Length));
-            br.Close();
+            imageEffect = dataAccess.Content.GetEffect("image effect");
+            dropShadowEffect = dataAccess.Content.GetEffect("drop shadow effect");
         }
 
         public void SetEditData(CollageEditData editData)

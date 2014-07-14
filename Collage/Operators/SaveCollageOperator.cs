@@ -28,15 +28,8 @@ namespace Collage
             tex = new Texture2D(dataAccess.GraphicsDevice, 1, 1);
             tex.SetData<Color>(new Color[] { Color.White });
 
-            // load the image effect
-            BinaryReader br = new BinaryReader(new FileStream("Content\\Effects\\ImageEffect.mgfx", FileMode.Open));
-            imageEffect = new Effect(dataAccess.GraphicsDevice, br.ReadBytes((int)br.BaseStream.Length));
-            br.Close();
-
-            // load the drop shadow effect
-            br = new BinaryReader(new FileStream("Content\\Effects\\DropShadow.mgfx", FileMode.Open));
-            dropShadowEffect = new Effect(dataAccess.GraphicsDevice, br.ReadBytes((int)br.BaseStream.Length));
-            br.Close();
+            imageEffect = dataAccess.Content.GetEffect("image effect");
+            dropShadowEffect = dataAccess.Content.GetEffect("drop shadow effect");
         }
 
         public bool Start()

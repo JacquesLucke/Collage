@@ -19,10 +19,10 @@ namespace Collage
         {
             this.dataAccess = dataAccess;
             this.editData = editData;
-            okButton = new TexturedButton(dataAccess, @"Content\Images\Check.png", new Point(10, 10));
-            cancelButton = new TexturedButton(dataAccess, @"Content\Images\Delete.png", new Point(70, 10));
-            rightMoveButton = new TexturedButton(dataAccess, @"Content\Images\Right.png", new Point(0, 0));
-            downMoveButton = new TexturedButton(dataAccess, @"Content\Images\Down.png", new Point(0, 0));
+            okButton = new TexturedButton(dataAccess, dataAccess.Content.GetImageSource("check icon"));
+            cancelButton = new TexturedButton(dataAccess, dataAccess.Content.GetImageSource("delete icon"));
+            rightMoveButton = new TexturedButton(dataAccess, dataAccess.Content.GetImageSource("right icon"));
+            downMoveButton = new TexturedButton(dataAccess, dataAccess.Content.GetImageSource("down icon"));
         }
 
         public bool Start()

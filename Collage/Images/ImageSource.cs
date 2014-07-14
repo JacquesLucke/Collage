@@ -6,32 +6,32 @@ namespace Collage
 {
     public class ImageSource
     {
-        DataAccess dataAccess;
+        GraphicsDevice graphicsDevice;
         Texture2D texture, emptyTexture;
         int width = 100;
         int height = 60;
         string fileName = "";
 
-        public ImageSource(DataAccess dataAccess)
+        public ImageSource(GraphicsDevice graphicsDevice)
         {
-            this.dataAccess = dataAccess;
-            emptyTexture = new Texture2D(dataAccess.GraphicsDevice, 1, 1);
+            this.graphicsDevice = graphicsDevice;
+            emptyTexture = new Texture2D(graphicsDevice, 1, 1);
             emptyTexture.SetData<Color>(new Color[] { Color.Tomato });
         }
-        public ImageSource(DataAccess dataAccess, int width, int height)
-            : this(dataAccess)
+        public ImageSource(GraphicsDevice graphicsDevice, int width, int height)
+            : this(graphicsDevice)
         {
             this.width = width;
             this.height = height;
         }
-        public ImageSource(DataAccess dataAccess, int width, int height, Color color)
-            : this(dataAccess, width, height)
+        public ImageSource(GraphicsDevice graphicsDevice, int width, int height, Color color)
+            : this(graphicsDevice, width, height)
         {
             emptyTexture.SetData<Color>(new Color[] { color });
         }
 
-        public ImageSource(DataAccess dataAccess, string fileName)
-            :this(dataAccess)
+        public ImageSource(GraphicsDevice graphicsDevice, string fileName)
+            :this(graphicsDevice)
         {
             this.fileName = fileName;
         }
@@ -49,7 +49,7 @@ namespace Collage
         {
             if (texture == null)
             {
-                ImageLoader loader = new ImageLoader(dataAccess, fileName, 170);
+                ImageLoader loader = new ImageLoader(graphicsDevice, fileName, 170);
                 texture = loader.Load();
             }
         }
@@ -57,14 +57,14 @@ namespace Collage
         {
             if (texture == null)
             {
-                ImageLoader loader = new ImageLoader(dataAccess, fileName, 0);
+                ImageLoader loader = new ImageLoader(graphicsDevice, fileName, 0);
                 texture = loader.Load();
             }
         }
 
         public Texture2D GetBigVersion(int maxSize)
         {
-            ImageLoader loader = new ImageLoader(dataAccess, fileName, maxSize);
+            ImageLoader loader = new ImageLoader(graphicsDevice, fileName, maxSize);
             return loader.Load();
         }
 

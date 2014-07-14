@@ -67,6 +67,7 @@
     <Compile Include="Operators\SetForwardOperator.cs" />
     <Compile Include="Operators\SetToFrontOperator.cs" />
     <Compile Include="Utils\Border.cs" />
+    <Compile Include="Utils\ContentHelper.cs" />
     <Compile Include="Utils\FileTypes.cs" />
     <Compile Include="Operators\GrabOperator.cs" />
     <Compile Include="Gui\GuiThread.cs" />
@@ -150,6 +151,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Content\Effects\ImageEffect.mgfx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Content\Fonts\NormalFont15.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

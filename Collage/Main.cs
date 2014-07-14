@@ -13,6 +13,7 @@ namespace Collage
         DataAccess dataAccess;
         Input input = new Input();
         GuiThread guiThread;
+        ContentHelper contentHelper;
 
         public Main()
             : base()
@@ -35,9 +36,13 @@ namespace Collage
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            contentHelper = new ContentHelper(GraphicsDevice, Content);
+            LoadContentHelperData();
+
             Keymap keymap = new Keymap();
             RegisterKeyCombinations(keymap);
-            dataAccess = new DataAccess(GraphicsDevice, spriteBatch, input, stateManager, keymap, guiThread);
+
+            dataAccess = new DataAccess(GraphicsDevice, spriteBatch, input, stateManager, keymap, guiThread, contentHelper);
 
             CollageEditState editState = new CollageEditState(dataAccess);
             stateManager.SetCurrentState(editState);
@@ -75,6 +80,21 @@ namespace Collage
         {
             keymap.Set("undo", new KeyCombination(true, false, false, Keys.Z));
             keymap.Set("redo", new KeyCombination(true, false, false, Keys.Y));
+        }
+        public void LoadContentHelperData()
+        {
+            // load fonts
+            contentHelper.LoadSpriteFont("Fonts\\NormalFont15", "normal font");
+
+            // load images
+            contentHelper.LoadImagesSource(@"Content\Images\Check.png", "check icon");
+            contentHelper.LoadImagesSource(@"Content\Images\Delete.png", "delete icon");
+            contentHelper.LoadImagesSource(@"Content\Images\Right.png", "right icon");
+            contentHelper.LoadImagesSource(@"Content\Images\Down.png", "down icon");
+
+            // load effects
+            contentHelper.LoadEffect("Content\\Effects\\ImageEffect.mgfx", "image effect");
+            contentHelper.LoadEffect("Content\\Effects\\DropShadow.mgfx", "drop shadow effect");
         }
     }
 }

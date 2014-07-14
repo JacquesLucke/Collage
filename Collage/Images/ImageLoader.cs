@@ -8,15 +8,15 @@ namespace Collage
     public class ImageLoader
     {
         string fileName = "";
-        DataAccess dataAccess;
+        GraphicsDevice graphicsDevice;
 
         Texture2D texture;
         int maxSize = 0;
 
-        public ImageLoader(DataAccess dataAccess, string fileName, int maxSize)
+        public ImageLoader(GraphicsDevice graphicsDevice, string fileName, int maxSize)
         {
             this.fileName = fileName;
-            this.dataAccess = dataAccess;
+            this.graphicsDevice = graphicsDevice;
             this.maxSize = maxSize;
         }
 
@@ -73,7 +73,7 @@ namespace Collage
             ms.Seek(0, SeekOrigin.Begin);
 
             //Fill the texture.
-            texture = Texture2D.FromStream(dataAccess.GraphicsDevice, ms);
+            texture = Texture2D.FromStream(graphicsDevice, ms);
 
             ms.Close();
             ms.Dispose();

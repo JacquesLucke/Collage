@@ -10,7 +10,7 @@ namespace Collage
 
         public Image(DataAccess dataAccess, string fileName)
         {
-            this.source = new ImageSource(dataAccess, fileName);
+            this.source = new ImageSource(dataAccess.GraphicsDevice, fileName);
             SetDefaultData();
         }
         public Image(ImageSource source)
