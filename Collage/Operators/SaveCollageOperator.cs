@@ -29,12 +29,12 @@ namespace Collage
             tex.SetData<Color>(new Color[] { Color.White });
 
             // load the image effect
-            BinaryReader br = new BinaryReader(new FileStream("Content\\ImageEffect.mgfx", FileMode.Open));
+            BinaryReader br = new BinaryReader(new FileStream("Content\\Effects\\ImageEffect.mgfx", FileMode.Open));
             imageEffect = new Effect(dataAccess.GraphicsDevice, br.ReadBytes((int)br.BaseStream.Length));
             br.Close();
 
             // load the drop shadow effect
-            br = new BinaryReader(new FileStream("Content\\DropShadow.mgfx", FileMode.Open));
+            br = new BinaryReader(new FileStream("Content\\Effects\\DropShadow.mgfx", FileMode.Open));
             dropShadowEffect = new Effect(dataAccess.GraphicsDevice, br.ReadBytes((int)br.BaseStream.Length));
             br.Close();
         }
