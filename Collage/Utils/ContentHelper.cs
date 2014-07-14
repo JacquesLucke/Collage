@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Content;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -25,6 +26,9 @@ namespace Collage
             effects = new Dictionary<string, Effect>();
             imageSources = new Dictionary<string, ImageSource>();
             spriteFonts = new Dictionary<string, SpriteFont>();
+
+            ImageSource emptySource = new ImageSource(graphicsDevice, 1, 1, Color.White);
+            imageSources.Add("empty", emptySource);
         }
 
         public void LoadEffect(string fileName, string effectName)
