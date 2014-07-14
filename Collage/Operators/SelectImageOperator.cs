@@ -17,7 +17,7 @@ namespace Collage
         }
         public bool CanStart()
         {
-            return dataAccess.Input.IsLeftButtonPressed || dataAccess.Input.IsRightButtonPressed;
+            return dataAccess.Input.IsLeftButtonPressed;
         }
 
         public bool Start()
