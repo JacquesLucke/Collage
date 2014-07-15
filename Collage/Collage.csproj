@@ -42,8 +42,10 @@
     <Compile Include="CollageEdit\SpecialOperatorActivator.cs" />
     <Compile Include="CollageEdit\ToolbarActivator.cs" />
     <Compile Include="CollageEdit\ToolbarWindow.cs" />
+    <Compile Include="Gui\Button.cs" />
     <Compile Include="Gui\ColorChooserDialog.cs" />
     <Compile Include="Gui\DimensionsDialog.cs" />
+    <Compile Include="Gui\TextButton.cs" />
     <Compile Include="Gui\TexturedButton.cs" />
     <Compile Include="Images\AsyncImageSourcesLoader.cs" />
     <Compile Include="Images\ImageData.cs" />

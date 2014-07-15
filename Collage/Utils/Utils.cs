@@ -226,10 +226,22 @@ namespace Collage
             return source;
         }
 
+        public static Vector2 CenterText(string text, SpriteFont font, Rectangle boundary)
+        {
+            Vector2 size = font.MeasureString(text);
+            return new Vector2((boundary.Width - (int)Math.Round(size.X)) / 2 + boundary.X,
+                (boundary.Height - (int)Math.Round(size.Y)) / 2 + boundary.Y - 1);
+        }
         public static int CenterTextHorizontal(string text, SpriteFont font, Rectangle boundary)
         {
             Vector2 size = font.MeasureString(text);
             return (boundary.Width - (int)Math.Round(size.X)) / 2 + boundary.X;
+        }
+
+        public static int CenterTextVertical(string text, SpriteFont font, Rectangle boundary)
+        {
+            Vector2 size = font.MeasureString(text);
+            return (boundary.Height - (int)Math.Round(size.Y)) / 2 + boundary.Y - 1;
         }
     }
 }

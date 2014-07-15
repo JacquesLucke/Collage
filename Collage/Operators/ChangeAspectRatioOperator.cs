@@ -14,7 +14,7 @@ namespace Collage
         TexturedButton rightMoveButton;
         TexturedButton downMoveButton;
 
-        List<TexturedButton> presetButtons;
+        List<TextButton> presetButtons;
         List<KeyValuePair<string, float>> presets;
         SpriteFont font;
 
@@ -25,10 +25,10 @@ namespace Collage
             this.dataAccess = dataAccess;
             this.editData = editData;
 
-            okButton = new TexturedButton(dataAccess, dataAccess.Content.GetImageSource("check icon"));
-            cancelButton = new TexturedButton(dataAccess, dataAccess.Content.GetImageSource("delete icon"));
-            rightMoveButton = new TexturedButton(dataAccess, dataAccess.Content.GetImageSource("right icon"));
-            downMoveButton = new TexturedButton(dataAccess, dataAccess.Content.GetImageSource("down icon"));
+            okButton = new TexturedButton(dataAccess, dataAccess.Content.GetImageSource("check icon").Texture);
+            cancelButton = new TexturedButton(dataAccess, dataAccess.Content.GetImageSource("delete icon").Texture);
+            rightMoveButton = new TexturedButton(dataAccess, dataAccess.Content.GetImageSource("right icon").Texture);
+            downMoveButton = new TexturedButton(dataAccess, dataAccess.Content.GetImageSource("down icon").Texture);
 
             font = dataAccess.Content.GetSpriteFont("normal font");
             
@@ -36,12 +36,13 @@ namespace Collage
             presets.Add(new KeyValuePair<string, float>("1:1", 1f));
             presets.Add(new KeyValuePair<string, float>("2:1", 2f));
 
-            presetButtons = new List<TexturedButton>();
+            presetButtons = new List<TextButton>();
             int i = 0;
             foreach(KeyValuePair<string, float> pair in presets)
             {
-                TexturedButton button = new TexturedButton(dataAccess, dataAccess.Content.GetImageSource("empty"));
-                button.Rectangle = new Rectangle(10 + i * 50, 0, 45, 45);
+                TextButton button = new TextButton(dataAccess, pair.Key);
+                button.Rectangle = new Rectangle(10 + i * 70, 10, 60, 45);
+                button.BackgroundColor = Color.FromNonPremultiplied(180, 227, 127, 255);
                 presetButtons.Add(button);
                 i++;
             }
@@ -101,7 +102,7 @@ namespace Collage
             rightMoveButton.Draw();
             downMoveButton.Draw();
 
-            foreach (TexturedButton button in presetButtons)
+            foreach (TextButton button in presetButtons)
             {
                 button.Draw();
             }
@@ -124,9 +125,16 @@ namespace Collage
             rightMoveButton.Update();
             downMoveButton.Update();
 
-            foreach(TexturedButton button in presetButtons)
+            foreach(TextButton button in presetButtons)
             {
                 button.Update();
+            }
+
+            int i = 0;
+            foreach (TextButton button in presetButtons)
+            {
+                if (button.IsDown) editData.DrawRectangle.AspectRatio = presets[i].Value;
+                i++;
             }
         }
         private void SetButtonPositions()
