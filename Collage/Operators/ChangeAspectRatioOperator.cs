@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
 namespace Collage
 {
     public class ChangeAspectRatioOperator : IDrawableCollageOperator
@@ -13,6 +14,10 @@ namespace Collage
         TexturedButton rightMoveButton;
         TexturedButton downMoveButton;
 
+        List<TexturedButton> presetButtons;
+        List<KeyValuePair<string, float>> presets;
+        SpriteFont font;
+
         public ChangeAspectRatioOperator() { }
 
         public void SetData(DataAccess dataAccess, CollageEditData editData)
@@ -24,6 +29,22 @@ namespace Collage
             cancelButton = new TexturedButton(dataAccess, dataAccess.Content.GetImageSource("delete icon"));
             rightMoveButton = new TexturedButton(dataAccess, dataAccess.Content.GetImageSource("right icon"));
             downMoveButton = new TexturedButton(dataAccess, dataAccess.Content.GetImageSource("down icon"));
+
+            font = dataAccess.Content.GetSpriteFont("normal font");
+            
+            presets = new List<KeyValuePair<string, float>>();
+            presets.Add(new KeyValuePair<string, float>("1:1", 1f));
+            presets.Add(new KeyValuePair<string, float>("2:1", 2f));
+
+            presetButtons = new List<TexturedButton>();
+            int i = 0;
+            foreach(KeyValuePair<string, float> pair in presets)
+            {
+                TexturedButton button = new TexturedButton(dataAccess, dataAccess.Content.GetImageSource("empty"));
+                button.Rectangle = new Rectangle(10 + i * 50, 0, 45, 45);
+                presetButtons.Add(button);
+                i++;
+            }
         }
 
         public bool Start()
@@ -79,6 +100,11 @@ namespace Collage
             cancelButton.Draw();
             rightMoveButton.Draw();
             downMoveButton.Draw();
+
+            foreach (TexturedButton button in presetButtons)
+            {
+                button.Draw();
+            }
             dataAccess.SpriteBatch.End();
         }
 
@@ -97,6 +123,11 @@ namespace Collage
             cancelButton.Update();
             rightMoveButton.Update();
             downMoveButton.Update();
+
+            foreach(TexturedButton button in presetButtons)
+            {
+                button.Update();
+            }
         }
         private void SetButtonPositions()
         {
