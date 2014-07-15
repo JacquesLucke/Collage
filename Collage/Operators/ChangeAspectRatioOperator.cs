@@ -37,14 +37,13 @@ namespace Collage
             presets.Add(new KeyValuePair<string, float>("2:1", 2f));
 
             presetButtons = new List<TextButton>();
-            int i = 0;
-            foreach(KeyValuePair<string, float> pair in presets)
+            for(int i = 0; i< presets.Count; i++)
             {
+                KeyValuePair<string, float> pair = presets[i];
                 TextButton button = new TextButton(dataAccess, pair.Key);
                 button.Rectangle = new Rectangle(10 + i * 70, 10, 60, 45);
                 button.BackgroundColor = Color.FromNonPremultiplied(180, 227, 127, 255);
                 presetButtons.Add(button);
-                i++;
             }
         }
 
@@ -130,11 +129,9 @@ namespace Collage
                 button.Update();
             }
 
-            int i = 0;
-            foreach (TextButton button in presetButtons)
+            for (int i = 0; i < presetButtons.Count; i++ )
             {
-                if (button.IsDown) editData.DrawRectangle.AspectRatio = presets[i].Value;
-                i++;
+                if (presetButtons[i].IsDown) editData.DrawRectangle.AspectRatio = presets[i].Value;
             }
         }
         private void SetButtonPositions()
