@@ -85,8 +85,7 @@ namespace Collage.Gui
         protected Color GetColorStatus()
         {
             Color color = Color.White;
-            if (IsMouseOver  && !isDown) color = Color.FromNonPremultiplied(200, 200, 200, 255);
-            if (dataAccess.Input.IsLeftButtonDown && !isDown) color = Color.White;
+            if (IsMouseOver  && !dataAccess.Input.IsLeftButtonDown) color = Color.FromNonPremultiplied(200, 200, 200, 255);
             if (isDown) color = Color.FromNonPremultiplied(160, 160, 160, 255);
             return color;
         }
