@@ -42,7 +42,10 @@ namespace Collage
         public void Update(Input input)
         {
             collage.AspectRatio = drawRectangle.AspectRatio;
-
+            CalculateImageUnderMouse(input);
+        }
+        private void CalculateImageUnderMouse(Input input)
+        {
             imageUnderMouse = null;
             for (int i = collage.Images.Count - 1; i >= 0; i--)
             {

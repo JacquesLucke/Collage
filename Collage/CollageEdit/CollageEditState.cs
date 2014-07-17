@@ -18,22 +18,34 @@ namespace Collage
         {
             this.dataAccess = dataAccess;
 
-            // create CollageEditData. Inside you find all the information about the collage and how it is drawn
+            SetupEditData();
+
+            CreatePreviewRenderer();
+            RegisterCollageOperators();
+            CreateOperatorActivators();
+        }
+        private void SetupEditData()
+        {
             CollageObject collage = new CollageObject();
-            int width = dataAccess.GraphicsDevice.Viewport.Bounds.Width - 100;
-            int height = (int)Math.Round(width / collage.AspectRatio);
+            int width, height;
+            CalculateDefaultDimensions(collage.AspectRatio, out width, out height);
             MoveableRectangle drawRectangle = new MoveableRectangle(new FloatRectangle(50, 50, width, height));
             UndoManager undoManager = new UndoManager();
 
             editData = new CollageEditData(collage, drawRectangle, undoManager);
-
-            // create the Preview Renderer
+        }
+        private void CalculateDefaultDimensions(float aspectRatio, out int width, out int height)
+        {
+            width = dataAccess.GraphicsDevice.Viewport.Bounds.Width - 100;
+            height = (int)Math.Round(width / aspectRatio);
+        }
+        private void CreatePreviewRenderer()
+        {
             previewRenderer = new CollagePreviewRenderer(dataAccess);
             previewRenderer.SetEditData(editData);
-
-            RegisterCollageOperators();
-
-            // create activators
+        }
+        private void CreateOperatorActivators()
+        {
             activators = new List<IOperatorActivator>();
             activators.Add(new SpecialOperatorActivator(dataAccess, collageOperators));
             activators.Add(new KeymapActivator(dataAccess, collageOperators));
@@ -48,39 +60,44 @@ namespace Collage
         {
             Input input = dataAccess.Input;
             editData.Update(input);
-            
-            // update or deactivate operators
-            if (activeOperator != null)
+
+            if (activeOperator != null) UpdateOrDeactivateActiveOperator();
+            if (activeOperator == null) StartNewOperators();
+        }
+        private void UpdateOrDeactivateActiveOperator()
+        {
+            if (!activeOperator.Update())
             {
-                if (!activeOperator.Update())
-                {
-                    activeOperator = null;
-                    SetActivatorSensitivity(true);
-                }
+                activeOperator = null;
+                SetActivatorSensitivity(true);
             }
-            if (activeOperator == null)
+        }
+        private void StartNewOperators()
+        {
+            List<ICollageOperator> startableOperators = GetStartableOperators();
+            StartOperators(startableOperators);
+        }
+        private List<ICollageOperator> GetStartableOperators()
+        {
+            List<ICollageOperator> startableOperators = new List<ICollageOperator>();
+
+            foreach (IOperatorActivator activator in activators)
+                startableOperators.AddRange(activator.GetActivatedOperators());
+
+            return startableOperators;
+        }
+        private void StartOperators(List<ICollageOperator> startableOperators)
+        {
+            foreach (ICollageOperator op in startableOperators)
             {
-                List<ICollageOperator> startableOperators = new List<ICollageOperator>();
-
-                // check activators
-                foreach(IOperatorActivator activator in activators)
+                if (op.Start() && op is IUpdateableCollageOperator)
                 {
-                    startableOperators.AddRange(activator.GetActivatedOperators());
-                }
-
-                // start startable operators
-                foreach(ICollageOperator op in startableOperators)
-                {
-                    if(op.Start() && op is IUpdateableCollageOperator)
-                    {
-                        activeOperator = (IUpdateableCollageOperator)op;
-                        SetActivatorSensitivity(false);
-                        break;
-                    }
+                    activeOperator = (IUpdateableCollageOperator)op;
+                    SetActivatorSensitivity(false);
+                    break;
                 }
             }
         }
-
         private void SetActivatorSensitivity(bool sensitivity)
         {
             foreach(IOperatorActivator activator in activators)
@@ -92,10 +109,14 @@ namespace Collage
         public void Draw()
         {
             previewRenderer.Draw();
+            DrawActiveOperatorOverlay();
+        }
+        private void DrawActiveOperatorOverlay()
+        {
             if (activeOperator is IDrawableCollageOperator) ((IDrawableCollageOperator)activeOperator).Draw();
         }
 
-        public void RegisterCollageOperators()
+        private void RegisterCollageOperators()
         {
             Keymap keymap = dataAccess.Keymap;
 
