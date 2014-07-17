@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.IO;
 
 namespace Collage
@@ -32,52 +33,74 @@ namespace Collage
 
         public void Draw()
         {
-            Rectangle drawRectangle = editData.DrawRectangle.Rectangle;
-            dataAccess.SpriteBatch.Begin(SpriteSortMode.Immediate, BlendState.NonPremultiplied);
-            dataAccess.SpriteBatch.Draw(tex, drawRectangle, editData.Collage.BackgroundColor);
+            Rectangle boundary = editData.DrawRectangle.Rectangle;
+            SetTransformMatrixForEffects();
 
-            // setup viewport matrix
+            dataAccess.SpriteBatch.Begin(SpriteSortMode.Immediate, BlendState.NonPremultiplied);
+            DrawBackground(boundary);
+            foreach(Image image in editData.Collage.Images)
+                DrawImageWithDropShadow(image, boundary);
+            dataAccess.SpriteBatch.End();
+
+            border.Draw(dataAccess.SpriteBatch, boundary);
+        }
+        private void DrawBackground(Rectangle boundary)
+        {
+            dataAccess.SpriteBatch.Draw(tex, boundary, editData.Collage.BackgroundColor);
+        }
+        private void SetTransformMatrixForEffects()
+        {
             Matrix transformMatrix = GetTransformMatrix();
             imageEffect.Parameters["MatrixTransform"].SetValue(transformMatrix);
             dropShadowEffect.Parameters["MatrixTransform"].SetValue(transformMatrix);
-
-            foreach(Image image in editData.Collage.Images)
-            {
-                // calculate rectangles where to draw the image and drop shadow
-                Rectangle imageRectangle = image.GetRectangleInBoundary(drawRectangle);
-                Rectangle dropShadowRectangle = Utils.ExpandRectangle(imageRectangle, imageRectangle.Width / 10);
-                
-                // setup the drop shadow effect
-                dropShadowEffect.Parameters["AspectRatio"].SetValue(dropShadowRectangle.Width / (float)dropShadowRectangle.Height);
-                dropShadowEffect.Parameters["Intense"].SetValue(80f);
-                dropShadowEffect.Parameters["BorderRadius"].SetValue((dropShadowRectangle.Width - imageRectangle.Width) / (float)dropShadowRectangle.Width / 2f);
-                dropShadowEffect.CurrentTechnique.Passes[0].Apply();
-                DrawImageSource(image.Source, dropShadowRectangle, image.Rotation, Color.Black);
-
-                // calculate color overlay for selection or mouse over
-                Color color = Color.White;
-                if (editData.SelectedImages.Contains(image)) color = Utils.MultiplyColors(color, Color.Red);
-                if (editData.ImageUnderMouse == image) color = Utils.MultiplyColors(color, Color.FromNonPremultiplied(220, 220, 220, 255));
-
-                // setup the image effect
-                imageEffect.Parameters["Size"].SetValue((float)imageRectangle.Width);
-                imageEffect.Parameters["AspectRatio"].SetValue(image.Source.AspectRatio);
-                imageEffect.Parameters["ColorMultiply"].SetValue(Utils.ToVector(color));
-                imageEffect.CurrentTechnique.Passes[0].Apply();
-                DrawImageSource(image.Source, imageRectangle, image.Rotation, color);
-            }
-
-            dataAccess.SpriteBatch.End();
-
-            border.Draw(dataAccess.SpriteBatch, drawRectangle);
         }
+        private void DrawImageWithDropShadow(Image image, Rectangle boundary)
+        {
+            Rectangle imageRectangle = GetImageRectangle(image, boundary);
+            Rectangle dropShadowRectangle = GetDropShadowRectangle(imageRectangle, 0.1f);
 
-        public void DrawImageSource(ImageSource source, Rectangle rectangle, float rotation, Color color)
+            SetupAndApplyDropShadowEffect(imageRectangle, dropShadowRectangle, 80f);
+            DrawImageSource(image.Source, dropShadowRectangle, image.Rotation);
+
+            Color color = CalculateColorOverlay(image);
+            SetupAndApplyImageEffect(image, imageRectangle, color);
+            DrawImageSource(image.Source, imageRectangle, image.Rotation);
+        }
+        private Rectangle GetImageRectangle(Image image, Rectangle boundary) 
+        {
+            return image.GetRectangleInBoundary(boundary); 
+        }
+        private Rectangle GetDropShadowRectangle(Rectangle imageRectangle, float shadowSize) 
+        { 
+            return Utils.ExpandRectangle(imageRectangle, (int)Math.Round(imageRectangle.Width * shadowSize));
+        }
+        private void SetupAndApplyDropShadowEffect(Rectangle imageRectangle, Rectangle dropShadowRectangle, float intensity)
+        {
+            dropShadowEffect.Parameters["AspectRatio"].SetValue(dropShadowRectangle.Width / (float)dropShadowRectangle.Height);
+            dropShadowEffect.Parameters["Intense"].SetValue(intensity);
+            dropShadowEffect.Parameters["BorderRadius"].SetValue((dropShadowRectangle.Width - imageRectangle.Width) / (float)dropShadowRectangle.Width / 2f);
+            dropShadowEffect.CurrentTechnique.Passes[0].Apply();
+        }
+        private Color CalculateColorOverlay(Image image)
+        {
+            Color color = Color.White;
+            if (editData.SelectedImages.Contains(image)) color = Utils.MultiplyColors(color, Color.Red);
+            if (editData.ImageUnderMouse == image) color = Utils.MultiplyColors(color, Color.FromNonPremultiplied(220, 220, 220, 255));
+            return color;
+        }
+        private void SetupAndApplyImageEffect(Image image, Rectangle imageRectangle, Color color)
+        {
+            imageEffect.Parameters["Size"].SetValue((float)imageRectangle.Width);
+            imageEffect.Parameters["AspectRatio"].SetValue(image.Source.AspectRatio);
+            imageEffect.Parameters["ColorMultiply"].SetValue(Utils.ToVector(color));
+            imageEffect.CurrentTechnique.Passes[0].Apply();
+        }
+        private void DrawImageSource(ImageSource source, Rectangle rectangle, float rotation)
         {
             Vector2 origin = new Vector2(source.Texture.Width / 2f, source.Texture.Height / 2f);
             rectangle.X += rectangle.Width / 2;
             rectangle.Y += rectangle.Height / 2;
-            dataAccess.SpriteBatch.Draw(source.Texture, rectangle, null, color, rotation, origin, SpriteEffects.None, 0);
+            dataAccess.SpriteBatch.Draw(source.Texture, rectangle, null, Color.White, rotation, origin, SpriteEffects.None, 0);
         }
 
         private Matrix GetTransformMatrix()
