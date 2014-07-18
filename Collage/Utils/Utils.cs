@@ -226,6 +226,7 @@ namespace Collage
             return source;
         }
 
+        #region center text
         public static Vector2 CenterText(string text, SpriteFont font, Rectangle boundary)
         {
             Vector2 size = font.MeasureString(text);
@@ -243,5 +244,6 @@ namespace Collage
             Vector2 size = font.MeasureString(text);
             return (boundary.Height - (int)Math.Round(size.Y)) / 2 + boundary.Y - 1;
         }
+        #endregion
     }
 }
