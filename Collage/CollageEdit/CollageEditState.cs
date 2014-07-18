@@ -58,8 +58,7 @@ namespace Collage
 
         public void Update()
         {
-            Input input = dataAccess.Input;
-            editData.Update(input);
+            editData.Update(dataAccess.Input);
 
             if (activeOperator != null) UpdateOrDeactivateActiveOperator();
             if (activeOperator == null) StartNewOperators();
