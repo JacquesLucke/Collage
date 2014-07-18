@@ -24,12 +24,8 @@ namespace Collage
         public List<ICollageOperator> GetActivatedOperators()
         {
             List<ICollageOperator> startableOperators = new List<ICollageOperator>();
-
-            // check special starts
             foreach (ISpecialOperatorStart op in operators)
-            {
                 if (op.CanStart()) startableOperators.Add(op);
-            }
 
             return startableOperators;
         }
